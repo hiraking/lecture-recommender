@@ -6,7 +6,7 @@ export function Headline(props) {
     <div className={styles.description}>
       <p>
         Get started by editing&nbsp;
-        <code className={styles.code}>pages/{props.page}.js</code>
+        {props.children}
       </p>
       <h1 style={{ "text-transform": "capitalize" }}>{props.page} Page</h1>
       <div>
