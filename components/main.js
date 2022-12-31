@@ -1,4 +1,4 @@
-import styles from "../styles/Home.module.css";
+import styles from "./main.module.css";
 import { Center } from "./center";
 import { Grid } from "./grid";
 import { Headline } from "./headline";
