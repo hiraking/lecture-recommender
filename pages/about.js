@@ -1,8 +1,8 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import {Center} from '../components/center'
-import {Grid} from '../components/grid'
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
+import { Center } from "../components/center";
+import { Grid } from "../components/grid";
+import { Headline } from "../components/headline";
 
 export default function Home() {
   return (
