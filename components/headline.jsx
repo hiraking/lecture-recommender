@@ -8,7 +8,7 @@ export function Headline(props) {
         Get started by editing&nbsp;
         {props.children}
       </p>
-      <h1 style={{ "text-transform": "capitalize" }}>{props.page} Page</h1>
+      <h1 style={{ textTransform: "capitalize" }}>{props.page} Page</h1>
       <div>
         <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
