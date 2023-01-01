@@ -1,24 +1,27 @@
 import Head from "next/head";
-import Link from "next/link";
-import { useCallback } from "react";
+import { useState } from "react";
 import { Header } from "src/components/header";
 import { Main } from "src/components/main";
 
 export default function Home() {
-  const handleClick = useCallback((e) => {
-    e.preventDefault();
-    console.log(e.target);
-  }, []);
+  const [count, setCount] = useState(1);
 
+  const handleClick = (e) => {
+    setCount((foo) => foo + 1);
+    setCount((foo) => foo + 1);
+  };
+
+  console.log(count);
   return (
     <>
       <Head>
         <title>Index Page</title>
       </Head>
       <Header />
-      <Link href="/about" onClick={handleClick}>
-        button
-      </Link>
+      <div style={{ textAlign: "center" }}>
+        <h1 style={{ color: "darkgreen" }}>{count}</h1>
+        <button onClick={handleClick}>button</button>
+      </div>
       <Main page="index" />
     </>
   );
