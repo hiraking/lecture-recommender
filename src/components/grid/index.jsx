@@ -1,4 +1,4 @@
-import styles from "./grid.module.css";
+import styles from "src/components/grid/grid.module.css";
 import { Inter } from "@next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });

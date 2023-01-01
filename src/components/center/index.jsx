@@ -1,4 +1,4 @@
-import styles from "./center.module.css";
+import styles from "src/components/center/center.module.css";
 import Image from "next/image";
 export function Center() {
   return (
