@@ -1,7 +1,14 @@
 import Head from "next/head";
+import { useBGLightBlue } from "src/hooks/useBGLightBlue";
+import { useCounter } from "src/hooks/useCounter";
+import { useInputArray } from "src/hooks/useInputArray";
 import "src/styles/globals.css";
 
 export default function App({ Component, pageProps }) {
+  const counter = useCounter();
+  const inputArray = useInputArray();
+  useBGLightBlue();
+
   return (
     <>
       <Head>
@@ -9,7 +16,7 @@ export default function App({ Component, pageProps }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Component {...pageProps} />
+      <Component {...pageProps} {...counter} {...inputArray} />
     </>
   );
 }

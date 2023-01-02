@@ -1,15 +1,17 @@
 import Head from "next/head";
 import { Header } from "src/components/header";
 import { Main } from "src/components/main";
-import { useBGLightBlue } from "src/hooks/useBGLightBlue";
-import { useCounter } from "src/hooks/useCounter";
-import { useInputArray } from "src/hooks/useInputArray";
 
-export default function About() {
-  const { count, isShow, handleClick, handleDisplay } = useCounter();
-  const { text, array, handleChange, handleAdd } = useInputArray();
-  useBGLightBlue();
-
+export default function About({
+  count,
+  isShow,
+  handleClick,
+  handleDisplay,
+  text,
+  array,
+  handleChange,
+  handleAdd,
+}) {
   return (
     <>
       <Head>
