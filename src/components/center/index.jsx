@@ -1,6 +1,6 @@
 import styles from "src/components/center/center.module.css";
 import Image from "next/image";
-export function Center() {
+export const Center = () => {
   return (
     <div className={styles.center}>
       <Image
@@ -16,4 +16,4 @@ export function Center() {
       </div>
     </div>
   );
-}
+};

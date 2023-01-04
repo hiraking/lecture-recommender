@@ -2,16 +2,7 @@ import Head from "next/head";
 import { Header } from "src/components/header";
 import { Main } from "src/components/main";
 
-export default function About({
-  doubleCount,
-  isShow,
-  handleClick,
-  handleDisplay,
-  text,
-  array,
-  handleChange,
-  handleAdd,
-}) {
+const About = (props) => {
   return (
     <>
       <Head>
@@ -20,16 +11,20 @@ export default function About({
       <Header />
 
       <div style={{ textAlign: "center" }}>
-        {isShow ? <h1 style={{ color: "darkgreen" }}>{doubleCount}</h1> : null}
-        <button onClick={handleClick}>button</button>
-        <button onClick={handleDisplay}>{isShow ? "hide" : "show"}</button>
+        {props.isShow ? (
+          <h1 style={{ color: "darkgreen" }}>{props.doubleCount}</h1>
+        ) : null}
+        <button onClick={props.handleClick}>button</button>
+        <button onClick={props.handleDisplay}>
+          {props.isShow ? "hide" : "show"}
+        </button>
       </div>
 
       <div style={{ textAlign: "center" }}>
-        <input type="text" value={text} onChange={handleChange} />
-        <button onClick={handleAdd}>add</button>
+        <input type="text" value={props.text} onChange={props.handleChange} />
+        <button onClick={props.handleAdd}>add</button>
         <ul>
-          {array.map((item) => {
+          {props.array.map((item) => {
             return <li key={item}>{item}</li>;
           })}
         </ul>
@@ -37,4 +32,6 @@ export default function About({
       <Main page="about" />
     </>
   );
-}
+};
+
+export default About;

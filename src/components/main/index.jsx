@@ -28,7 +28,7 @@ const ITEMS = [
   },
 ];
 
-export function Main(props) {
+export const Main = (props) => {
   const [items, setItems] = useState(ITEMS);
   const handleRedule = useCallback(() => {
     setItems((prevItems) => {
@@ -46,4 +46,4 @@ export function Main(props) {
       <Grid items={items} handleRedule={handleRedule} />
     </main>
   );
-}
+};

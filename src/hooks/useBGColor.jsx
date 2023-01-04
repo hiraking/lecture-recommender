@@ -4,7 +4,6 @@ const { useEffect, useMemo } = require("react");
 
 export const useBGColor = () => {
   const router = useRouter();
-  console.log(router);
 
   const bgColor = useMemo(() => {
     return router.pathname === "/" ? "lightblue" : "tomato";

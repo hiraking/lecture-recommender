@@ -3,11 +3,11 @@ import { Inter } from "@next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export function Grid({ items, handleRedule }) {
+export const Grid = (props) => {
   return (
     <div className={styles.grid}>
-      <button onClick={handleRedule}>reduce</button>
-      {items.map((item) => {
+      <button onClick={props.handleRedule}>reduce</button>
+      {props.items.map((item) => {
         return (
           <a
             key={item.href}
@@ -25,4 +25,4 @@ export function Grid({ items, handleRedule }) {
       })}
     </div>
   );
-}
+};

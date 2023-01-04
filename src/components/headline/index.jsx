@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styles from "src/components/headline/headline.module.css";
 
-export function Headline(props) {
+export const Headline = (props) => {
   return (
     <div className={styles.description}>
       <p>
@@ -29,4 +29,4 @@ export function Headline(props) {
       </div>
     </div>
   );
-}
+};
