@@ -14,7 +14,7 @@ export default function Home(props) {
     handleAdd,
   } = props;
 
-  console.log(props);
+  // console.log(props);
   return (
     <>
       <Head>

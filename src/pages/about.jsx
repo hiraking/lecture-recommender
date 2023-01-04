@@ -3,7 +3,7 @@ import { Header } from "src/components/header";
 import { Main } from "src/components/main";
 
 export default function About({
-  count,
+  doubleCount,
   isShow,
   handleClick,
   handleDisplay,
@@ -20,7 +20,7 @@ export default function About({
       <Header />
 
       <div style={{ textAlign: "center" }}>
-        {isShow ? <h1 style={{ color: "darkgreen" }}>{count}</h1> : null}
+        {isShow ? <h1 style={{ color: "darkgreen" }}>{doubleCount}</h1> : null}
         <button onClick={handleClick}>button</button>
         <button onClick={handleDisplay}>{isShow ? "hide" : "show"}</button>
       </div>
