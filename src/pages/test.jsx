@@ -1,17 +1,18 @@
+import axios from "axios";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Header } from "src/components/header";
 
-const Test = (props) => {
-  const [users, setUsers] = useState([]);
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await fetch("/api/users");
-      const data = await response.json();
-      setUsers(data.users);
-    };
-    fetchUsers();
-  }, []);
+const Test = () => {
+  const [data, setData] = useState();
+  const url = "http://127.0.0.1:8000";
+
+  const getData = () => {
+    axios.get(url).then((res) => {
+      setData(res.data);
+    });
+  };
+
   return (
     <>
       <Head>
@@ -22,11 +23,13 @@ const Test = (props) => {
         <h1>test</h1>
       </div>
       <div>
-        <ul>
-          {users.map((user) => {
-            return <li key={user.id}>{user.name}</li>;
-          })}
-        </ul>
+        {data ? (
+          <div>
+            <h1>{data.Hello}</h1>
+          </div>
+        ) : (
+          <buttton onClick={getData}>get data</buttton>
+        )}
       </div>
     </>
   );
