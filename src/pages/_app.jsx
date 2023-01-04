@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useBGLightBlue } from "src/hooks/useBGLightBlue";
+import { useBGColor } from "src/hooks/useBGColor";
 import { useCounter } from "src/hooks/useCounter";
 import { useInputArray } from "src/hooks/useInputArray";
 import "src/styles/globals.css";
@@ -7,7 +7,7 @@ import "src/styles/globals.css";
 export default function App({ Component, pageProps }) {
   const counter = useCounter();
   const inputArray = useInputArray();
-  useBGLightBlue();
+  useBGColor();
 
   return (
     <>
