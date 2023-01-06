@@ -10,6 +10,7 @@ const Test = () => {
   const getData = () => {
     axios.get(url).then((res) => {
       setData(res.data);
+      console.log(res);
     });
   };
 
@@ -25,7 +26,7 @@ const Test = () => {
       <div>
         {data ? (
           <div>
-            <h1>{data.Hello}</h1>
+            <h1>{data.fastapi}</h1>
           </div>
         ) : (
           <buttton onClick={getData}>get data</buttton>
