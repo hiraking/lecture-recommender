@@ -1,6 +1,9 @@
 import time
+import json
+import numpy as np
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -17,6 +20,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class Taste(BaseModel):
+    favorites: list[int]
+
+records_json = open("../records.json", "r")
+records = json.load(records_json)
+
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
     start_time = time.time()
@@ -28,3 +37,16 @@ async def add_process_time_header(request: Request, call_next):
 @app.get("/")
 def root():
     return {"fastapi": "success!"}
+
+sample_mat = np.random.random(size=(3000, 100))
+
+@app.post("/test")
+def post_test(taste: Taste):
+    user_vector = sample_mat[taste.favorites].mean(axis=0)
+    scores = np.dot(sample_mat, user_vector)
+    ret = np.argsort(-scores)
+    return list(map(int, ret[:10]))
+
+@app.get("/test")
+def test_json():
+    return records
