@@ -1,0 +1,86 @@
+import json
+import re
+import unicodedata
+from operator import itemgetter
+from collections import defaultdict
+from pydantic import BaseModel
+from fastapi import APIRouter
+
+router = APIRouter()
+
+def change_key_to_int(dic):
+    old_keys = list(dic.keys())
+    for key in old_keys:
+        try:
+            new_key = int(key)
+        except:
+            new_key = key
+        dic[new_key] = dic.pop(key)
+
+with open("src/title_index.json", "r") as f:
+    title_index = json.load(f)
+    
+with open("src/name_index.json", "r") as f:
+    name_index = json.load(f)
+    
+with open("src/main_index.json", "r") as f:
+    main_index = json.load(f)
+    
+with open("src/text_by_faculty.json", "r") as f:
+    text_data = json.load(f)
+
+with open("src/ug_lectures.json",  "r") as f:
+    lectures = json.load(f)
+
+change_key_to_int(title_index)  
+change_key_to_int(name_index)
+change_key_to_int(main_index)
+change_key_to_int(text_data)
+
+class SearchQuery(BaseModel):
+    query: str
+    faculty_id: int
+    page: int
+
+query_split_pattern = re.compile("[ 　,、・]")
+lectures_per_page = 15
+
+@router.post("/search")
+def search(search_query: SearchQuery):
+    fac_id = search_query.faculty_id
+    page = search_query.page
+    result = defaultdict(int)
+    qlist = re.split(query_split_pattern, unicodedata.normalize("NFKC", search_query.query).upper())
+    
+    main = main_index[fac_id]
+    title = title_index[fac_id]
+    name = name_index[fac_id]
+    texts = text_data[fac_id]
+    
+    for q in qlist:
+        if not q:
+            continue
+            
+        if q not in main:
+            for i in [idx for idx, text in texts if q in text]:
+                result[i] += 1
+            continue
+            
+        for i in main[q]:
+            result[i] += 1
+        
+        if q in title:
+            for i in title[q]:
+                result[i] += 3
+                
+        if q in name:
+            for i in name[q]:
+                result[i] += 3
+    
+    indices = sorted(result.keys(), key=result.get, reverse=True)
+
+    page_indices = indices[(page - 1) * lectures_per_page : page * lectures_per_page]
+    if page_indices: 
+        return list(itemgetter(*page_indices)(lectures))
+    
+    return None
