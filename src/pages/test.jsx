@@ -1,57 +1,31 @@
-import axios from "axios";
 import Head from "next/head";
 import { useCallback, useState } from "react";
 import { Header } from "src/components/header";
+import { SearchModal } from "src/components/modal";
 
 const Test = () => {
-  const [data, setData] = useState();
-  const url = "http://127.0.0.1:8000";
+  const [favorites, setFavorites] = useState([]);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
-  const getData = () => {
-    axios.get(url + "/test").then((res) => {
-      setData(res.data);
-      console.log(res.data);
-    });
-  };
-
-  const postData = () => {
-    axios
-      .post(url + "/test", {
-        favorites: array,
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const [text, setText] = useState("");
-  const [array, setArray] = useState([]);
-
-  const handleChange = useCallback((e) => {
-    if (e.target.value.length > 5) {
-      alert("too many characters!");
-    }
-    setText(e.target.value.trim());
-  }, []);
-
-  const handleAdd = useCallback(() => {
-    setArray((prevArray) => {
-      if (prevArray.includes(text)) {
+  const handleFavorites = useCallback(() => {
+    setFavorites((prevFavorites) => {
+      if (prevFavorites.includes(text)) {
         alert("the same string already exists!");
-        return prevArray;
+        return prevFavorites;
       }
       if (!text) {
         alert("invalid");
-        return prevArray;
+        return prevFavorites;
       }
-      console.log([...prevArray, text]);
+      console.log([...prevFavorites, text]);
       setText("");
-      return [...prevArray, text];
+      return [...prevFavorites, text];
     });
-  }, [text]);
+  }, []);
+
+  const openModal = useCallback(() => {
+    setIsOpen(true);
+  }, []);
 
   return (
     <>
@@ -59,21 +33,11 @@ const Test = () => {
         <title>Test page</title>
       </Head>
       <Header />
-      <div style={{ height: "900px", textAlign: "center" }}>
+      <div style={{ height: "950px", textAlign: "center" }}>
         <h1>test</h1>
-        <input type="text" value={text} onChange={handleChange} />
-        <buttton onClick={handleAdd}>add</buttton>
-        {array.length > 0 ? <buttton onClick={postData}>submit</buttton> : null}
         <br />
-        {data ? (
-          <ul>
-            {data.map((item) => {
-              return <li key={item["時間割コード"]}>{item["講義名"]}</li>;
-            })}
-          </ul>
-        ) : (
-          <buttton onClick={getData}>get data</buttton>
-        )}
+        <button onClick={openModal}>講義検索</button>
+        <SearchModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
       </div>
     </>
   );

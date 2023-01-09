@@ -68,7 +68,7 @@ def search(search_query: SearchQuery):
     indices = sorted(result.keys(), key=result.get, reverse=True)
 
     page_indices = indices[(page - 1) * lectures_per_page : page * lectures_per_page]
-    if page_indices: 
-        return list(itemgetter(*page_indices)(lectures))
-    
-    return None
+
+    lecture_list = list(itemgetter(*page_indices)(lectures)) if page_indices else []
+
+    return {"hits" : len(indices), "lectures" : lecture_list}

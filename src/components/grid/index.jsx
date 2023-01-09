@@ -1,7 +1,4 @@
 import styles from "src/components/grid/grid.module.css";
-import { Inter } from "@next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const Grid = (props) => {
   return (
@@ -16,10 +13,10 @@ export const Grid = (props) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <h2 className={inter.className}>
+            <h2>
               {item.title} <span>-&gt;</span>
             </h2>
-            <p className={inter.className}>{item.description}</p>
+            <p>{item.description}</p>
           </a>
         );
       })}
