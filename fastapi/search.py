@@ -5,17 +5,9 @@ from operator import itemgetter
 from collections import defaultdict
 from pydantic import BaseModel
 from fastapi import APIRouter
+from common import change_key_to_int, lectures, lectures_per_page
 
 router = APIRouter()
-
-def change_key_to_int(dic):
-    old_keys = list(dic.keys())
-    for key in old_keys:
-        try:
-            new_key = int(key)
-        except:
-            new_key = key
-        dic[new_key] = dic.pop(key)
 
 with open("src/title_index.json", "r") as f:
     title_index = json.load(f)
@@ -29,9 +21,6 @@ with open("src/main_index.json", "r") as f:
 with open("src/text_by_faculty.json", "r") as f:
     text_data = json.load(f)
 
-with open("src/ug_lectures.json",  "r") as f:
-    lectures = json.load(f)
-
 change_key_to_int(title_index)  
 change_key_to_int(name_index)
 change_key_to_int(main_index)
@@ -39,11 +28,10 @@ change_key_to_int(text_data)
 
 class SearchQuery(BaseModel):
     query: str
-    faculty_id: int
-    page: int
+    faculty_id: int = 0
+    page: int = 1
 
 query_split_pattern = re.compile("[ 　,、・]")
-lectures_per_page = 15
 
 @router.post("/search")
 def search(search_query: SearchQuery):
