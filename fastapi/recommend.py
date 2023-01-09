@@ -1,6 +1,7 @@
 import json
 import numpy as np
 from common import change_key_to_int, lectures, lectures_per_page
+from typing import Union
 from operator import itemgetter
 from pydantic import BaseModel
 from fastapi import APIRouter
@@ -27,7 +28,7 @@ change_value_to_set(duplicated)
 
 class Taste(BaseModel):
     favorites: list[int]
-    unfavorites: list[int] | None
+    unfavorites: Union[list[int], None] = None
     faculty_id: int = 0
     page: int = 1
 
