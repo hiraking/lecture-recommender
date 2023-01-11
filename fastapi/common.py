@@ -12,6 +12,5 @@ def change_key_to_int(dic):
         dic[new_key] = dic.pop(key)
 
 
-with open("src/ug_lectures.json",  "r") as f:
+with open("src/lectures.json",  "r") as f:
     lectures = json.load(f)
-
