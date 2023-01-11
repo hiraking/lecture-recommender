@@ -1,5 +1,5 @@
 import Modal from "react-modal/lib/components/Modal";
-import { Pagenation } from "src/components/pagenation";
+import { MyPagination } from "src/components/pagenation";
 import { Search } from "src/components/search";
 import { SearchResult } from "src/components/searchresults";
 import { useSearch } from "src/hooks/useSearch";
@@ -28,14 +28,15 @@ export const SearchModal = (props) => {
       ) : null} */}
       {search.lectures.length > 0 ? (
         <SearchResult lecture={search.lectures[0]} />
+          <MyPagination
+            page={search.page}
+            setPage={search.setPage}
+            hits={search.hits}
+            fetcher={search.fetcher}
+          />
+        </>
       ) : null}
       <button onClick={modal.closeModal}>close</button>
-      <Pagenation
-        page={search.page}
-        setPage={search.setPage}
-        hits={search.hits}
-        fetcher={search.fetcher}
-      />
     </Modal>
   );
 };
