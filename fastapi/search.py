@@ -33,6 +33,10 @@ class SearchQuery(BaseModel):
 
 query_split_pattern = re.compile("[ 　,、・]")
 
+@router.get("/search")
+def search_test():
+    return {"hits": 100, "lectures": [lectures[100]]}
+
 @router.post("/search")
 def search(search_query: SearchQuery):
     fac_id = search_query.faculty_id
