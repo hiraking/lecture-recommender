@@ -2,10 +2,11 @@ import Head from "next/head";
 import { useCallback, useState } from "react";
 import { Header } from "src/components/header";
 import { SearchModal } from "src/components/modal";
+import { useModal } from "src/hooks/useModal";
 
 const Test = () => {
   const [favorites, setFavorites] = useState([]);
-  const [modalIsOpen, setIsOpen] = useState(false);
+  const modal = useModal();
 
   const handleFavorites = useCallback(() => {
     setFavorites((prevFavorites) => {
@@ -23,10 +24,6 @@ const Test = () => {
     });
   }, []);
 
-  const openModal = useCallback(() => {
-    setIsOpen(true);
-  }, []);
-
   return (
     <>
       <Head>
@@ -36,8 +33,8 @@ const Test = () => {
       <div style={{ height: "950px", textAlign: "center" }}>
         <h1>test</h1>
         <br />
-        <button onClick={openModal}>講義検索</button>
-        <SearchModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
+        <button onClick={modal.openModal}>講義検索</button>
+        <SearchModal modal={modal} />
       </div>
     </>
   );
