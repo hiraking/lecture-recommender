@@ -3,26 +3,13 @@ import { useCallback, useState } from "react";
 import { Header } from "src/components/header";
 import { SearchModal } from "src/components/modal";
 import { useModal } from "src/hooks/useModal";
+import { useTastes } from "src/hooks/useTastes";
 
 const Test = () => {
-  const [favorites, setFavorites] = useState([]);
   const modal = useModal();
-
-  const handleFavorites = useCallback(() => {
-    setFavorites((prevFavorites) => {
-      if (prevFavorites.includes(text)) {
-        alert("the same string already exists!");
-        return prevFavorites;
-      }
-      if (!text) {
-        alert("invalid");
-        return prevFavorites;
-      }
-      console.log([...prevFavorites, text]);
-      setText("");
-      return [...prevFavorites, text];
-    });
-  }, []);
+  const tastes = useTastes();
+  const fetcher = tastes.fetcher;
+  const executeRecommend = useCallback(() => fetcher(1), [fetcher]);
 
   return (
     <>
@@ -34,7 +21,10 @@ const Test = () => {
         <h1>test</h1>
         <br />
         <button onClick={modal.openModal}>講義検索</button>
-        <SearchModal modal={modal} />
+        <SearchModal modal={modal} tastes={tastes} />
+        <br />
+        <br />
+        <button onClick={executeRecommend}>おすすめ検索</button>
       </div>
     </>
   );

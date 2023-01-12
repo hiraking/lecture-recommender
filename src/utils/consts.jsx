@@ -15,3 +15,5 @@ export const FACULTIES = [
 export const URL = "http://127.0.0.1:8000";
 
 export const contentsPerPage = 15;
+
+export const num_lectures = 4610;

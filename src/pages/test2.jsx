@@ -1,15 +1,12 @@
+import { Alert, Fade, Tooltip } from "@mui/material";
 import Head from "next/head";
-import { useCallback, useEffect, useState } from "react";
-import { Header } from "src/components/header";
-import { SearchModal } from "src/components/modal";
-import { useModal } from "src/hooks/useModal";
-import { useTest } from "src/hooks/useTest";
-import axios from "axios";
-import { URL } from "src/utils/consts";
+import { useState } from "react";
 import { useSearch } from "src/hooks/useSearch";
+import { useTastes } from "src/hooks/useTastes";
 
 const Test = () => {
   const search = useSearch();
+  const tastes = useTastes();
   return (
     <>
       <Head>
@@ -17,13 +14,21 @@ const Test = () => {
       </Head>
       <div style={{ height: "950px", textAlign: "center" }}>
         <h1>test2</h1>
-        <input
-          type="text"
-          value={search.query}
-          onChange={(e) => search.setQuery(e.target.value)}
-        />
-        <button onClick={() => search.fetcher(search.page)}>クリック</button>
+        <Tooltip title="add" arrow open={search.noHit}>
+          <input
+            type="text"
+            value={search.query}
+            onChange={(e) => search.setQuery(e.target.value)}
+          />
+        </Tooltip>
+        <button onClick={() => search.fetcher(1)}>検索</button>
+        <Fade in={search.noHit}>
+          <Alert severity="error" style={{ width: "30%", margin: "0 auto" }}>
+            条件に合う講義は見つかりませんでした。
+          </Alert>
+        </Fade>
         <br />
+        <div style={{ width: "60%" }}></div>
       </div>
     </>
   );
