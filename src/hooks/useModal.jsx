@@ -1,7 +1,9 @@
 import { useCallback, useMemo, useState } from "react";
+import { useSearch } from "src/hooks/useSearch";
 import { backfaceFixed } from "src/utils/backfaceFixed";
 
 export const useModal = () => {
+  const search = useSearch();
   const [modalIsOpen, setIsOpen] = useState(false);
   const modalStyles = useMemo(() => {
     return {
@@ -14,6 +16,7 @@ export const useModal = () => {
         transform: "translate(-50%, -50%)",
         background: "#f5dfbc",
         width: "80%",
+        maxWidth: "800px",
         height: "80%",
         color: "#17214d",
       },
