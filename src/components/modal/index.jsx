@@ -9,6 +9,7 @@ export const SearchModal = (props) => {
   const search = useSearch();
   Modal.setAppElement("body");
 
+  console.log(props.tastes.favorites, props.tastes.unfavorites);
   return (
     <Modal
       isOpen={modal.modalIsOpen}
@@ -19,15 +20,23 @@ export const SearchModal = (props) => {
       contentLabel="Example Modal"
     >
       <Search search={search} />
-      {/* {search.lectures.length > 0 ? (
-        <ul>
-        {search.lectures.map((item) => {
-          return <li key={item["code1"]}>{item["title"]}</li>;
-        })}
-        </ul>
-      ) : null} */}
       {search.lectures.length > 0 ? (
-        <SearchResult lecture={search.lectures[0]} />
+        <>
+          <SearchResult
+            lecture={search.lectures[0]}
+            page={search.page}
+            tastes={props.tastes}
+          />
+          <SearchResult
+            lecture={search.lectures[1]}
+            page={search.page}
+            tastes={props.tastes}
+          />
+          <SearchResult
+            lecture={search.lectures[2]}
+            page={search.page}
+            tastes={props.tastes}
+          />
           <MyPagination
             page={search.page}
             setPage={search.setPage}
