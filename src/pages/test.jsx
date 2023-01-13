@@ -1,19 +1,13 @@
-import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Typography,
-} from "@mui/material";
+import { Button, Card, CardContent } from "@mui/material";
 import { Box } from "@mui/system";
 import Head from "next/head";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { LectureOptions } from "src/components/lectureOptions";
 import { Header } from "src/components/header";
 import { SearchModal } from "src/components/modal";
 import { useModal } from "src/hooks/useModal";
 import { useTastes } from "src/hooks/useTastes";
-import { OtherOptions } from "src/components/otherOptions";
+import { FacultyOptions } from "src/components/otherOptions";
 import { FACULTIES } from "src/utils/consts";
 
 const Test = () => {
@@ -46,12 +40,7 @@ const Test = () => {
         </Box>
         <Card>
           <CardContent>
-            <OtherOptions
-              checked={tastes.faculties}
-              setChecked={tastes.setFaculties}
-              header="学部"
-              itemList={FACULTIES}
-            />
+            <FacultyOptions tastes={tastes} />
           </CardContent>
         </Card>
       </div>

@@ -41,14 +41,6 @@ export const useTastes = () => {
     });
   }, []);
 
-  /* const handleToggle = useCallback((id, setArray1, setArray2, array1) => {
-    if (array1.includes(id)) {
-      setArray1((prevArray) => prevArray.filter((n) => n !== id));
-      return;
-    }
-    setArray1((prevArray) => [...prevArray, id]);
-    setArray2((prevArray) => prevArray.filter((n) => n !== id));
-  }, []); */
   const handleToggle = useCallback(
     (
       id,
@@ -106,19 +98,6 @@ export const useTastes = () => {
     },
     [favorites, unfavorites, handleToggle]
   );
-  /* const toggleFavorites = useCallback(
-    (id) => {
-      handleToggle(id, setFavorites, setUnfavorites, favorites);
-    },
-    [handleToggle, favorites]
-  );
-
-  const toggleUnfavorites = useCallback(
-    (id) => {
-      handleToggle(id, setUnfavorites, setFavorites, unfavorites);
-    },
-    [handleToggle, unfavorites]
-  ); */
 
   const addFavorites = useCallback(
     (id) => handleAdd(id, setFavorites, setUnfavorites),

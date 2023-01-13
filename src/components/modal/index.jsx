@@ -1,5 +1,5 @@
 import Modal from "react-modal/lib/components/Modal";
-import { MyPagination } from "src/components/pagenation";
+import { MyPagination } from "src/components/pagination";
 import { Search } from "src/components/search";
 import { SearchResult } from "src/components/searchresults";
 import { useSearch } from "src/hooks/useSearch";
