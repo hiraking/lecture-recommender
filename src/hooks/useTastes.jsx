@@ -6,9 +6,12 @@ export const useTastes = () => {
   const [hits, setHits] = useState(0);
   const [lectures, setLectures] = useState([]);
   const [page, setPage] = useState(1);
-  const [faculty, setFaculty] = useState(0);
+  const [faculties, setFaculties] = useState([]);
+  const [semesters, setSemesters] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [unfavorites, setUnfavorites] = useState([]);
+  const [favLectures, setFavLectures] = useState([]);
+  const [unfavLectures, setUnfavLectures] = useState([]);
 
   const handleAdd = useCallback((id, setState1, setState2) => {
     setState1((prevArray) => {
@@ -25,8 +28,12 @@ export const useTastes = () => {
     });
   }, []);
 
-  const handleRemove = useCallback((id, setState) => {
-    setState((prevArray) => {
+  const handleRemove = useCallback((id, array, setArray, setObjArray) => {
+    if (array.includes(id)) {
+      setArray((prevArray) => prevArray.filter((n) => n !== id));
+      setObjArray((prevArray) => prevArray.filter((obj) => obj.id !== id));
+    }
+    setArray((prevArray) => {
       if (prevArray.includes(id)) {
         return prevArray.filter((n) => n !== id);
       }
@@ -34,16 +41,72 @@ export const useTastes = () => {
     });
   }, []);
 
-  const handleToggle = useCallback((id, setArray1, setArray2, array1) => {
+  /* const handleToggle = useCallback((id, setArray1, setArray2, array1) => {
     if (array1.includes(id)) {
       setArray1((prevArray) => prevArray.filter((n) => n !== id));
       return;
     }
     setArray1((prevArray) => [...prevArray, id]);
     setArray2((prevArray) => prevArray.filter((n) => n !== id));
-  }, []);
+  }, []); */
+  const handleToggle = useCallback(
+    (
+      id,
+      lecture,
+      setArray1,
+      setArray2,
+      array1,
+      array2,
+      setObjArray1,
+      setObjArray2
+    ) => {
+      if (array1.includes(id)) {
+        setArray1((prevArray) => prevArray.filter((n) => n !== id));
+        setObjArray1((prevArray) => prevArray.filter((obj) => obj.id !== id));
+        return;
+      }
+      setArray1((prevArray) => [...prevArray, id]);
+      setObjArray1((prevArray) => [...prevArray, lecture]);
+      if (array2.includes(id)) {
+        setArray2((prevArray) => prevArray.filter((n) => n !== id));
+        setObjArray2((prevArray) => prevArray.filter((obj) => obj.id !== id));
+      }
+    },
+    []
+  );
 
   const toggleFavorites = useCallback(
+    (id, lecture) => {
+      handleToggle(
+        id,
+        lecture,
+        setFavorites,
+        setUnfavorites,
+        favorites,
+        unfavorites,
+        setFavLectures,
+        setUnfavLectures
+      );
+    },
+    [favorites, unfavorites, handleToggle]
+  );
+
+  const toggleUnfavorites = useCallback(
+    (id, lecture) => {
+      handleToggle(
+        id,
+        lecture,
+        setUnfavorites,
+        setFavorites,
+        unfavorites,
+        favorites,
+        setUnfavLectures,
+        setFavLectures
+      );
+    },
+    [favorites, unfavorites, handleToggle]
+  );
+  /* const toggleFavorites = useCallback(
     (id) => {
       handleToggle(id, setFavorites, setUnfavorites, favorites);
     },
@@ -55,7 +118,7 @@ export const useTastes = () => {
       handleToggle(id, setUnfavorites, setFavorites, unfavorites);
     },
     [handleToggle, unfavorites]
-  );
+  ); */
 
   const addFavorites = useCallback(
     (id) => handleAdd(id, setFavorites, setUnfavorites),
@@ -67,12 +130,12 @@ export const useTastes = () => {
   );
 
   const removeFavorites = useCallback(
-    (id) => handleRemove(id, setFavorites),
-    [handleRemove]
+    (id) => handleRemove(id, favorites, setFavorites, setFavLectures),
+    [handleRemove, favorites]
   );
   const removeUnfavorites = useCallback(
-    (id) => handleRemove(id, setUnfavorites),
-    [handleRemove]
+    (id) => handleRemove(id, unfavorites, setUnfavorites, setUnfavLectures),
+    [handleRemove, unfavorites]
   );
 
   const resetTastes = useCallback(() => {
@@ -86,7 +149,7 @@ export const useTastes = () => {
         .post(URL + "/recommend", {
           favorites: favorites,
           unfavorites: unfavorites,
-          faculty_id: faculty,
+          faculty_id: faculties,
           page: optPage,
         })
         .then((res) => {
@@ -95,7 +158,7 @@ export const useTastes = () => {
           setLectures(res.data.lectures);
         });
     },
-    [favorites, unfavorites, faculty]
+    [favorites, unfavorites, faculties]
   );
 
   return {
@@ -105,8 +168,10 @@ export const useTastes = () => {
     setLectures,
     page,
     setPage,
-    faculty,
-    setFaculty,
+    faculties,
+    setFaculties,
+    semesters,
+    setSemesters,
     favorites,
     unfavorites,
     removeFavorites,
@@ -115,5 +180,7 @@ export const useTastes = () => {
     toggleUnfavorites,
     resetTastes,
     fetcher,
+    favLectures,
+    unfavLectures,
   };
 };

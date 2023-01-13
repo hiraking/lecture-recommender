@@ -104,17 +104,33 @@ export const SearchResult = (props) => {
     if (!favorites.includes(id) && unfavorites.includes(id)) {
       toggleTip(setTipDislike, tipTitles.dislike);
     }
-    toggleFavorites(id);
+    toggleFavorites(id, props.lecture);
     setTimeout(() => toggleTip(setTipLike, tipTitles.like), 500);
-  }, [id, toggleFavorites, tipTitles, toggleTip, favorites, unfavorites]);
+  }, [
+    id,
+    toggleFavorites,
+    tipTitles,
+    toggleTip,
+    favorites,
+    unfavorites,
+    props.lecture,
+  ]);
 
   const handleClikeDislike = useCallback(() => {
     if (favorites.includes(id) && !unfavorites.includes(id)) {
       toggleTip(setTipLike, tipTitles.like);
     }
-    toggleUnfavorites(id);
+    toggleUnfavorites(id, props.lecture);
     setTimeout(() => toggleTip(setTipDislike, tipTitles.dislike), 500);
-  }, [id, toggleUnfavorites, tipTitles, toggleTip, favorites, unfavorites]);
+  }, [
+    id,
+    toggleUnfavorites,
+    tipTitles,
+    toggleTip,
+    favorites,
+    unfavorites,
+    props.lecture,
+  ]);
 
   return (
     <Card sx={{ minWidth: 300 }} variant="outlined">

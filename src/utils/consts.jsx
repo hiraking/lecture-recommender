@@ -12,6 +12,18 @@ export const FACULTIES = [
   { name: "工学部", id: 10 },
 ];
 
+export const SEMESTERS = [
+  { id: 0, name: "全て" },
+  { id: 1, name: "S1 S2" },
+  { id: 2, name: "A1 A2" },
+  { id: 3, name: "S1" },
+  { id: 4, name: "S2" },
+  { id: 5, name: "A1" },
+  { id: 6, name: "A2" },
+  { id: 7, name: "S1 S2 A1 A2" },
+  { id: 8, name: "その他" },
+];
+
 export const URL = "http://127.0.0.1:8000";
 
 export const contentsPerPage = 15;
