@@ -1,6 +1,6 @@
 import json
 import numpy as np
-from common import change_key_to_int, lectures, lectures_per_page
+from common import change_key_to_int, lectures, lectures_per_page, get_lectures_from_indices
 from typing import Union
 from operator import itemgetter
 from pydantic import BaseModel
@@ -26,20 +26,24 @@ change_key_to_int(duplicated)
 change_value_to_set(faculty_indices)
 change_value_to_set(duplicated)
 
-class Taste(BaseModel):
+class Tastes(BaseModel):
     favorites: list[int]
-    unfavorites: Union[list[int], None] = None
+    unfavorites: Union[list[int], None] = []
     faculty_id: int = 0
     page: int = 1
+    
+class TastesID(BaseModel):
+    favorites: list[int]
+    unfavorites: Union[list[int], None] = []
 
 lecture_vectors = np.array(list(lecture_vectors.values()))
 
 @router.post("/recommend")
-def get_recommendation(taste: Taste):
-    favorites = taste.favorites
-    unfavorites = taste.unfavorites
-    fac_id = taste.faculty_id
-    page = taste.page
+def get_recommendation(tastes: Tastes):
+    favorites = tastes.favorites
+    unfavorites = tastes.unfavorites
+    fac_id = tastes.faculty_id
+    page = tastes.page
     
     invalid_indices = set(favorites)
 
@@ -62,3 +66,10 @@ def get_recommendation(taste: Taste):
         return list(itemgetter(*page_indices)(lectures))
     
     return None
+
+@router.post("/get")
+def get_lectures(tastesID : TastesID):
+    favorites = tastesID.favorites
+    unfavorites = tastesID.unfavorites
+    return {"favorites" : get_lectures_from_indices(favorites), 
+            "unfavorites" : get_lectures_from_indices(unfavorites)}

@@ -5,7 +5,7 @@ from operator import itemgetter
 from collections import defaultdict
 from pydantic import BaseModel
 from fastapi import APIRouter
-from common import change_key_to_int, lectures, lectures_per_page
+from common import change_key_to_int, lectures, lectures_per_page, get_lectures_from_indices
 
 router = APIRouter()
 
@@ -72,13 +72,13 @@ def search(search_query: SearchQuery):
     indices = sorted(result.keys(), key=result.get, reverse=True)
 
     page_indices = indices[(page - 1) * lectures_per_page : page * lectures_per_page]
-    l = len(page_indices)
+    # l = len(page_indices)
+    #
+    # if l == 0:
+    #     lecture_list = []
+    # elif l == 1:
+    #     lecture_list = [lectures[page_indices[0]]]
+    # else:
+    #     lecture_list = list(itemgetter(*page_indices)(lectures))
 
-    if l == 0:
-        lecture_list = []
-    elif l == 1:
-        lecture_list = [lectures[page_indices[0]]]
-    else:
-        lecture_list = list(itemgetter(*page_indices)(lectures))
-
-    return {"hits" : len(indices), "lectures" : lecture_list}
+    return {"hits" : len(indices), "lectures" : get_lectures_from_indices(page_indices)}
