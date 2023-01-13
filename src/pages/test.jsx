@@ -1,9 +1,20 @@
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Typography,
+} from "@mui/material";
+import { Box } from "@mui/system";
 import Head from "next/head";
 import { useCallback, useState } from "react";
+import { LectureOptions } from "src/components/lectureOptions";
 import { Header } from "src/components/header";
 import { SearchModal } from "src/components/modal";
 import { useModal } from "src/hooks/useModal";
 import { useTastes } from "src/hooks/useTastes";
+import { OtherOptions } from "src/components/otherOptions";
+import { FACULTIES } from "src/utils/consts";
 
 const Test = () => {
   const modal = useModal();
@@ -17,14 +28,32 @@ const Test = () => {
         <title>Test page</title>
       </Head>
       <Header />
-      <div style={{ height: "950px", textAlign: "center" }}>
-        <h1>test</h1>
-        <br />
-        <button onClick={modal.openModal}>講義検索</button>
+      <div
+        style={{
+          height: "950px",
+          textAlign: "center",
+          width: "60%",
+          margin: "0 auto",
+        }}
+      >
         <SearchModal modal={modal} tastes={tastes} />
-        <br />
-        <br />
-        <button onClick={executeRecommend}>おすすめ検索</button>
+        <LectureOptions tastes={tastes} openModal={modal.openModal} />
+
+        <Box sx={{ height: "100px", backgroundColor: "lightgreen" }}>
+          <Button onClick={executeRecommend} variant="contained">
+            おすすめ検索
+          </Button>
+        </Box>
+        <Card>
+          <CardContent>
+            <OtherOptions
+              checked={tastes.faculties}
+              setChecked={tastes.setFaculties}
+              header="学部"
+              itemList={FACULTIES}
+            />
+          </CardContent>
+        </Card>
       </div>
     </>
   );
