@@ -1,11 +1,20 @@
 import Head from "next/head";
 import { Header } from "src/components/header";
 import { useTastes } from "src/hooks/useTastes";
-import { FacultyOptions, SemesterOptions } from "src/components/otherOptions";
-import { Card, CardContent } from "@mui/material";
+import { useEffect, useRef } from "react";
+import { SearchModal } from "src/components/modal";
+import { useModal } from "src/hooks/useModal";
+import { Button } from "@mui/material";
 
 const Test = () => {
-  const tastes = useTastes();
+  const modal = useModal();
+
+  const ref = useRef(null);
+  useEffect(() => {
+    console.log(ref);
+    console.log(ref.current);
+  }, []);
+
   return (
     <>
       <Head>
@@ -20,12 +29,10 @@ const Test = () => {
           margin: "0 auto",
         }}
       >
-        <Card>
-          <CardContent>
-            <FacultyOptions tastes={tastes} />
-            <SemesterOptions tastes={tastes} />
-          </CardContent>
-        </Card>
+        <Button variant="contained" onClick={() => modal.setIsOpen(true)}>
+          OPEN
+        </Button>
+        <SearchModal modal={modal} tastes={useTastes()} />
       </div>
     </>
   );

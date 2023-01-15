@@ -15,7 +15,10 @@ export const LectureOptions = (props) => {
       <CardHeader title={"面白かった・つまらなかった講義を選択"} />
       <CardContent>
         <Button onClick={props.openModal} variant="contained">
-          <Typography variant="button">講義を追加する</Typography>
+          講義を追加する
+        </Button>
+        <Button onClick={tastes.resetTastes} variant="contained">
+          リセット
         </Button>
         <Typography variant="subtitle1">
           高く評価した講義（{tastes.favorites.length}個）

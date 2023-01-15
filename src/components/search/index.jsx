@@ -7,12 +7,13 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { FACULTIES, URL } from "src/utils/consts";
+import { useCallback, useEffect, useRef } from "react";
+import { FACULTIES } from "src/utils/consts";
 
 export const Search = (props) => {
   const {
     setLectures,
+    page,
     setPage,
     faculty,
     setFaculty,
@@ -41,18 +42,32 @@ export const Search = (props) => {
     [setFaculty]
   );
 
-  const executeSearch = useCallback(() => {
-    fetcher(1);
-    setPage(1);
-  }, [fetcher, setPage]);
+  const inputRef = useRef(null);
+
+  const handleClick = useCallback(() => {
+    fetcherButton();
+    inputRef.current.blur();
+  }, [fetcherButton]);
 
   const handleKeyDown = useCallback(
     (e) => {
       if (e.nativeEvent.isComposing || e.key !== "Enter") return;
-      executeSearch();
+      fetcherButton();
+      e.target.blur();
     },
-    [executeSearch]
+    [fetcherButton]
   );
+
+  useEffect(() => {
+    if (inputRef && inputRef.current) {
+      setTimeout(() => {
+        inputRef.current.scrollIntoView(false, {
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 200);
+    }
+  }, [page]);
 
   return (
     <div>
@@ -75,6 +90,7 @@ export const Search = (props) => {
         TransitionProps={{ timeout: 500 }}
       >
         <TextField
+          ref={inputRef}
           id="search-input"
           variant="outlined"
           size="small"
@@ -85,7 +101,7 @@ export const Search = (props) => {
           onKeyDown={handleKeyDown}
         />
       </Tooltip>
-      <Button variant="outlined" onClick={executeSearch}>
+      <Button variant="outlined" onClick={handleClick}>
         検索
       </Button>
     </div>

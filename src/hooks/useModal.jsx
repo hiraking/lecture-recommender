@@ -1,9 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
-import { useSearch } from "src/hooks/useSearch";
 import { backfaceFixed } from "src/utils/backfaceFixed";
 
 export const useModal = () => {
-  const search = useSearch();
   const [modalIsOpen, setIsOpen] = useState(false);
   const modalStyles = useMemo(() => {
     return {
