@@ -6,8 +6,10 @@ export const useTastes = () => {
   const [hits, setHits] = useState(0);
   const [lectures, setLectures] = useState([]);
   const [page, setPage] = useState(1);
-  const [faculties, setFaculties] = useState([]);
-  const [semesters, setSemesters] = useState([]);
+  const [faculties, setFaculties] = useState(
+    [...Array(10)].map((_, i) => i + 1)
+  );
+  const [semesters, setSemesters] = useState([...Array(8)].map((_, i) => i));
   const [favorites, setFavorites] = useState([]);
   const [unfavorites, setUnfavorites] = useState([]);
   const [favLectures, setFavLectures] = useState([]);
@@ -120,6 +122,8 @@ export const useTastes = () => {
   const resetTastes = useCallback(() => {
     setFavorites([]);
     setUnfavorites([]);
+    setFavLectures([]);
+    setUnfavLectures([]);
   }, []);
 
   const fetcher = useCallback(
@@ -128,7 +132,8 @@ export const useTastes = () => {
         .post(URL + "/recommend", {
           favorites: favorites,
           unfavorites: unfavorites,
-          faculty_id: faculties,
+          faculty_ids: faculties,
+          semester_ids: semesters,
           page: optPage,
         })
         .then((res) => {
@@ -137,7 +142,7 @@ export const useTastes = () => {
           setLectures(res.data.lectures);
         });
     },
-    [favorites, unfavorites, faculties]
+    [favorites, unfavorites, faculties, semesters]
   );
 
   return {
