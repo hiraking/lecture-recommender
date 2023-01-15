@@ -10,6 +10,8 @@ export const useSearch = () => {
   const [query, setQuery] = useState("");
   const [queryCache, setQueryCache] = useState("");
   const [noHit, setNoHit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const fetcherButton = useCallback(() => {
     setIsLoading(true);
     setPage(1);
@@ -58,6 +60,7 @@ export const useSearch = () => {
     setLectures,
     page,
     setPage,
+    isLoading,
     faculty,
     setFaculty,
     query,

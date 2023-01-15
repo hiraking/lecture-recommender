@@ -1,3 +1,6 @@
+import { Button, CircularProgress } from "@mui/material";
+import { Box } from "@mui/system";
+import { useMemo } from "react";
 import Modal from "react-modal/lib/components/Modal";
 import { MyPagination } from "src/components/pagination";
 import { Search } from "src/components/search";
@@ -9,7 +12,21 @@ export const SearchModal = (props) => {
   const search = useSearch();
   Modal.setAppElement("body");
 
-  console.log(props.tastes.favorites, props.tastes.unfavorites);
+  const spinner = useMemo(() => {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "300px",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }, []);
+
   return (
     <Modal
       isOpen={modal.modalIsOpen}
@@ -17,35 +34,30 @@ export const SearchModal = (props) => {
       onAfterClose={modal.afterCloseModal}
       onRequestClose={modal.closeModal}
       style={modal.modalStyles}
-      contentLabel="Example Modal"
     >
       <Search search={search} />
-      {search.lectures.length > 0 ? (
+      {search.isLoading ? (
+        spinner
+      ) : search.lectures.length > 0 ? (
         <>
-          <SearchResult
-            lecture={search.lectures[0]}
-            page={search.page}
-            tastes={props.tastes}
-          />
-          <SearchResult
-            lecture={search.lectures[1]}
-            page={search.page}
-            tastes={props.tastes}
-          />
-          <SearchResult
-            lecture={search.lectures[2]}
-            page={search.page}
-            tastes={props.tastes}
-          />
+          {search.lectures.map((lecture) => {
+            return (
+              <SearchResult
+                key={lecture.id}
+                lecture={lecture}
+                page={search.page}
+                tastes={props.tastes}
+              />
+            );
+          })}
           <MyPagination
             page={search.page}
-            setPage={search.setPage}
             hits={search.hits}
-            fetcher={search.fetcher}
+            fetcherPagination={search.fetcherPagination}
           />
         </>
       ) : null}
-      <button onClick={modal.closeModal}>close</button>
+      <Button onClick={modal.closeModal}>close</Button>
     </Modal>
   );
 };
