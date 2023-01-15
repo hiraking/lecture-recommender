@@ -20,7 +20,7 @@ export const Search = (props) => {
     setQuery,
     setHits,
     noHit,
-    fetcher,
+    fetcherButton,
   } = props.search;
 
   useEffect(() => {
