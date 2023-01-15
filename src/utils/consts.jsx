@@ -23,7 +23,8 @@ export const SEMESTERS = [
   { id: 7, name: "その他" },
 ];
 
-export const URL = "http://127.0.0.1:8000";
+// export const URL = "http://127.0.0.1:8000";
+export const URL = "https://1wj8c0.deta.dev";
 
 export const contentsPerPage = 10;
 
