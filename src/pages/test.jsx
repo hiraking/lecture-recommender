@@ -3,12 +3,10 @@ import { Box } from "@mui/system";
 import Head from "next/head";
 import { useCallback } from "react";
 import { LectureOptions } from "src/components/lectureOptions";
-import { Header } from "src/components/header";
 import { SearchModal } from "src/components/modal";
 import { useModal } from "src/hooks/useModal";
 import { useTastes } from "src/hooks/useTastes";
-import { FacultyOptions } from "src/components/otherOptions";
-import { FACULTIES } from "src/utils/consts";
+import { FacultyOptions, SemesterOptions } from "src/components/otherOptions";
 
 const Test = () => {
   const modal = useModal();
@@ -21,10 +19,9 @@ const Test = () => {
       <Head>
         <title>Test page</title>
       </Head>
-      <Header />
       <div
         style={{
-          height: "950px",
+          height: "1050px",
           textAlign: "center",
           width: "60%",
           margin: "0 auto",
@@ -39,8 +36,9 @@ const Test = () => {
           </Button>
         </Box>
         <Card>
-          <CardContent>
+          <CardContent className={modal.modalIsOpen ? "disabled_input" : ""}>
             <FacultyOptions tastes={tastes} />
+            <SemesterOptions tastes={tastes} />
           </CardContent>
         </Card>
       </div>

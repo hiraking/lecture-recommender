@@ -69,13 +69,14 @@ const LectureAccordion = (props) => {
 };
 
 export const SearchResult = (props) => {
+  const lecture = props.lecture;
   const { id, title, lecturer, offered_by, semester, period, goal, plan } =
-    props.lecture;
+    lecture;
   const { toggleFavorites, toggleUnfavorites, favorites, unfavorites } =
     props.tastes;
   const page = props.page;
 
-  const tipTitles = useMemo(() => {
+  const tipTexts = useMemo(() => {
     return {
       like: [
         { first: null, second: "高く評価" },
@@ -88,10 +89,10 @@ export const SearchResult = (props) => {
     };
   }, []);
   const [tipLike, setTipLike] = useState(
-    favorites.includes(id) ? tipTitles.like[1] : tipTitles.like[0]
+    favorites.includes(id) ? tipTexts.like[1] : tipTexts.like[0]
   );
   const [tipDislike, setTipDislike] = useState(
-    unfavorites.includes(id) ? tipTitles.dislike[1] : tipTitles.dislike[0]
+    unfavorites.includes(id) ? tipTexts.dislike[1] : tipTexts.dislike[0]
   );
   const toggleTip = useCallback((setTip, tipArray) => {
     setTip((prev) => {
@@ -100,36 +101,47 @@ export const SearchResult = (props) => {
     });
   }, []);
 
+  /* useEffect(() => {
+    setTipLike(() => {
+      if (favorites.includes(id)) return tipTexts.like[1];
+      return tipTexts.like[0];
+    });
+    setTipDislike(() => {
+      if (unfavorites.includes(id)) return tipTexts.dislike[1];
+      return tipTexts.dislike[0];
+    });
+  }, [favorites, unfavorites, id, tipTexts, page]); */
+
   const handleClickLike = useCallback(() => {
     if (!favorites.includes(id) && unfavorites.includes(id)) {
-      toggleTip(setTipDislike, tipTitles.dislike);
+      toggleTip(setTipDislike, tipTexts.dislike);
     }
-    toggleFavorites(id, props.lecture);
-    setTimeout(() => toggleTip(setTipLike, tipTitles.like), 500);
+    toggleFavorites(id, lecture);
+    setTimeout(() => toggleTip(setTipLike, tipTexts.like), 500);
   }, [
     id,
     toggleFavorites,
-    tipTitles,
+    tipTexts,
     toggleTip,
     favorites,
     unfavorites,
-    props.lecture,
+    lecture,
   ]);
 
   const handleClikeDislike = useCallback(() => {
     if (favorites.includes(id) && !unfavorites.includes(id)) {
-      toggleTip(setTipLike, tipTitles.like);
+      toggleTip(setTipLike, tipTexts.like);
     }
-    toggleUnfavorites(id, props.lecture);
-    setTimeout(() => toggleTip(setTipDislike, tipTitles.dislike), 500);
+    toggleUnfavorites(id, lecture);
+    setTimeout(() => toggleTip(setTipDislike, tipTexts.dislike), 500);
   }, [
     id,
     toggleUnfavorites,
-    tipTitles,
+    tipTexts,
     toggleTip,
     favorites,
     unfavorites,
-    props.lecture,
+    lecture,
   ]);
 
   return (
