@@ -1,7 +1,7 @@
 import json
 from operator import itemgetter
 
-lectures_per_page = 15
+lectures_per_page = 10
 
 def change_key_to_int(dic):
     old_keys = list(dic.keys())
