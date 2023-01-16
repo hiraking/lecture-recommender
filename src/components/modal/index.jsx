@@ -57,7 +57,12 @@ export const SearchModal = (props) => {
           />
         </>
       ) : null}
-      <Button onClick={modal.closeModal}>close</Button>
+      <Button
+        onClick={modal.closeModal}
+        sx={{ position: "absolute", bottom: "10px", right: "40px" }}
+      >
+        CLOSE
+      </Button>
     </Modal>
   );
 };

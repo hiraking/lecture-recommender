@@ -14,13 +14,17 @@ export const LectureOptions = (props) => {
     <Card>
       <CardHeader title={"面白かった・つまらなかった講義を選択"} />
       <CardContent>
-        <Button onClick={props.openModal} variant="contained">
+        <Button
+          onClick={props.openModal}
+          variant="contained"
+          sx={{ marginRight: "20px" }}
+        >
           講義を追加する
         </Button>
         <Button onClick={tastes.resetTastes} variant="contained">
           リセット
         </Button>
-        <Typography variant="subtitle1">
+        <Typography variant="subtitle1" sx={{ textAlign: "left" }}>
           高く評価した講義（{tastes.favorites.length}個）
         </Typography>
         {tastes.favorites.length > 0 ? (
@@ -38,7 +42,7 @@ export const LectureOptions = (props) => {
             })}
           </Stack>
         ) : null}
-        <Typography variant="subtitle1">
+        <Typography variant="subtitle1" sx={{ textAlign: "left" }}>
           低く評価した講義（{tastes.unfavorites.length}個）
         </Typography>
         {tastes.unfavorites.length > 0 ? (

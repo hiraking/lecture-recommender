@@ -30,15 +30,13 @@ export const useSearch = () => {
           setNoHit(true);
           setTimeout(() => setNoHit(false), 3000);
         }
-        if (isLoading) {
-          console.log("loading now!!!");
-        }
         setIsLoading(false);
       });
-  }, [faculty, query, isLoading]);
+  }, [faculty, query]);
 
   const fetcherPagination = useCallback(
     (optPage) => {
+      setIsLoading(true);
       setPage(optPage);
       axios
         .post(URL + "/search", {
@@ -49,10 +47,12 @@ export const useSearch = () => {
         .then((res) => {
           console.log(res.data);
           setLectures(res.data.lectures);
+          setIsLoading(false);
         });
     },
     [faculty, queryCache]
   );
+
   return {
     hits,
     setHits,

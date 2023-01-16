@@ -1,4 +1,10 @@
-import { Button, Card, CardContent } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import Head from "next/head";
 import { useCallback } from "react";
@@ -14,6 +20,11 @@ const Test = () => {
   const fetcher = tastes.fetcher;
   const executeRecommend = useCallback(() => fetcher(1), [fetcher]);
 
+  const validateOption = useCallback(() => {
+    if (!tastes.semesters.size) return false;
+    // fetcherやhitsをsearchと共有したい
+  });
+
   return (
     <>
       <Head>
@@ -24,19 +35,20 @@ const Test = () => {
           height: "1050px",
           textAlign: "center",
           width: "60%",
-          margin: "0 auto",
+          margin: "100px auto",
         }}
       >
         <SearchModal modal={modal} tastes={tastes} />
         <LectureOptions tastes={tastes} openModal={modal.openModal} />
 
         <Box sx={{ height: "100px", backgroundColor: "lightgreen" }}>
-          <Button onClick={executeRecommend} variant="contained">
+          <Button onClick={executeRecommend} variant="contained" size="large">
             おすすめ検索
           </Button>
         </Box>
         <Card>
           <CardContent className={modal.modalIsOpen ? "disabled_input" : ""}>
+            <Typography variant="subtitle1">オプション</Typography>
             <FacultyOptions tastes={tastes} />
             <SemesterOptions tastes={tastes} />
           </CardContent>

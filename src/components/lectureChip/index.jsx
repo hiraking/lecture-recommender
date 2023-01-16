@@ -1,6 +1,6 @@
 const { Grid, Typography, IconButton } = require("@mui/material");
 import CancelIcon from "@mui/icons-material/Cancel";
-import { useCallback, useContext, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 export const LectureChip = (props) => {
   const { id, title, lecturer, removeLecture } = props;
@@ -24,8 +24,10 @@ export const LectureChip = (props) => {
     <div
       style={{
         display: "flex",
-        backgroundColor: "#164152",
-        width: "100%",
+        backgroundColor: "beige",
+        width: "80%",
+        margin: "5px auto",
+        minWidth: "300px",
         paddingLeft: "20px",
         paddingRight: "5px",
         borderRadius: "20px",
