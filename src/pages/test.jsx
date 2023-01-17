@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Card,
   CardContent,
@@ -7,7 +8,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import Head from "next/head";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { LectureOptions } from "src/components/lectureOptions";
 import { SearchModal } from "src/components/modal";
 import { useModal } from "src/hooks/useModal";
@@ -17,13 +18,37 @@ import { FacultyOptions, SemesterOptions } from "src/components/otherOptions";
 const Test = () => {
   const modal = useModal();
   const tastes = useTastes();
-  const fetcher = tastes.fetcher;
-  const executeRecommend = useCallback(() => fetcher(1), [fetcher]);
+  const { fetcher, semesters, faculties, favorites, unfavorites } = tastes;
+  const [nosemester, setNosemester] = useState(false);
+  const [nofaculty, setNofaculty] = useState(false);
+  const [nolecture, setNolecture] = useState(false);
 
   const validateOption = useCallback(() => {
-    if (!tastes.semesters.size) return false;
-    // fetcherやhitsをsearchと共有したい
-  });
+    if (!semesters.length) {
+      setNosemester(true);
+      setTimeout(() => setNosemester(false), 3000);
+      return false;
+    }
+    if (!faculties.length) {
+      setNofaculty(true);
+      setTimeout(() => setNofaculty(false), 3000);
+      return false;
+    }
+    if (!favorites.length && !unfavorites.length) {
+      setNolecture(true);
+      setTimeout(() => setNolecture(false), 3000);
+      return false;
+    }
+    return true;
+  }, [faculties, semesters, favorites, unfavorites]);
+
+  const executeRecommend = useCallback(() => {
+    if (validateOption()) {
+      fetcher(1);
+    } else {
+      console.log("validation failed!");
+    }
+  }, [fetcher, validateOption]);
 
   return (
     <>
@@ -38,13 +63,28 @@ const Test = () => {
           margin: "100px auto",
         }}
       >
-        <SearchModal modal={modal} tastes={tastes} />
+        <SearchModal modal={modal} />
         <LectureOptions tastes={tastes} openModal={modal.openModal} />
 
-        <Box sx={{ height: "100px", backgroundColor: "lightgreen" }}>
+        <Box sx={{ height: "auto", backgroundColor: "lightgreen" }}>
           <Button onClick={executeRecommend} variant="contained" size="large">
-            おすすめ検索
+            おすすめを探す
           </Button>
+          {nolecture ? (
+            <Alert severity="warning" variant="outlined">
+              講義を登録してください
+            </Alert>
+          ) : null}
+          {nofaculty ? (
+            <Alert severity="warning" variant="outlined">
+              学部を選択してください
+            </Alert>
+          ) : null}
+          {nosemester ? (
+            <Alert severity="warning" variant="outlined">
+              開講区分を登録してください
+            </Alert>
+          ) : null}
         </Box>
         <Card>
           <CardContent className={modal.modalIsOpen ? "disabled_input" : ""}>
