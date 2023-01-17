@@ -14,21 +14,8 @@ export const useTastes = () => {
   const [unfavorites, setUnfavorites] = useState([]);
   const [favLectures, setFavLectures] = useState([]);
   const [unfavLectures, setUnfavLectures] = useState([]);
-
-  const handleAdd = useCallback((id, setState1, setState2) => {
-    setState1((prevArray) => {
-      if (prevArray.includes(id)) {
-        return prevArray;
-      }
-      return [...prevArray, id];
-    });
-    setState2((prevArray) => {
-      if (prevArray.includes(id)) {
-        return prevArray.filter((n) => n !== id);
-      }
-      return prevArray;
-    });
-  }, []);
+  const [noHit, setNoHit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleRemove = useCallback((id, array, setArray, setObjArray) => {
     if (array.includes(id)) {
@@ -101,15 +88,6 @@ export const useTastes = () => {
     [favorites, unfavorites, handleToggle]
   );
 
-  const addFavorites = useCallback(
-    (id) => handleAdd(id, setFavorites, setUnfavorites),
-    [handleAdd]
-  );
-  const addUnfavorites = useCallback(
-    (id) => handleAdd(id, setUnfavorites, setFavorites),
-    [handleAdd]
-  );
-
   const removeFavorites = useCallback(
     (id) => handleRemove(id, favorites, setFavorites, setFavLectures),
     [handleRemove, favorites]
@@ -128,6 +106,8 @@ export const useTastes = () => {
 
   const fetcher = useCallback(
     (optPage) => {
+      setIsLoading(true);
+      setPage(optPage);
       axios
         .post(URL + "/recommend", {
           favorites: favorites,
@@ -140,6 +120,11 @@ export const useTastes = () => {
           console.log(res.data);
           setHits(res.data.hits);
           setLectures(res.data.lectures);
+          if (res.data.hits === 0) {
+            setNoHit(true);
+            setTimeout(() => setNoHit(false), 3000);
+          }
+          setIsLoading(false);
         });
     },
     [favorites, unfavorites, faculties, semesters]
@@ -152,6 +137,8 @@ export const useTastes = () => {
     setLectures,
     page,
     setPage,
+    noHit,
+    isLoading,
     faculties,
     setFaculties,
     semesters,

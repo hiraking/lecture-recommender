@@ -60,12 +60,10 @@ export const Search = (props) => {
 
   useEffect(() => {
     if (inputRef && inputRef.current) {
-      setTimeout(() => {
-        inputRef.current.scrollIntoView(false, {
-          behavior: "smooth",
-          block: "start",
-        });
-      }, 200);
+      inputRef.current.scrollIntoView(false, {
+        behavior: "smooth",
+        block: "start",
+      });
     }
   }, [page]);
 

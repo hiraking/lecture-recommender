@@ -1,4 +1,4 @@
-import { Button, CircularProgress } from "@mui/material";
+import { Alert, Button, CircularProgress } from "@mui/material";
 import { Box } from "@mui/system";
 import { useMemo } from "react";
 import Modal from "react-modal/lib/components/Modal";
@@ -36,6 +36,11 @@ export const SearchModal = (props) => {
       style={modal.modalStyles}
     >
       <Search search={search} />
+      {search.noHit ? (
+        <Alert severity="warning" variant="contained">
+          講義が見つかりませんでした
+        </Alert>
+      ) : null}
       {search.isLoading ? (
         spinner
       ) : search.lectures.length > 0 ? (
@@ -46,7 +51,6 @@ export const SearchModal = (props) => {
                 key={lecture.id}
                 lecture={lecture}
                 page={search.page}
-                tastes={props.tastes}
               />
             );
           })}

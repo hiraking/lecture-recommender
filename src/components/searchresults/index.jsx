@@ -13,7 +13,8 @@ import {
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useTastes } from "src/hooks/useTastes";
 
 const LectureAccordion = (props) => {
   const { goal, plan, page } = props;
@@ -68,14 +69,11 @@ const LectureAccordion = (props) => {
   );
 };
 
-export const SearchResult = (props) => {
+const ThumbIcons = (props) => {
+  const id = props.id;
   const lecture = props.lecture;
-  const { id, title, lecturer, offered_by, semester, period, goal, plan } =
-    lecture;
   const { toggleFavorites, toggleUnfavorites, favorites, unfavorites } =
-    props.tastes;
-  const page = props.page;
-
+    useTastes();
   const tipTexts = useMemo(() => {
     return {
       like: [
@@ -101,23 +99,13 @@ export const SearchResult = (props) => {
     });
   }, []);
 
-  /* useEffect(() => {
-    setTipLike(() => {
-      if (favorites.includes(id)) return tipTexts.like[1];
-      return tipTexts.like[0];
-    });
-    setTipDislike(() => {
-      if (unfavorites.includes(id)) return tipTexts.dislike[1];
-      return tipTexts.dislike[0];
-    });
-  }, [favorites, unfavorites, id, tipTexts, page]); */
-
   const handleClickLike = useCallback(() => {
     if (!favorites.includes(id) && unfavorites.includes(id)) {
       toggleTip(setTipDislike, tipTexts.dislike);
     }
     toggleFavorites(id, lecture);
-    setTimeout(() => toggleTip(setTipLike, tipTexts.like), 500);
+    // setTimeout(() => toggleTip(setTipLike, tipTexts.like), 500);
+    toggleTip(setTipLike, tipTexts.like);
   }, [
     id,
     toggleFavorites,
@@ -133,7 +121,8 @@ export const SearchResult = (props) => {
       toggleTip(setTipLike, tipTexts.like);
     }
     toggleUnfavorites(id, lecture);
-    setTimeout(() => toggleTip(setTipDislike, tipTexts.dislike), 500);
+    // setTimeout(() => toggleTip(setTipDislike, tipTexts.dislike), 500);
+    toggleTip(setTipDislike, tipTexts.dislike);
   }, [
     id,
     toggleUnfavorites,
@@ -143,6 +132,43 @@ export const SearchResult = (props) => {
     unfavorites,
     lecture,
   ]);
+  return (
+    <>
+      <Tooltip title={favorites.includes(id) ? tipLike.first : tipLike.second}>
+        <IconButton
+          aria-label="add to favorites"
+          onClick={handleClickLike}
+          sx={{
+            color: favorites.includes(id) ? "#d45088" : "#999",
+            transform: "scale(1.2)",
+          }}
+        >
+          <ThumbUpIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip
+        title={unfavorites.includes(id) ? tipDislike.first : tipDislike.second}
+      >
+        <IconButton
+          aria-label="add to unfavorites"
+          onClick={handleClikeDislike}
+          sx={{
+            color: unfavorites.includes(id) ? "#50afe1" : "#999",
+            transform: "scale(1.2)",
+          }}
+        >
+          <ThumbDownIcon />
+        </IconButton>
+      </Tooltip>
+    </>
+  );
+};
+
+export const SearchResult = React.memo((props) => {
+  const lecture = props.lecture;
+  const { id, title, lecturer, offered_by, semester, period, goal, plan } =
+    lecture;
+  const page = props.page;
 
   return (
     <Card sx={{ minWidth: 300 }} variant="outlined">
@@ -151,36 +177,7 @@ export const SearchResult = (props) => {
         subheader={lecturer}
         action={
           <>
-            <Tooltip
-              title={favorites.includes(id) ? tipLike.first : tipLike.second}
-            >
-              <IconButton
-                aria-label="add to favorites"
-                onClick={handleClickLike}
-                sx={{
-                  color: favorites.includes(id) ? "#d45088" : "#999",
-                  transform: "scale(1.2)",
-                }}
-              >
-                <ThumbUpIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip
-              title={
-                unfavorites.includes(id) ? tipDislike.first : tipDislike.second
-              }
-            >
-              <IconButton
-                aria-label="add to unfavorites"
-                onClick={handleClikeDislike}
-                sx={{
-                  color: unfavorites.includes(id) ? "#50afe1" : "#999",
-                  transform: "scale(1.2)",
-                }}
-              >
-                <ThumbDownIcon />
-              </IconButton>
-            </Tooltip>
+            <ThumbIcons id={id} lecture={lecture} />
           </>
         }
       />
@@ -192,4 +189,6 @@ export const SearchResult = (props) => {
       </CardContent>
     </Card>
   );
-};
+});
+
+SearchResult.displayName = "SearchResult";

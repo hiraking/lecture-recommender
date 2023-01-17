@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import { URL } from "src/utils/consts";
 
 export const useSearch = () => {
-  const [hits, setHits] = useState(1);
+  const [hits, setHits] = useState(0);
   const [lectures, setLectures] = useState([]);
   const [page, setPage] = useState(1);
   const [faculty, setFaculty] = useState(0);
