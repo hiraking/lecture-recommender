@@ -106,6 +106,7 @@ export const SearchModal = (props) => {
                     key={lecture.id}
                     lecture={lecture}
                     page={page}
+                    tastes={props.tastes}
                   />
                 );
               })}

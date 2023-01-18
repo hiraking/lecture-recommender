@@ -72,14 +72,8 @@ const LectureAccordion = (props) => {
 const ThumbIcons = (props) => {
   const id = props.id;
   const lecture = props.lecture;
-  const tastes = useTastes();
-  const {
-    toggleFavorites,
-    toggleUnfavorites,
-    favorites,
-    unfavorites,
-    setFavorites,
-  } = tastes;
+  const { toggleFavorites, toggleUnfavorites, favorites, unfavorites } =
+    props.tastes;
   console.log(favorites, unfavorites);
 
   const tipTexts = useMemo(() => {
@@ -184,7 +178,7 @@ export const SearchResult = memo((props) => {
         subheader={lecturer}
         action={
           <>
-            <ThumbIcons id={id} lecture={lecture} />
+            <ThumbIcons id={id} lecture={lecture} tastes={props.tastes} />
           </>
         }
       />

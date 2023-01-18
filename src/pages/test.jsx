@@ -11,7 +11,6 @@ import Head from "next/head";
 import { useCallback, useState } from "react";
 import { LectureOptions } from "src/components/lectureOptions";
 import { SearchModal } from "src/components/modal";
-import { useModal } from "src/hooks/useModal";
 import { useTastes } from "src/hooks/useTastes";
 import { FacultyOptions, SemesterOptions } from "src/components/otherOptions";
 
@@ -63,7 +62,11 @@ const Test = () => {
           margin: "100px auto",
         }}
       >
-        <SearchModal openModal={openModal} setOpenModal={setOpenModal} />
+        <SearchModal
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          tastes={tastes}
+        />
 
         <LectureOptions tastes={tastes} setOpenModal={setOpenModal} />
         <Box sx={{ height: "auto", backgroundColor: "lightgreen" }}>
