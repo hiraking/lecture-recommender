@@ -1,6 +1,6 @@
 import axios from "axios";
 import { URL } from "src/utils/consts";
-import { useCallback, useState } from "react";
+import { useCallback, useReducer, useState } from "react";
 
 export const useTastes = () => {
   const [hits, setHits] = useState(0);
@@ -10,104 +10,114 @@ export const useTastes = () => {
     [...Array(10)].map((_, i) => i + 1)
   );
   const [semesters, setSemesters] = useState([...Array(8)].map((_, i) => i));
-  const [favorites, setFavorites] = useState([]);
-  const [unfavorites, setUnfavorites] = useState([]);
-  const [favLectures, setFavLectures] = useState([]);
-  const [unfavLectures, setUnfavLectures] = useState([]);
   const [noHit, setNoHit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleRemove = useCallback((id, array, setArray, setObjArray) => {
-    if (array.includes(id)) {
-      setArray((prevArray) => prevArray.filter((n) => n !== id));
-      setObjArray((prevArray) => prevArray.filter((obj) => obj.id !== id));
-    }
-    setArray((prevArray) => {
-      if (prevArray.includes(id)) {
-        return prevArray.filter((n) => n !== id);
-      }
-      return prevArray;
+  const toggleFavorites = useCallback((id, lecture) => {
+    favoritesDispatch({
+      type: "toggle",
+      datatype: "number",
+      fav: true,
+      id: id,
+    });
+    favLecturesDispatch({
+      type: "toggle",
+      datatype: "object",
+      fav: true,
+      id: id,
+      lecture: lecture,
     });
   }, []);
 
-  const handleToggle = useCallback(
-    (
-      id,
-      lecture,
-      setArray1,
-      setArray2,
-      array1,
-      array2,
-      setObjArray1,
-      setObjArray2
-    ) => {
-      if (array1.includes(id)) {
-        setArray1((prevArray) => prevArray.filter((n) => n !== id));
-        setObjArray1((prevArray) => prevArray.filter((obj) => obj.id !== id));
-        return;
-      }
-      setArray1((prevArray) => [...prevArray, id]);
-      setObjArray1((prevArray) => [...prevArray, lecture]);
-      if (array2.includes(id)) {
-        setArray2((prevArray) => prevArray.filter((n) => n !== id));
-        setObjArray2((prevArray) => prevArray.filter((obj) => obj.id !== id));
-      }
-    },
-    []
-  );
+  const toggleUnfavorites = useCallback((id, lecture) => {
+    unfavoritesDispatch({
+      type: "toggle",
+      datatype: "number",
+      fav: false,
+      id: id,
+    });
+    unfavLecturesDispatch({
+      type: "toggle",
+      datatype: "object",
+      fav: false,
+      id: id,
+      lecture: lecture,
+    });
+  }, []);
 
-  const toggleFavorites = useCallback(
-    (id, lecture) => {
-      console.log(favorites, unfavorites);
-      handleToggle(
-        id,
-        lecture,
-        setFavorites,
-        setUnfavorites,
-        favorites,
-        unfavorites,
-        setFavLectures,
-        setUnfavLectures
-      );
-    },
-    [favorites, unfavorites, handleToggle]
-  );
-  /* const toggleFavorites = useCallback((id, lecture) => {
-    setFavorites((prev) => [...prev, id]);
-    setFavLectures((prev) => [...prev, lecture]);
-  }, []); */
+  const removeFavorites = useCallback((id) => {
+    favoritesDispatch({ type: "remove", datatype: "number", id: id });
+    favLecturesDispatch({ type: "remove", datatype: "object", id: id });
+  }, []);
 
-  const toggleUnfavorites = useCallback(
-    (id, lecture) => {
-      handleToggle(
-        id,
-        lecture,
-        setUnfavorites,
-        setFavorites,
-        unfavorites,
-        favorites,
-        setUnfavLectures,
-        setFavLectures
-      );
-    },
-    [favorites, unfavorites, handleToggle]
-  );
+  const removeUnfavorites = useCallback((id) => {
+    unfavoritesDispatch({ type: "remove", datatype: "number", id: id });
+    unfavLecturesDispatch({ type: "remove", datatype: "object", id: id });
+  }, []);
 
-  const removeFavorites = useCallback(
-    (id) => handleRemove(id, favorites, setFavorites, setFavLectures),
-    [handleRemove, favorites]
-  );
-  const removeUnfavorites = useCallback(
-    (id) => handleRemove(id, unfavorites, setUnfavorites, setUnfavLectures),
-    [handleRemove, unfavorites]
+  const checkTastes = useCallback(
+    (fav, id) => {
+      if (fav) removeUnfavorites(id);
+      else removeFavorites(id);
+    },
+    [removeFavorites, removeUnfavorites]
   );
 
   const resetTastes = useCallback(() => {
-    setFavorites([]);
-    setUnfavorites([]);
-    setFavLectures([]);
-    setUnfavLectures([]);
+    favoritesDispatch({ type: "reset" });
+    favLecturesDispatch({ type: "reset" });
+    unfavoritesDispatch({ type: "reset" });
+    unfavLecturesDispatch({ type: "reset" });
   }, []);
+
+  const arrayReducer = useCallback(
+    (state, action) => {
+      switch (action.type) {
+        case "reset":
+          return [];
+
+        case "toggle":
+          switch (action.datatype) {
+            case "object":
+              if (state.some((obj) => obj.id === action.id)) {
+                return state.filter((obj) => obj.id !== action.id);
+              }
+              checkTastes(action.fav, action.id);
+              return [...state, action.lecture];
+
+            case "number":
+              if (state.includes(action.id)) {
+                return state.filter((i) => i !== action.id);
+              }
+              checkTastes(action.fav, action.id);
+              return [...state, action.id];
+          }
+
+        case "remove":
+          switch (action.datatype) {
+            case "object":
+              if (state.some((obj) => obj.id === action.id)) {
+                return state.filter((obj) => obj.id !== action.id);
+              }
+              return state;
+
+            case "number":
+              if (state.includes(action.id)) {
+                return state.filter((i) => i !== action.id);
+              }
+              return state;
+          }
+
+        default:
+          return state;
+      }
+    },
+    [checkTastes]
+  );
+  const [favorites, favoritesDispatch] = useReducer(arrayReducer, []);
+  const [favLectures, favLecturesDispatch] = useReducer(arrayReducer, []);
+  const [unfavorites, unfavoritesDispatch] = useReducer(arrayReducer, []);
+  const [unfavLectures, unfavLecturesDispatch] = useReducer(arrayReducer, []);
 
   const fetcher = useCallback(
     (optPage) => {
@@ -149,7 +159,6 @@ export const useTastes = () => {
     semesters,
     setSemesters,
     favorites,
-    setFavorites,
     unfavorites,
     removeFavorites,
     removeUnfavorites,
