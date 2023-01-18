@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Fade,
   FormControl,
@@ -7,30 +8,53 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { useCallback, useEffect, useRef } from "react";
-import { FACULTIES } from "src/utils/consts";
+import axios from "axios";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { FACULTIES, URL } from "src/utils/consts";
 
-export const Search = (props) => {
+export const Search = memo((props) => {
+  const [query, setQuery] = useState("");
+  const [noHit, setNoHit] = useState(false);
+
   const {
-    setLectures,
-    page,
+    setIsLoading,
     setPage,
+    setLectures,
+    setQueryCache,
     faculty,
     setFaculty,
-    query,
-    setQuery,
     setHits,
-    noHit,
-    fetcherButton,
-  } = props.search;
+  } = props;
 
-  useEffect(() => {
-    setQuery("");
-    setFaculty(0);
+  const fetcherButton = useCallback(() => {
+    setIsLoading(true);
     setPage(1);
-    setHits(0);
-    setLectures([]);
-  }, [setQuery, setPage, setFaculty, setLectures, setHits]);
+    setQueryCache(query);
+    axios
+      .post(URL + "/search", {
+        query: query,
+        faculty_id: faculty,
+        page: 1,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setHits(res.data.hits);
+        setLectures(res.data.lectures);
+        if (res.data.hits === 0) {
+          setNoHit(true);
+          setTimeout(() => setNoHit(false), 3000);
+        }
+        setIsLoading(false);
+      });
+  }, [
+    faculty,
+    query,
+    setIsLoading,
+    setPage,
+    setLectures,
+    setQueryCache,
+    setHits,
+  ]);
 
   const handleQueryChange = useCallback(
     (e) => setQuery(e.target.value),
@@ -45,27 +69,24 @@ export const Search = (props) => {
   const inputRef = useRef(null);
 
   const handleClick = useCallback(() => {
+    if (query.length === 0) {
+      return;
+    }
     fetcherButton();
     inputRef.current.blur();
-  }, [fetcherButton]);
+  }, [fetcherButton, query]);
 
   const handleKeyDown = useCallback(
     (e) => {
       if (e.nativeEvent.isComposing || e.key !== "Enter") return;
+      if (query.length === 0) {
+        return;
+      }
       fetcherButton();
       e.target.blur();
     },
-    [fetcherButton]
+    [fetcherButton, query]
   );
-
-  useEffect(() => {
-    if (inputRef && inputRef.current) {
-      inputRef.current.scrollIntoView(false, {
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  }, [page]);
 
   return (
     <div>
@@ -80,28 +101,37 @@ export const Search = (props) => {
           })}
         </Select>
       </FormControl>
-      <Tooltip
-        title="該当する講義はありません。"
-        arrow
-        open={noHit}
-        TransitionComponent={Fade}
-        TransitionProps={{ timeout: 500 }}
-      >
-        <TextField
-          ref={inputRef}
-          id="search-input"
-          variant="outlined"
-          size="small"
-          value={query}
-          autoFocus
-          onChange={handleQueryChange}
-          placeholder="キーワード"
-          onKeyDown={handleKeyDown}
-        />
-      </Tooltip>
+      {/* <Tooltip
+title="該当する講義はありません。"
+arrow
+open={noHit}
+TransitionComponent={Fade}
+TransitionProps={{ timeout: 500 }}
+> */}
+      <TextField
+        ref={inputRef}
+        id="search-input"
+        variant="outlined"
+        size="small"
+        value={query}
+        autoFocus
+        onChange={handleQueryChange}
+        placeholder="キーワード"
+        onKeyDown={handleKeyDown}
+      />
+      {
+        // </Tooltip>
+      }
       <Button variant="outlined" onClick={handleClick}>
         検索
       </Button>
+      {noHit ? (
+        <Alert severity="warning" variant="contained">
+          講義が見つかりませんでした
+        </Alert>
+      ) : null}
     </div>
   );
-};
+});
+
+Search.displayName = "Search";

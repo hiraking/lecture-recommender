@@ -7,12 +7,12 @@ export const useSearch = () => {
   const [lectures, setLectures] = useState([]);
   const [page, setPage] = useState(1);
   const [faculty, setFaculty] = useState(0);
-  const [query, setQuery] = useState("");
+  // const [query, setQuery] = useState("");
   const [queryCache, setQueryCache] = useState("");
-  const [noHit, setNoHit] = useState(false);
+  // const [noHit, setNoHit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetcherButton = useCallback(() => {
+  /* const fetcherButton = useCallback(() => {
     setIsLoading(true);
     setPage(1);
     setQueryCache(query);
@@ -32,7 +32,7 @@ export const useSearch = () => {
         }
         setIsLoading(false);
       });
-  }, [faculty, query]);
+  }, [faculty, query]); */
 
   const fetcherPagination = useCallback(
     (optPage) => {
@@ -61,12 +61,15 @@ export const useSearch = () => {
     page,
     setPage,
     isLoading,
+    setIsLoading,
     faculty,
     setFaculty,
-    query,
-    setQuery,
-    noHit,
-    fetcherButton,
+    // query,
+    // setQuery,
+    // noHit,
+    // fetcherButton,
+    queryCache,
+    setQueryCache,
     fetcherPagination,
   };
 };
