@@ -58,6 +58,7 @@ export const useTastes = () => {
 
   const toggleFavorites = useCallback(
     (id, lecture) => {
+      console.log(favorites, unfavorites);
       handleToggle(
         id,
         lecture,
@@ -71,6 +72,10 @@ export const useTastes = () => {
     },
     [favorites, unfavorites, handleToggle]
   );
+  /* const toggleFavorites = useCallback((id, lecture) => {
+    setFavorites((prev) => [...prev, id]);
+    setFavLectures((prev) => [...prev, lecture]);
+  }, []); */
 
   const toggleUnfavorites = useCallback(
     (id, lecture) => {
@@ -144,6 +149,7 @@ export const useTastes = () => {
     semesters,
     setSemesters,
     favorites,
+    setFavorites,
     unfavorites,
     removeFavorites,
     removeUnfavorites,

@@ -13,7 +13,7 @@ import {
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTastes } from "src/hooks/useTastes";
 
 const LectureAccordion = (props) => {
@@ -72,8 +72,16 @@ const LectureAccordion = (props) => {
 const ThumbIcons = (props) => {
   const id = props.id;
   const lecture = props.lecture;
-  const { toggleFavorites, toggleUnfavorites, favorites, unfavorites } =
-    useTastes();
+  const tastes = useTastes();
+  const {
+    toggleFavorites,
+    toggleUnfavorites,
+    favorites,
+    unfavorites,
+    setFavorites,
+  } = tastes;
+  console.log(favorites, unfavorites);
+
   const tipTexts = useMemo(() => {
     return {
       like: [
@@ -104,8 +112,7 @@ const ThumbIcons = (props) => {
       toggleTip(setTipDislike, tipTexts.dislike);
     }
     toggleFavorites(id, lecture);
-    // setTimeout(() => toggleTip(setTipLike, tipTexts.like), 500);
-    toggleTip(setTipLike, tipTexts.like);
+    setTimeout(() => toggleTip(setTipLike, tipTexts.like), 500);
   }, [
     id,
     toggleFavorites,
@@ -121,8 +128,7 @@ const ThumbIcons = (props) => {
       toggleTip(setTipLike, tipTexts.like);
     }
     toggleUnfavorites(id, lecture);
-    // setTimeout(() => toggleTip(setTipDislike, tipTexts.dislike), 500);
-    toggleTip(setTipDislike, tipTexts.dislike);
+    setTimeout(() => toggleTip(setTipDislike, tipTexts.dislike), 500);
   }, [
     id,
     toggleUnfavorites,
@@ -132,6 +138,7 @@ const ThumbIcons = (props) => {
     unfavorites,
     lecture,
   ]);
+
   return (
     <>
       <Tooltip title={favorites.includes(id) ? tipLike.first : tipLike.second}>
@@ -164,7 +171,7 @@ const ThumbIcons = (props) => {
   );
 };
 
-export const SearchResult = React.memo((props) => {
+export const SearchResult = memo((props) => {
   const lecture = props.lecture;
   const { id, title, lecturer, offered_by, semester, period, goal, plan } =
     lecture;
