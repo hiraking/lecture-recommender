@@ -92,8 +92,14 @@ const Test = () => {
         <Card>
           <CardContent className={openModal ? "disabled_input" : ""}>
             <Typography variant="subtitle1">オプション</Typography>
-            <FacultyOptions tastes={tastes} />
-            <SemesterOptions tastes={tastes} />
+            <FacultyOptions
+              faculties={tastes.faculties}
+              setFaculties={tastes.setFaculties}
+            />
+            <SemesterOptions
+              semesters={tastes.semesters}
+              setSemesters={tastes.setSemesters}
+            />
           </CardContent>
         </Card>
       </div>

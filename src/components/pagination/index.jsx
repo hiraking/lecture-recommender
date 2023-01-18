@@ -1,8 +1,8 @@
 import { Pagination } from "@mui/material";
-import { useCallback } from "react";
+import { memo, useCallback } from "react";
 import { contentsPerPage } from "src/utils/consts";
 
-export const MyPagination = (props) => {
+export const MyPagination = memo((props) => {
   const { page, hits, fetcherPagination } = props;
 
   const handleChange = useCallback(
@@ -21,4 +21,5 @@ export const MyPagination = (props) => {
       />
     </div>
   );
-};
+});
+MyPagination.displayName = "MyPagination";

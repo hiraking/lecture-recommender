@@ -9,12 +9,12 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useCallback } from "react";
+import { memo, useCallback } from "react";
 import { FACULTIES, SEMESTERS } from "src/utils/consts";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-export const FacultyOptions = (props) => {
-  const { faculties, setFaculties } = props.tastes;
+export const FacultyOptions = memo((props) => {
+  const { faculties, setFaculties } = props;
 
   const selectAll = useCallback(() => {
     setFaculties(
@@ -87,10 +87,11 @@ export const FacultyOptions = (props) => {
       </Accordion>
     </div>
   );
-};
+});
+FacultyOptions.displayName = "FacultyOptions";
 
-export const SemesterOptions = (props) => {
-  const { semesters, setSemesters } = props.tastes;
+export const SemesterOptions = memo((props) => {
+  const { semesters, setSemesters } = props;
 
   const selectAll = useCallback(() => {
     setSemesters(
@@ -163,4 +164,5 @@ export const SemesterOptions = (props) => {
       </Accordion>
     </div>
   );
-};
+});
+SemesterOptions.displayName = "SemesterOptions";

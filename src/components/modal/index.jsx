@@ -23,7 +23,7 @@ const Spinner = memo(() => {
 });
 Spinner.displayName = "Spinner";
 
-export const SearchModal = (props) => {
+export const SearchModal = memo((props) => {
   const { openModal, setOpenModal } = props;
   const {
     lectures,
@@ -127,4 +127,5 @@ export const SearchModal = (props) => {
       </Box>
     </Modal>
   );
-};
+});
+SearchModal.displayName = "SearchModal";

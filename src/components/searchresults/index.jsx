@@ -16,7 +16,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTastes } from "src/hooks/useTastes";
 
-const LectureAccordion = (props) => {
+const LectureAccordion = memo((props) => {
   const { goal, plan, page } = props;
   const [showGoal, setShowGoal] = useState(false);
   const [showPlan, setShowPlan] = useState(false);
@@ -67,9 +67,10 @@ const LectureAccordion = (props) => {
       ) : null}
     </div>
   );
-};
+});
+LectureAccordion.displayName = "LectureAccordion";
 
-const ThumbIcons = (props) => {
+const ThumbIcons = memo((props) => {
   const id = props.id;
   const lecture = props.lecture;
   const { toggleFavorites, toggleUnfavorites, favorites, unfavorites } =
@@ -100,6 +101,13 @@ const ThumbIcons = (props) => {
       return tipArray[1];
     });
   }, []);
+
+  // liked, dislikedのstateをこのコンポーネント内で定義する。
+  // するとpropsのfavorites, unfavoritesの代用になる。
+  // この2つはlikedかdislikedのボタンが押されているかを判定するため
+  // だけに使われている(全てincludesとセット)。
+  // propsをtoggleFavoritesとtoggleUnfavoritesだけにできれば、
+  // ボタンを押したときのモーダル全体の再レンダリングは防げるかも。
 
   const handleClickLike = useCallback(() => {
     if (!favorites.includes(id) && unfavorites.includes(id)) {
@@ -163,7 +171,8 @@ const ThumbIcons = (props) => {
       </Tooltip>
     </>
   );
-};
+});
+ThumbIcons.displayName = "ThumbIcons";
 
 export const SearchResult = memo((props) => {
   const lecture = props.lecture;
