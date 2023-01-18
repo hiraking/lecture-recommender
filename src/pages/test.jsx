@@ -16,12 +16,12 @@ import { useTastes } from "src/hooks/useTastes";
 import { FacultyOptions, SemesterOptions } from "src/components/otherOptions";
 
 const Test = () => {
-  const modal = useModal();
   const tastes = useTastes();
   const { fetcher, semesters, faculties, favorites, unfavorites } = tastes;
   const [nosemester, setNosemester] = useState(false);
   const [nofaculty, setNofaculty] = useState(false);
   const [nolecture, setNolecture] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const validateOption = useCallback(() => {
     if (!semesters.length) {
@@ -63,9 +63,9 @@ const Test = () => {
           margin: "100px auto",
         }}
       >
-        <SearchModal modal={modal} />
-        <LectureOptions tastes={tastes} openModal={modal.openModal} />
+        <SearchModal openModal={openModal} setOpenModal={setOpenModal} />
 
+        <LectureOptions tastes={tastes} setOpenModal={setOpenModal} />
         <Box sx={{ height: "auto", backgroundColor: "lightgreen" }}>
           <Button onClick={executeRecommend} variant="contained" size="large">
             おすすめを探す
@@ -87,7 +87,7 @@ const Test = () => {
           ) : null}
         </Box>
         <Card>
-          <CardContent className={modal.modalIsOpen ? "disabled_input" : ""}>
+          <CardContent className={openModal ? "disabled_input" : ""}>
             <Typography variant="subtitle1">オプション</Typography>
             <FacultyOptions tastes={tastes} />
             <SemesterOptions tastes={tastes} />

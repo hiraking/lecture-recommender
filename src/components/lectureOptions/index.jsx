@@ -6,16 +6,22 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useCallback } from "react";
 import { LectureChip } from "src/components/lectureChip";
 
 export const LectureOptions = (props) => {
+  const setOpenModal = props.setOpenModal;
+  const handleOpen = useCallback(() => {
+    setOpenModal(true);
+  }, [setOpenModal]);
+
   const tastes = props.tastes;
   return (
     <Card>
       <CardHeader title={"面白かった・つまらなかった講義を選択"} />
       <CardContent>
         <Button
-          onClick={props.openModal}
+          onClick={handleOpen}
           variant="contained"
           sx={{ marginRight: "20px" }}
         >
