@@ -1,15 +1,14 @@
 import {
   Alert,
   Button,
-  Fade,
+  Collapse,
   FormControl,
   MenuItem,
   Select,
   TextField,
-  Tooltip,
 } from "@mui/material";
 import axios from "axios";
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 import { FACULTIES, URL } from "src/utils/consts";
 
 export const Search = memo((props) => {
@@ -101,13 +100,6 @@ export const Search = memo((props) => {
           })}
         </Select>
       </FormControl>
-      {/* <Tooltip
-title="該当する講義はありません。"
-arrow
-open={noHit}
-TransitionComponent={Fade}
-TransitionProps={{ timeout: 500 }}
-> */}
       <TextField
         ref={inputRef}
         id="search-input"
@@ -119,17 +111,14 @@ TransitionProps={{ timeout: 500 }}
         placeholder="キーワード"
         onKeyDown={handleKeyDown}
       />
-      {
-        // </Tooltip>
-      }
       <Button variant="outlined" onClick={handleClick}>
         検索
       </Button>
-      {noHit ? (
+      <Collapse in={noHit}>
         <Alert severity="warning" variant="contained">
           講義が見つかりませんでした
         </Alert>
-      ) : null}
+      </Collapse>
     </div>
   );
 });

@@ -173,7 +173,22 @@ const ThumbIcons = memo((props) => {
 });
 ThumbIcons.displayName = "ThumbIcons";
 
-export const SearchResult = memo((props) => {
+const SearchHeader = (props) => {
+  const { title, lecturer, id, lecture } = props;
+  return (
+    <CardHeader
+      title={title}
+      subheader={lecturer}
+      action={
+        <>
+          <ThumbIcons id={id} lecture={lecture} />
+        </>
+      }
+    />
+  );
+};
+
+export const SearchedLecture = memo((props) => {
   const lecture = props.lecture;
   const { id, title, lecturer, offered_by, semester, period, goal, plan } =
     lecture;
@@ -181,14 +196,11 @@ export const SearchResult = memo((props) => {
 
   return (
     <Card sx={{ minWidth: 300 }} variant="outlined">
-      <CardHeader
+      <SearchHeader
         title={title}
-        subheader={lecturer}
-        action={
-          <>
-            <ThumbIcons id={id} lecture={lecture} />
-          </>
-        }
+        lecturer={lecturer}
+        id={id}
+        lecture={lecture}
       />
       <CardContent>
         <Chip label={offered_by} />
@@ -200,4 +212,28 @@ export const SearchResult = memo((props) => {
   );
 });
 
-SearchResult.displayName = "SearchResult";
+SearchedLecture.displayName = "SearchedLecture";
+
+const RecommendHeader = (props) => {
+  const { title, lecturer } = props;
+  return <CardHeader title={title} subheader={lecturer} />;
+};
+
+export const RecommendedLecture = (props) => {
+  const lecture = props.lecture;
+  const { id, title, lecturer, offered_by, semester, period, goal, plan } =
+    lecture;
+  const page = props.page;
+
+  return (
+    <Card sx={{ minWidth: 300 }} variant="outlined">
+      <RecommendHeader title={title} lecturer={lecturer} />
+      <CardContent>
+        <Chip label={offered_by} />
+        <Chip label={semester} />
+        <Chip label={period} />
+        <LectureAccordion goal={goal} plan={plan} page={page} />
+      </CardContent>
+    </Card>
+  );
+};
