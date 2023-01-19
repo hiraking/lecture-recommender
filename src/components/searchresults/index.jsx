@@ -21,7 +21,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { ThumbContext } from "src/pages/index";
+import { ThumbContext } from "src/components/main";
 
 const LectureAccordion = memo((props) => {
   const { goal, plan, page } = props;

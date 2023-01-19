@@ -6,16 +6,24 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useCallback } from "react";
+import { memo, useCallback } from "react";
 import { LectureChip } from "src/components/lectureChip";
 
-export const LectureOptions = (props) => {
-  const setOpenModal = props.setOpenModal;
+export const LectureOptions = memo((props) => {
+  const {
+    setOpenModal,
+    favorites,
+    unfavorites,
+    favLectures,
+    unfavLectures,
+    resetTastes,
+    removeFavorites,
+    removeUnfavorites,
+  } = props;
   const handleOpen = useCallback(() => {
     setOpenModal(true);
   }, [setOpenModal]);
 
-  const tastes = props.tastes;
   return (
     <Card>
       <CardHeader title={"面白かった・つまらなかった講義を選択"} />
@@ -27,40 +35,40 @@ export const LectureOptions = (props) => {
         >
           講義を追加する
         </Button>
-        <Button onClick={tastes.resetTastes} variant="contained">
+        <Button onClick={resetTastes} variant="contained">
           リセット
         </Button>
         <Typography variant="subtitle1" sx={{ textAlign: "left" }}>
-          高く評価した講義（{tastes.favorites.length}個）
+          高く評価した講義（{favorites.length}個）
         </Typography>
-        {tastes.favorites.length > 0 ? (
+        {favorites.length > 0 ? (
           <Stack spacing={2}>
-            {tastes.favLectures.map((lecture) => {
+            {favLectures.map((lecture) => {
               return (
                 <LectureChip
                   key={lecture.id}
                   id={lecture.id}
                   title={lecture.title}
                   lecturer={lecture.lecturer}
-                  removeLecture={tastes.removeFavorites}
+                  removeLecture={removeFavorites}
                 />
               );
             })}
           </Stack>
         ) : null}
         <Typography variant="subtitle1" sx={{ textAlign: "left" }}>
-          低く評価した講義（{tastes.unfavorites.length}個）
+          低く評価した講義（{unfavorites.length}個）
         </Typography>
-        {tastes.unfavorites.length > 0 ? (
+        {unfavorites.length > 0 ? (
           <Stack spacing={2}>
-            {tastes.unfavLectures.map((lecture) => {
+            {unfavLectures.map((lecture) => {
               return (
                 <LectureChip
                   key={lecture.id}
                   id={lecture.id}
                   title={lecture.title}
                   lecturer={lecture.lecturer}
-                  removeLecture={tastes.removeUnfavorites}
+                  removeLecture={removeUnfavorites}
                 />
               );
             })}
@@ -69,4 +77,5 @@ export const LectureOptions = (props) => {
       </CardContent>
     </Card>
   );
-};
+});
+LectureOptions.displayName = "LectureOptions";
