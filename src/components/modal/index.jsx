@@ -5,7 +5,6 @@ import { MyPagination } from "src/components/pagination";
 import { Search } from "src/components/search";
 import { SearchResult } from "src/components/searchresults";
 import { useSearch } from "src/hooks/useSearch";
-import { useTastes } from "src/hooks/useTastes";
 
 const Spinner = memo(() => {
   return (
@@ -106,7 +105,6 @@ export const SearchModal = memo((props) => {
                     key={lecture.id}
                     lecture={lecture}
                     page={page}
-                    tastes={props.tastes}
                   />
                 );
               })}

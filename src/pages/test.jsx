@@ -1,26 +1,36 @@
-import {
-  Alert,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Typography,
-} from "@mui/material";
+import { Alert, Button, Card, CardContent, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Head from "next/head";
-import { useCallback, useState } from "react";
+import { createContext, useCallback, useState } from "react";
 import { LectureOptions } from "src/components/lectureOptions";
 import { SearchModal } from "src/components/modal";
 import { useTastes } from "src/hooks/useTastes";
 import { FacultyOptions, SemesterOptions } from "src/components/otherOptions";
 
+export const ThumbContext = createContext();
+
 const Test = () => {
   const tastes = useTastes();
-  const { fetcher, semesters, faculties, favorites, unfavorites } = tastes;
+  const {
+    fetcher,
+    semesters,
+    faculties,
+    favorites,
+    unfavorites,
+    toggleFavorites,
+    toggleUnfavorites,
+  } = tastes;
   const [nosemester, setNosemester] = useState(false);
   const [nofaculty, setNofaculty] = useState(false);
   const [nolecture, setNolecture] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+
+  const tastesForThumb = {
+    favorites,
+    unfavorites,
+    toggleFavorites,
+    toggleUnfavorites,
+  };
 
   const validateOption = useCallback(() => {
     if (!semesters.length) {
@@ -62,12 +72,9 @@ const Test = () => {
           margin: "100px auto",
         }}
       >
-        <SearchModal
-          openModal={openModal}
-          setOpenModal={setOpenModal}
-          tastes={tastes}
-        />
-
+        <ThumbContext.Provider value={tastesForThumb}>
+          <SearchModal openModal={openModal} setOpenModal={setOpenModal} />
+        </ThumbContext.Provider>
         <LectureOptions tastes={tastes} setOpenModal={setOpenModal} />
         <Box sx={{ height: "auto", backgroundColor: "lightgreen" }}>
           <Button onClick={executeRecommend} variant="contained" size="large">

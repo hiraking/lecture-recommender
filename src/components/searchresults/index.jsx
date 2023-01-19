@@ -13,8 +13,15 @@ import {
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { useTastes } from "src/hooks/useTastes";
+import {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { ThumbContext } from "src/pages/test";
 
 const LectureAccordion = memo((props) => {
   const { goal, plan, page } = props;
@@ -73,9 +80,8 @@ LectureAccordion.displayName = "LectureAccordion";
 const ThumbIcons = memo((props) => {
   const id = props.id;
   const lecture = props.lecture;
-  const { toggleFavorites, toggleUnfavorites, favorites, unfavorites } =
-    props.tastes;
-  console.log(favorites, unfavorites);
+  const { favorites, unfavorites, toggleFavorites, toggleUnfavorites } =
+    useContext(ThumbContext);
 
   const tipTexts = useMemo(() => {
     return {
@@ -101,13 +107,6 @@ const ThumbIcons = memo((props) => {
       return tipArray[1];
     });
   }, []);
-
-  // liked, dislikedのstateをこのコンポーネント内で定義する。
-  // するとpropsのfavorites, unfavoritesの代用になる。
-  // この2つはlikedかdislikedのボタンが押されているかを判定するため
-  // だけに使われている(全てincludesとセット)。
-  // propsをtoggleFavoritesとtoggleUnfavoritesだけにできれば、
-  // ボタンを押したときのモーダル全体の再レンダリングは防げるかも。
 
   const handleClickLike = useCallback(() => {
     if (!favorites.includes(id) && unfavorites.includes(id)) {
@@ -187,7 +186,7 @@ export const SearchResult = memo((props) => {
         subheader={lecturer}
         action={
           <>
-            <ThumbIcons id={id} lecture={lecture} tastes={props.tastes} />
+            <ThumbIcons id={id} lecture={lecture} />
           </>
         }
       />
