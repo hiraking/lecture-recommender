@@ -1,26 +1,11 @@
-import { Alert, Button, CircularProgress, Modal } from "@mui/material";
+import { Button, Fade, Modal } from "@mui/material";
 import { Box } from "@mui/system";
-import { memo, useCallback, useEffect, useMemo, useRef } from "react";
+import { memo, useCallback, useEffect, useRef } from "react";
 import { MyPagination } from "src/components/pagination";
 import { Search } from "src/components/search";
-import { SearchResult } from "src/components/searchresults";
+import { SearchedLecture } from "src/components/lectureSummary";
 import { useSearch } from "src/hooks/useSearch";
-
-const Spinner = memo(() => {
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "300px",
-      }}
-    >
-      <CircularProgress />
-    </Box>
-  );
-});
-Spinner.displayName = "Spinner";
+import { Spinner } from "src/utils/common";
 
 export const SearchModal = memo((props) => {
   const { openModal, setOpenModal } = props;
@@ -31,16 +16,11 @@ export const SearchModal = memo((props) => {
     setPage,
     faculty,
     setFaculty,
-    // query,
-    setQuery,
     hits,
     setHits,
-    // noHit,
     isLoading,
     setIsLoading,
-    queryCache,
     setQueryCache,
-    // fetcherButton,
     fetcherPagination,
   } = useSearch();
 
@@ -81,48 +61,50 @@ export const SearchModal = memo((props) => {
 
   return (
     <Modal open={openModal} onClose={handleClose}>
-      <Box sx={modalStyle}>
-        <Box sx={{ position: "relative", minHeight: "100%" }}>
-          <div ref={topRef} style={{ display: "none" }}></div>
+      <Fade in={openModal}>
+        <Box sx={modalStyle}>
+          <Box sx={{ position: "relative", minHeight: "100%" }}>
+            <div ref={topRef} style={{ display: "none" }}></div>
 
-          <Search
-            setIsLoading={setIsLoading}
-            setPage={setPage}
-            setLectures={setLectures}
-            setQueryCache={setQueryCache}
-            faculty={faculty}
-            setFaculty={setFaculty}
-            setHits={setHits}
-          />
+            <Search
+              setIsLoading={setIsLoading}
+              setPage={setPage}
+              setLectures={setLectures}
+              setQueryCache={setQueryCache}
+              faculty={faculty}
+              setFaculty={setFaculty}
+              setHits={setHits}
+            />
 
-          {isLoading ? (
-            <Spinner />
-          ) : lectures.length > 0 ? (
-            <>
-              {lectures.map((lecture) => {
-                return (
-                  <SearchResult
-                    key={lecture.id}
-                    lecture={lecture}
-                    page={page}
-                  />
-                );
-              })}
-              <MyPagination
-                page={page}
-                hits={hits}
-                fetcherPagination={fetcherPagination}
-              />
-            </>
-          ) : null}
-          <Button
-            onClick={handleClose}
-            sx={{ position: "absolute", bottom: "10px", right: "40px" }}
-          >
-            CLOSE
-          </Button>
+            {isLoading ? (
+              <Spinner />
+            ) : lectures.length > 0 ? (
+              <>
+                {lectures.map((lecture) => {
+                  return (
+                    <SearchedLecture
+                      key={lecture.id}
+                      lecture={lecture}
+                      page={page}
+                    />
+                  );
+                })}
+                <MyPagination
+                  page={page}
+                  hits={hits}
+                  fetcherPagination={fetcherPagination}
+                />
+              </>
+            ) : null}
+            <Button
+              onClick={handleClose}
+              sx={{ position: "absolute", bottom: "10px", right: "40px" }}
+            >
+              CLOSE
+            </Button>
+          </Box>
         </Box>
-      </Box>
+      </Fade>
     </Modal>
   );
 });
