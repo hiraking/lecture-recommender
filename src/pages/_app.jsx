@@ -1,7 +1,9 @@
 import Head from "next/head";
+import { useTastes } from "src/hooks/useTastes";
 import "src/styles/globals.css";
 
 const App = ({ Component, pageProps }) => {
+  const tastes = useTastes();
   return (
     <>
       <Head>
@@ -9,7 +11,7 @@ const App = ({ Component, pageProps }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Component {...pageProps} />
+      <Component {...pageProps} tastes={tastes} />
     </>
   );
 };

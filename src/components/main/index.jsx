@@ -1,15 +1,13 @@
-import { Alert, Button, Card, CardContent, Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import { createContext, useCallback, useState } from "react";
+import { Card, CardContent, Typography } from "@mui/material";
+import { createContext, useState } from "react";
 import { LectureOptions } from "src/components/lectureOptions";
 import { SearchModal } from "src/components/modal";
 import { FacultyOptions, SemesterOptions } from "src/components/otherOptions";
 import { RecommendButton } from "src/components/recommendButton";
-import { useTastes } from "src/hooks/useTastes";
 
 export const ThumbContext = createContext();
 
-export const Main = () => {
+export const Main = (props) => {
   const {
     fetcher,
     semesters,
@@ -25,7 +23,7 @@ export const Main = () => {
     removeFavorites,
     removeUnfavorites,
     resetTastes,
-  } = useTastes();
+  } = props.tastes;
 
   const tastesForThumb = {
     favorites,
