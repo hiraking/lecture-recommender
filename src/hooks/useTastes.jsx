@@ -140,6 +140,9 @@ export const useTastes = () => {
             setTimeout(() => setNoHit(false), 3000);
           }
           setIsLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
         });
     },
     [favorites, unfavorites, faculties, semesters]

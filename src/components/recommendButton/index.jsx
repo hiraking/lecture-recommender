@@ -42,8 +42,7 @@ export const RecommendButton = (props) => {
 
   const executeRecommend = useCallback(() => {
     if (validateOption()) {
-      router.push("/result/1");
-      // fetcher(1);
+      router.push({ pathname: "/result", query: { p: 1 } });
     }
   }, [validateOption, router]);
 

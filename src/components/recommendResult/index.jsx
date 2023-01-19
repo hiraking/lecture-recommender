@@ -1,9 +1,19 @@
+import { useRouter } from "next/router";
+import { useCallback } from "react";
 import { RecommendedLecture } from "src/components/lectureSummary";
 import { MyPagination } from "src/components/pagination";
 import { Spinner } from "src/utils/common";
 
 export const RecommendResult = (props) => {
-  const { isLoading, lectures, page, hits, fetcher, noHit } = props;
+  const router = useRouter();
+  const { isLoading, lectures, page, hits, noHit } = props;
+  const handlePageChange = useCallback(
+    (page) => {
+      router.push({ pathname: "/result", query: { p: page } });
+    },
+    [router]
+  );
+
   return (
     <div>
       {isLoading ? (
@@ -19,7 +29,11 @@ export const RecommendResult = (props) => {
               />
             );
           })}
-          <MyPagination page={page} hits={hits} fetcherPagination={fetcher} />
+          <MyPagination
+            page={page}
+            hits={hits}
+            handlePageChange={handlePageChange}
+          />
         </>
       ) : null}
     </div>

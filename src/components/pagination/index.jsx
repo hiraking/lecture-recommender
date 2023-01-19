@@ -3,13 +3,13 @@ import { memo, useCallback } from "react";
 import { contentsPerPage } from "src/utils/consts";
 
 export const MyPagination = memo((props) => {
-  const { page, hits, fetcherPagination } = props;
+  const { page, hits, handlePageChange } = props;
 
   const handleChange = useCallback(
     (_, newPage) => {
-      fetcherPagination(newPage);
+      handlePageChange(newPage);
     },
-    [fetcherPagination]
+    [handlePageChange]
   );
 
   return (

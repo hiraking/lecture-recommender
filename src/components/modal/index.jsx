@@ -92,7 +92,7 @@ export const SearchModal = memo((props) => {
                 <MyPagination
                   page={page}
                   hits={hits}
-                  fetcherPagination={fetcherPagination}
+                  handlePageChange={fetcherPagination}
                 />
               </>
             ) : null}
