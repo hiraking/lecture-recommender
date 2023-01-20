@@ -8,7 +8,7 @@ import { useSearch } from "src/hooks/useSearch";
 import { Spinner } from "src/utils/common";
 
 export const SearchModal = memo((props) => {
-  const { openModal, setOpenModal } = props;
+  const { openModal, setOpenModal, temp } = props;
   const {
     lectures,
     setLectures,
@@ -86,6 +86,7 @@ export const SearchModal = memo((props) => {
                       key={lecture.id}
                       lecture={lecture}
                       page={page}
+                      temp={temp}
                     />
                   );
                 })}

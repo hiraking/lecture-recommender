@@ -22,6 +22,7 @@ import {
   useState,
 } from "react";
 import { ThumbContext } from "src/components/main";
+import { ThumbContextTemp } from "src/pages/result";
 
 const LectureAccordion = memo((props) => {
   const { goal, plan, page } = props;
@@ -77,12 +78,15 @@ const LectureAccordion = memo((props) => {
 });
 LectureAccordion.displayName = "LectureAccordion";
 
-const ThumbIcons = memo((props) => {
-  const id = props.id;
-  const lecture = props.lecture;
-  const { favorites, unfavorites, toggleFavorites, toggleUnfavorites } =
-    useContext(ThumbContext);
-
+const ThumbIconsDetail = (props) => {
+  const {
+    id,
+    lecture,
+    favorites,
+    unfavorites,
+    toggleFavorites,
+    toggleUnfavorites,
+  } = props;
   const tipTexts = useMemo(() => {
     return {
       like: [
@@ -170,18 +174,55 @@ const ThumbIcons = memo((props) => {
       </Tooltip>
     </>
   );
+};
+
+const ThumbIcons = memo((props) => {
+  const { id, lecture } = props;
+  const { favorites, unfavorites, toggleFavorites, toggleUnfavorites } =
+    useContext(ThumbContext);
+  return (
+    <ThumbIconsDetail
+      id={id}
+      lecture={lecture}
+      favorites={favorites}
+      unfavorites={unfavorites}
+      toggleFavorites={toggleFavorites}
+      toggleUnfavorites={toggleUnfavorites}
+    />
+  );
 });
 ThumbIcons.displayName = "ThumbIcons";
 
+const ThumbIconsTemp = memo((props) => {
+  const { id, lecture } = props;
+  const { favTemp, unfavTemp, toggleFavTemp, toggleUnfavTemp } =
+    useContext(ThumbContextTemp);
+  return (
+    <ThumbIconsDetail
+      id={id}
+      lecture={lecture}
+      favorites={favTemp}
+      unfavorites={unfavTemp}
+      toggleFavorites={toggleFavTemp}
+      toggleUnfavorites={toggleUnfavTemp}
+    />
+  );
+});
+ThumbIconsTemp.displayName = "ThumbIconsTemp";
+
 const SearchHeader = (props) => {
-  const { title, lecturer, id, lecture } = props;
+  const { title, lecturer, id, lecture, temp } = props;
   return (
     <CardHeader
       title={title}
       subheader={lecturer}
       action={
         <>
-          <ThumbIcons id={id} lecture={lecture} />
+          {temp ? (
+            <ThumbIconsTemp id={id} lecture={lecture} />
+          ) : (
+            <ThumbIcons id={id} lecture={lecture} />
+          )}
         </>
       }
     />
@@ -189,10 +230,9 @@ const SearchHeader = (props) => {
 };
 
 export const SearchedLecture = memo((props) => {
-  const lecture = props.lecture;
+  const { lecture, page, temp } = props;
   const { id, title, lecturer, offered_by, semester, period, goal, plan } =
     lecture;
-  const page = props.page;
 
   return (
     <Card sx={{ minWidth: 300 }} variant="outlined">
@@ -201,6 +241,7 @@ export const SearchedLecture = memo((props) => {
         lecturer={lecturer}
         id={id}
         lecture={lecture}
+        temp={temp}
       />
       <CardContent>
         <Chip label={offered_by} />

@@ -5,6 +5,7 @@ import { FacultyForm, SemesterForm } from "src/components/otherOptions";
 
 export const SideMenu = (props) => {
   const {
+    setOpenModal,
     favorites,
     unfavorites,
     fetcherUpdate,
@@ -19,6 +20,12 @@ export const SideMenu = (props) => {
   } = props;
 
   const router = useRouter();
+
+  const handleAddLecture = useCallback(
+    () => setOpenModal(true),
+    [setOpenModal]
+  );
+
   const handleClick = useCallback(() => {
     router.push({ pathname: "/result", query: { p: 1 } });
     fetcherUpdate(1);

@@ -21,12 +21,32 @@ export const useTastes = () => {
       datatype: "number",
       fav: true,
       id: id,
+      temp: false,
     });
     favLecturesDispatch({
       type: "toggle",
       datatype: "object",
       fav: true,
       id: id,
+      temp: false,
+      lecture: lecture,
+    });
+  }, []);
+
+  const toggleFavTemp = useCallback((id, lecture) => {
+    favTempDispatch({
+      type: "toggle",
+      datatype: "number",
+      fav: true,
+      id: id,
+      temp: true,
+    });
+    favLecTempDispatch({
+      type: "toggle",
+      datatype: "object",
+      fav: true,
+      id: id,
+      temp: true,
       lecture: lecture,
     });
   }, []);
@@ -37,12 +57,32 @@ export const useTastes = () => {
       datatype: "number",
       fav: false,
       id: id,
+      temp: false,
     });
     unfavLecturesDispatch({
       type: "toggle",
       datatype: "object",
       fav: false,
       id: id,
+      temp: false,
+      lecture: lecture,
+    });
+  }, []);
+
+  const toggleUnfavTemp = useCallback((id, lecture) => {
+    unfavTempDispatch({
+      type: "toggle",
+      datatype: "number",
+      fav: false,
+      id: id,
+      temp: true,
+    });
+    unfavLecTempDispatch({
+      type: "toggle",
+      datatype: "object",
+      fav: false,
+      id: id,
+      temp: true,
       lecture: lecture,
     });
   }, []);
@@ -52,17 +92,32 @@ export const useTastes = () => {
     favLecturesDispatch({ type: "remove", datatype: "object", id: id });
   }, []);
 
+  const removeFavTemp = useCallback((id) => {
+    favTempDispatch({ type: "remove", datatype: "number", id: id });
+    favLecTempDispatch({ type: "remove", datatype: "object", id: id });
+  }, []);
+
   const removeUnfavorites = useCallback((id) => {
     unfavoritesDispatch({ type: "remove", datatype: "number", id: id });
     unfavLecturesDispatch({ type: "remove", datatype: "object", id: id });
   }, []);
 
+  const removeUnfavTemp = useCallback((id) => {
+    unfavTempDispatch({ type: "remove", datatype: "number", id: id });
+    unfavLecTempDispatch({ type: "remove", datatype: "object", id: id });
+  }, []);
+
   const checkTastes = useCallback(
-    (fav, id) => {
-      if (fav) removeUnfavorites(id);
-      else removeFavorites(id);
+    (fav, id, temp) => {
+      if (temp) {
+        if (fav) removeUnfavTemp(id);
+        else removeFavTemp(id);
+      } else {
+        if (fav) removeUnfavorites(id);
+        else removeFavorites(id);
+      }
     },
-    [removeFavorites, removeUnfavorites]
+    [removeFavorites, removeUnfavorites, removeFavTemp, removeUnfavTemp]
   );
 
   const resetTastes = useCallback(() => {
@@ -84,14 +139,14 @@ export const useTastes = () => {
               if (state.some((obj) => obj.id === action.id)) {
                 return state.filter((obj) => obj.id !== action.id);
               }
-              checkTastes(action.fav, action.id);
+              checkTastes(action.fav, action.id, action.temp);
               return [...state, action.lecture];
 
             case "number":
               if (state.includes(action.id)) {
                 return state.filter((i) => i !== action.id);
               }
-              checkTastes(action.fav, action.id);
+              checkTastes(action.fav, action.id, action.temp);
               return [...state, action.id];
           }
 
@@ -120,6 +175,10 @@ export const useTastes = () => {
   const [favLectures, favLecturesDispatch] = useReducer(arrayReducer, []);
   const [unfavorites, unfavoritesDispatch] = useReducer(arrayReducer, []);
   const [unfavLectures, unfavLecturesDispatch] = useReducer(arrayReducer, []);
+  const [favTemp, favTempDispatch] = useReducer(arrayReducer, []);
+  const [favLecTemp, favLecTempDispatch] = useReducer(arrayReducer, []);
+  const [unfavTemp, unfavTempDispatch] = useReducer(arrayReducer, []);
+  const [unfavLecTemp, unfavLecTempDispatch] = useReducer(arrayReducer, []);
 
   const getRecommend = useCallback(
     (favorites, unfavorites, faculties, semesters, page) => {
@@ -168,6 +227,21 @@ export const useTastes = () => {
     [getRecommend, favorites, unfavorites, semestersTemp, facultiesTemp]
   );
 
+  const tmpHooks = {
+    favTemp,
+    unfavTemp,
+    favLecTemp,
+    unfavLecTemp,
+    toggleFavTemp,
+    toggleUnfavTemp,
+    removeFavTemp,
+    removeUnfavTemp,
+    facultiesTemp,
+    setFacultiesTemp,
+    semestersTemp,
+    setSemestersTemp,
+  };
+
   return {
     hits,
     setHits,
@@ -178,12 +252,8 @@ export const useTastes = () => {
     isLoading,
     faculties,
     setFaculties,
-    facultiesTemp,
-    setFacultiesTemp,
     semesters,
     setSemesters,
-    semestersTemp,
-    setSemestersTemp,
     favorites,
     unfavorites,
     removeFavorites,
@@ -195,5 +265,6 @@ export const useTastes = () => {
     fetcherUpdate,
     favLectures,
     unfavLectures,
+    tmpHooks,
   };
 };
