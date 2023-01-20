@@ -165,6 +165,9 @@ export const useTastes = () => {
               return state;
           }
 
+        case "replace":
+          return action.new;
+
         default:
           return state;
       }
@@ -213,18 +216,42 @@ export const useTastes = () => {
     (page) => {
       setSemestersTemp(semesters);
       setFacultiesTemp(faculties);
+      favTempDispatch({ type: "replace", new: favorites });
+      unfavTempDispatch({ type: "replace", new: unfavorites });
+      favLecTempDispatch({ type: "replace", new: favLectures });
+      unfavLecTempDispatch({ type: "replace", new: unfavLectures });
       getRecommend(favorites, unfavorites, faculties, semesters, page);
     },
-    [getRecommend, favorites, unfavorites, faculties, semesters]
+    [
+      getRecommend,
+      favorites,
+      unfavorites,
+      faculties,
+      semesters,
+      favLectures,
+      unfavLectures,
+    ]
   );
 
   const fetcherUpdate = useCallback(
     (page) => {
       setSemesters(semestersTemp);
       setFaculties(facultiesTemp);
-      getRecommend(favorites, unfavorites, facultiesTemp, semestersTemp, page);
+      favoritesDispatch({ type: "replace", new: favTemp });
+      unfavoritesDispatch({ type: "replace", new: unfavTemp });
+      favLecturesDispatch({ type: "replace", new: favLecTemp });
+      unfavLecturesDispatch({ type: "replace", new: unfavLecTemp });
+      getRecommend(favTemp, unfavTemp, facultiesTemp, semestersTemp, page);
     },
-    [getRecommend, favorites, unfavorites, semestersTemp, facultiesTemp]
+    [
+      getRecommend,
+      favTemp,
+      unfavTemp,
+      favLecTemp,
+      unfavLecTemp,
+      semestersTemp,
+      facultiesTemp,
+    ]
   );
 
   const tmpHooks = {

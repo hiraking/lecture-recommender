@@ -1,7 +1,7 @@
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import { SearchModal } from "src/components/modal";
 import { RecommendResult } from "src/components/recommendResult";
 import { SideMenu } from "src/components/sideMenu";
@@ -19,12 +19,6 @@ const Result = (props) => {
     fetcherUpdate,
     pageCache,
     noHit,
-    favorites,
-    unfavorites,
-    faculties,
-    setFaculties,
-    semesters,
-    setSemesters,
   } = props.tastes;
 
   const {
@@ -58,11 +52,18 @@ const Result = (props) => {
     }
   });
 
+  const goIndex = useCallback(() => {
+    router.push({ pathname: "/" });
+  }, [router]);
+
   return (
     <>
       <Head>
         <title>Result</title>
       </Head>
+      <Button variant="contained" onClick={goIndex}>
+        戻る
+      </Button>
       <ThumbContextTemp.Provider value={tastesForThumbTemp}>
         <SearchModal openModal={openModal} setOpenModal={setOpenModal} temp />
       </ThumbContextTemp.Provider>
@@ -89,15 +90,13 @@ const Result = (props) => {
         <Grid item xs={3} sx={{ backgroundColor: "#3f0000" }}>
           <SideMenu
             setOpenModal={setOpenModal}
-            favorites={favorites}
-            unfavorites={unfavorites}
+            favLecTemp={favLecTemp}
+            unfavLecTemp={unfavLecTemp}
+            removeFavTemp={removeFavTemp}
+            removeUnfavTemp={removeUnfavTemp}
             fetcherUpdate={fetcherUpdate}
-            faculties={faculties}
-            setFaculties={setFaculties}
             facultiesTemp={facultiesTemp}
             setFacultiesTemp={setFacultiesTemp}
-            semesters={semesters}
-            setSemesters={setSemesters}
             semestersTemp={semestersTemp}
             setSemestersTemp={setSemestersTemp}
           />
