@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { RecommendResult } from "src/components/recommendResult";
 import { SideMenu } from "src/components/sideMenu";
 
@@ -20,6 +20,8 @@ const Result = (props) => {
     unfavorites,
     faculties,
     setFaculties,
+    facultiesTemp,
+    setFacultiesTemp,
     semesters,
     setSemesters,
     semestersTemp,
@@ -33,7 +35,6 @@ const Result = (props) => {
     }
   });
 
-  console.log(semesters, semestersTemp);
   return (
     <>
       <Head>
@@ -66,6 +67,8 @@ const Result = (props) => {
             fetcherUpdate={fetcherUpdate}
             faculties={faculties}
             setFaculties={setFaculties}
+            facultiesTemp={facultiesTemp}
+            setFacultiesTemp={setFacultiesTemp}
             semesters={semesters}
             setSemesters={setSemesters}
             semestersTemp={semestersTemp}

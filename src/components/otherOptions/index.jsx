@@ -6,12 +6,50 @@ import {
   Checkbox,
   FormControlLabel,
   FormGroup,
-  Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { memo, useCallback } from "react";
 import { FACULTIES, SEMESTERS } from "src/utils/consts";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+export const FacultyForm = (props) => {
+  const { faculties, setFaculties, width } = props;
+  const handleChange = useCallback(
+    (id) => {
+      setFaculties((prevArray) => {
+        if (prevArray.includes(id)) {
+          return prevArray.filter((i) => i !== id);
+        }
+        return [...prevArray, id];
+      });
+    },
+    [setFaculties]
+  );
+  return (
+    <Box>
+      <FormGroup
+        sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
+      >
+        {FACULTIES.slice(1).map((item) => {
+          return (
+            <FormControlLabel
+              key={item.id}
+              control={
+                <Checkbox
+                  value={item.id}
+                  onChange={() => handleChange(item.id)}
+                  checked={faculties.includes(item.id)}
+                />
+              }
+              label={item.name}
+              sx={{ width: width, margin: 0 }}
+            />
+          );
+        })}
+      </FormGroup>
+    </Box>
+  );
+};
 
 export const FacultyOptions = memo((props) => {
   const { faculties, setFaculties } = props;
@@ -27,18 +65,6 @@ export const FacultyOptions = memo((props) => {
   const unselectAll = useCallback(() => {
     setFaculties([]);
   }, [setFaculties]);
-
-  const handleChange = useCallback(
-    (id) => {
-      setFaculties((prevArray) => {
-        if (prevArray.includes(id)) {
-          return prevArray.filter((i) => i !== id);
-        }
-        return [...prevArray, id];
-      });
-    },
-    [setFaculties]
-  );
 
   return (
     <div>
@@ -60,29 +86,11 @@ export const FacultyOptions = memo((props) => {
               全て解除
             </Button>
           </div>
-
-          <Box>
-            <FormGroup
-              sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-            >
-              {FACULTIES.slice(1).map((item) => {
-                return (
-                  <FormControlLabel
-                    key={item.id}
-                    control={
-                      <Checkbox
-                        value={item.id}
-                        onChange={() => handleChange(item.id)}
-                        checked={faculties.includes(item.id)}
-                      />
-                    }
-                    label={item.name}
-                    sx={{ width: "25%", margin: 0 }}
-                  />
-                );
-              })}
-            </FormGroup>
-          </Box>
+          <FacultyForm
+            faculties={faculties}
+            setFaculties={setFaculties}
+            width="25%"
+          />
         </AccordionDetails>
       </Accordion>
     </div>
