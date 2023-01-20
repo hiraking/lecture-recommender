@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
-import { useCallback } from "react";
+import { memo, useCallback, useEffect } from "react";
 import { RecommendedLecture } from "src/components/lectureSummary";
 import { MyPagination } from "src/components/pagination";
 import { Spinner } from "src/utils/common";
 
-export const RecommendResult = (props) => {
+export const RecommendResult = memo((props) => {
   const router = useRouter();
   const { isLoading, lectures, page, hits, noHit } = props;
   const handlePageChange = useCallback(
@@ -38,4 +38,5 @@ export const RecommendResult = (props) => {
       ) : null}
     </div>
   );
-};
+});
+RecommendResult.displayName = "RecommendResult";

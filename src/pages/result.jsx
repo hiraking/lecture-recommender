@@ -7,12 +7,28 @@ import { SideMenu } from "src/components/sideMenu";
 
 const Result = (props) => {
   const router = useRouter();
-  const p = Number(router.query.p);
-  const { isLoading, lectures, hits, fetcher, noHit } = props.tastes;
+  const page = Number(router.query.p);
+  const {
+    isLoading,
+    lectures,
+    hits,
+    fetcher,
+    pageCache,
+    noHit,
+    favorites,
+    unfavorites,
+    faculties,
+    setFaculties,
+    semesters,
+    setSemesters,
+  } = props.tastes;
 
   useEffect(() => {
-    fetcher(p);
-  }, [fetcher, p, hits]);
+    if (page !== pageCache) {
+      console.log("useEffect", pageCache, "->", page);
+      fetcher(page);
+    }
+  });
 
   return (
     <>

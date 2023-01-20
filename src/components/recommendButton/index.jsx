@@ -43,8 +43,9 @@ export const RecommendButton = (props) => {
   const executeRecommend = useCallback(() => {
     if (validateOption()) {
       router.push({ pathname: "/result", query: { p: 1 } });
+      fetcher(1);
     }
-  }, [validateOption, router]);
+  }, [validateOption, router, fetcher]);
 
   return (
     <Box sx={{ height: "auto", backgroundColor: "lightgreen" }}>

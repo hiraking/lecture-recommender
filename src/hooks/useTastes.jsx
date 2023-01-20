@@ -5,7 +5,7 @@ import { useCallback, useReducer, useState } from "react";
 export const useTastes = () => {
   const [hits, setHits] = useState(0);
   const [lectures, setLectures] = useState([]);
-  const [page, setPage] = useState(1);
+  const [pageCache, setPageCache] = useState(1);
   const [faculties, setFaculties] = useState(
     [...Array(10)].map((_, i) => i + 1)
   );
@@ -122,7 +122,7 @@ export const useTastes = () => {
   const fetcher = useCallback(
     (optPage) => {
       setIsLoading(true);
-      setPage(optPage);
+      setPageCache(optPage);
       axios
         .post(URL + "/recommend", {
           favorites: favorites,
@@ -153,8 +153,7 @@ export const useTastes = () => {
     setHits,
     lectures,
     setLectures,
-    page,
-    setPage,
+    pageCache,
     noHit,
     isLoading,
     faculties,
