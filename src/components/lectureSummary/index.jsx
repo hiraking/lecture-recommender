@@ -219,7 +219,7 @@ const RecommendHeader = (props) => {
   return <CardHeader title={title} subheader={lecturer} />;
 };
 
-export const RecommendedLecture = (props) => {
+export const RecommendedLecture = memo((props) => {
   const lecture = props.lecture;
   const { id, title, lecturer, offered_by, semester, period, goal, plan } =
     lecture;
@@ -236,4 +236,5 @@ export const RecommendedLecture = (props) => {
       </CardContent>
     </Card>
   );
-};
+});
+RecommendedLecture.displayName = "RecommendedLecture";

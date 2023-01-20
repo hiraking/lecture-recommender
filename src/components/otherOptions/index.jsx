@@ -90,6 +90,45 @@ export const FacultyOptions = memo((props) => {
 });
 FacultyOptions.displayName = "FacultyOptions";
 
+export const SemesterForm = (props) => {
+  const { semesters, setSemesters, width } = props;
+  const handleChange = useCallback(
+    (id) => {
+      setSemesters((prevArray) => {
+        if (prevArray.includes(id)) {
+          return prevArray.filter((i) => i !== id);
+        }
+        return [...prevArray, id];
+      });
+    },
+    [setSemesters]
+  );
+  return (
+    <Box>
+      <FormGroup
+        sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
+      >
+        {SEMESTERS.map((item) => {
+          return (
+            <FormControlLabel
+              key={item.id}
+              control={
+                <Checkbox
+                  value={item.id}
+                  onChange={() => handleChange(item.id)}
+                  checked={semesters.includes(item.id)}
+                />
+              }
+              label={item.name}
+              sx={{ width: width, margin: 0 }}
+            />
+          );
+        })}
+      </FormGroup>
+    </Box>
+  );
+};
+
 export const SemesterOptions = memo((props) => {
   const { semesters, setSemesters } = props;
 
@@ -104,18 +143,6 @@ export const SemesterOptions = memo((props) => {
   const unselectAll = useCallback(() => {
     setSemesters([]);
   }, [setSemesters]);
-
-  const handleChange = useCallback(
-    (id) => {
-      setSemesters((prevArray) => {
-        if (prevArray.includes(id)) {
-          return prevArray.filter((i) => i !== id);
-        }
-        return [...prevArray, id];
-      });
-    },
-    [setSemesters]
-  );
 
   return (
     <div>
@@ -137,29 +164,11 @@ export const SemesterOptions = memo((props) => {
               全て解除
             </Button>
           </div>
-
-          <Box>
-            <FormGroup
-              sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}
-            >
-              {SEMESTERS.map((item) => {
-                return (
-                  <FormControlLabel
-                    key={item.id}
-                    control={
-                      <Checkbox
-                        value={item.id}
-                        onChange={() => handleChange(item.id)}
-                        checked={semesters.includes(item.id)}
-                      />
-                    }
-                    label={item.name}
-                    sx={{ width: "25%", margin: 0 }}
-                  />
-                );
-              })}
-            </FormGroup>
-          </Box>
+          <SemesterForm
+            semesters={semesters}
+            setSemesters={setSemesters}
+            width="25%"
+          />
         </AccordionDetails>
       </Accordion>
     </div>

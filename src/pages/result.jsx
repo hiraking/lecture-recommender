@@ -13,6 +13,7 @@ const Result = (props) => {
     lectures,
     hits,
     fetcher,
+    fetcherUpdate,
     pageCache,
     noHit,
     favorites,
@@ -21,6 +22,8 @@ const Result = (props) => {
     setFaculties,
     semesters,
     setSemesters,
+    semestersTemp,
+    setSemestersTemp,
   } = props.tastes;
 
   useEffect(() => {
@@ -30,6 +33,7 @@ const Result = (props) => {
     }
   });
 
+  console.log(semesters, semestersTemp);
   return (
     <>
       <Head>
@@ -50,13 +54,23 @@ const Result = (props) => {
           <RecommendResult
             isLoading={isLoading}
             lectures={lectures}
-            page={p}
+            page={page}
             hits={hits}
             noHit={noHit}
           />
         </Grid>
         <Grid item xs={3} sx={{ backgroundColor: "#3f0000" }}>
-          <SideMenu />
+          <SideMenu
+            favorites={favorites}
+            unfavorites={unfavorites}
+            fetcherUpdate={fetcherUpdate}
+            faculties={faculties}
+            setFaculties={setFaculties}
+            semesters={semesters}
+            setSemesters={setSemesters}
+            semestersTemp={semestersTemp}
+            setSemestersTemp={setSemestersTemp}
+          />
         </Grid>
       </Grid>
     </>
