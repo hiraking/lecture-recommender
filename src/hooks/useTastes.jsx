@@ -9,7 +9,9 @@ export const useTastes = () => {
   const [faculties, setFaculties] = useState(
     [...Array(10)].map((_, i) => i + 1)
   );
+  const [facultiesTemp, setFacultiesTemp] = useState([]);
   const [semesters, setSemesters] = useState([...Array(8)].map((_, i) => i));
+  const [semestersTemp, setSemestersTemp] = useState([]);
   const [noHit, setNoHit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -119,17 +121,17 @@ export const useTastes = () => {
   const [unfavorites, unfavoritesDispatch] = useReducer(arrayReducer, []);
   const [unfavLectures, unfavLecturesDispatch] = useReducer(arrayReducer, []);
 
-  const fetcher = useCallback(
-    (optPage) => {
+  const getRecommend = useCallback(
+    (favorites, unfavorites, faculties, semesters, page) => {
       setIsLoading(true);
-      setPageCache(optPage);
+      setPageCache(page);
       axios
         .post(URL + "/recommend", {
           favorites: favorites,
           unfavorites: unfavorites,
           faculty_ids: faculties,
           semester_ids: semesters,
-          page: optPage,
+          page: page,
         })
         .then((res) => {
           console.log(res.data);
@@ -145,7 +147,25 @@ export const useTastes = () => {
           console.log(error);
         });
     },
-    [favorites, unfavorites, faculties, semesters]
+    []
+  );
+
+  const fetcher = useCallback(
+    (page) => {
+      setSemestersTemp(semesters);
+      setFacultiesTemp(faculties);
+      getRecommend(favorites, unfavorites, faculties, semesters, page);
+    },
+    [getRecommend, favorites, unfavorites, faculties, semesters]
+  );
+
+  const fetcherUpdate = useCallback(
+    (page) => {
+      setSemesters(semestersTemp);
+      setFaculties(facultiesTemp);
+      getRecommend(favorites, unfavorites, facultiesTemp, semestersTemp, page);
+    },
+    [getRecommend, favorites, unfavorites, semestersTemp, facultiesTemp]
   );
 
   return {
@@ -158,8 +178,12 @@ export const useTastes = () => {
     isLoading,
     faculties,
     setFaculties,
+    facultiesTemp,
+    setFacultiesTemp,
     semesters,
     setSemesters,
+    semestersTemp,
+    setSemestersTemp,
     favorites,
     unfavorites,
     removeFavorites,
@@ -168,6 +192,7 @@ export const useTastes = () => {
     toggleUnfavorites,
     resetTastes,
     fetcher,
+    fetcherUpdate,
     favLectures,
     unfavLectures,
   };
