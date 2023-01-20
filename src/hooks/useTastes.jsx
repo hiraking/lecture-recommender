@@ -254,6 +254,21 @@ export const useTastes = () => {
     ]
   );
 
+  const fetcherWithQuery = useCallback(
+    (favorites, unfavorites, faculties, semesters, page) => {
+      favoritesDispatch({ type: "replace", new: favorites });
+      unfavoritesDispatch({ type: "replace", new: unfavorites });
+      setSemesters(semesters);
+      setFaculties(faculties);
+      favTempDispatch({ type: "replace", new: favorites });
+      unfavTempDispatch({ type: "replace", new: unfavorites });
+      setSemestersTemp(semesters);
+      setFacultiesTemp(faculties);
+      getRecommend(favorites, unfavorites, faculties, semesters, page);
+    },
+    [getRecommend]
+  );
+
   const tmpHooks = {
     favTemp,
     unfavTemp,
@@ -290,6 +305,7 @@ export const useTastes = () => {
     resetTastes,
     fetcher,
     fetcherUpdate,
+    fetcherWithQuery,
     favLectures,
     unfavLectures,
     tmpHooks,

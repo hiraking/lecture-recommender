@@ -6,12 +6,31 @@ import { Spinner } from "src/utils/common";
 
 export const RecommendResult = memo((props) => {
   const router = useRouter();
-  const { isLoading, lectures, page, hits, noHit } = props;
+  const {
+    isLoading,
+    lectures,
+    page,
+    hits,
+    noHit,
+    favorites,
+    unfavorites,
+    faculties,
+    semesters,
+  } = props;
   const handlePageChange = useCallback(
     (page) => {
-      router.push({ pathname: "/result", query: { p: page } });
+      router.push({
+        pathname: "/result",
+        query: {
+          l: favorites,
+          dl: unfavorites,
+          f: faculties,
+          s: semesters,
+          p: page,
+        },
+      });
     },
-    [router]
+    [router, favorites, unfavorites, faculties, semesters]
   );
 
   return (

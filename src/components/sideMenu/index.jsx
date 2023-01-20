@@ -7,6 +7,8 @@ import { FacultyForm, SemesterForm } from "src/components/otherOptions";
 export const SideMenu = (props) => {
   const {
     setOpenModal,
+    favTemp,
+    unfavTemp,
     favLecTemp,
     unfavLecTemp,
     removeFavTemp,
@@ -26,9 +28,18 @@ export const SideMenu = (props) => {
   );
 
   const handleClick = useCallback(() => {
-    router.push({ pathname: "/result", query: { p: 1 } });
-    fetcherUpdate(1);
-  }, [fetcherUpdate, router]);
+    router.push({
+      pathname: "/result",
+      query: {
+        l: favTemp,
+        dl: unfavTemp,
+        f: facultiesTemp,
+        s: semestersTemp,
+        p: 1,
+      },
+    });
+    // fetcherUpdate(1);
+  }, [router, favTemp, unfavTemp, facultiesTemp, semestersTemp]);
 
   return (
     <div>

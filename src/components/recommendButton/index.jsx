@@ -42,10 +42,27 @@ export const RecommendButton = (props) => {
 
   const executeRecommend = useCallback(() => {
     if (validateOption()) {
-      router.push({ pathname: "/result", query: { p: 1 } });
+      router.push({
+        pathname: "/result",
+        query: {
+          l: favorites,
+          dl: unfavorites,
+          f: faculties,
+          s: semesters,
+          p: 1,
+        },
+      });
       fetcher(1);
     }
-  }, [validateOption, router, fetcher]);
+  }, [
+    validateOption,
+    router,
+    fetcher,
+    favorites,
+    unfavorites,
+    faculties,
+    semesters,
+  ]);
 
   return (
     <Box sx={{ height: "auto", backgroundColor: "lightgreen" }}>

@@ -1,4 +1,5 @@
 import { Button, Grid } from "@mui/material";
+import { isArray, isEqual } from "lodash";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { createContext, useCallback, useEffect, useState } from "react";
@@ -9,17 +10,25 @@ import { SideMenu } from "src/components/sideMenu";
 export const ThumbContextTemp = createContext();
 
 const Result = (props) => {
-  const router = useRouter();
-  const page = Number(router.query.p);
+  const { query, isReady, push } = useRouter();
+  // const page = Number(query.p);
+  const [page, setPage] = useState(1);
   const {
     isLoading,
     lectures,
     hits,
     fetcher,
     fetcherUpdate,
+    fetcherWithQuery,
     pageCache,
     noHit,
+    favorites,
+    unfavorites,
+    faculties,
+    semesters,
   } = props.tastes;
+
+  console.log(query);
 
   const {
     favTemp,
@@ -44,17 +53,43 @@ const Result = (props) => {
   };
 
   const [openModal, setOpenModal] = useState(false);
+  const [queryCache, setQueryCache] = useState(null);
+
+  const preprocess = useCallback((x) => {
+    if (!x) return null;
+    if (isArray(x)) return x.map((i) => Number(i));
+    return [Number(x)];
+  }, []);
 
   useEffect(() => {
-    if (page !== pageCache) {
-      console.log("useEffect", pageCache, "->", page);
-      fetcher(page);
+    if (!isReady) {
+      return;
     }
-  });
+    if (!isEqual(query, queryCache)) {
+      setQueryCache(query);
+      setPage(Number(query.p));
+      fetcherWithQuery(
+        preprocess(query.l),
+        preprocess(query.dl),
+        preprocess(query.f),
+        preprocess(query.s),
+        query.p
+      );
+    }
+  }, [
+    isReady,
+    preprocess,
+    query,
+    queryCache,
+    setQueryCache,
+    setFacultiesTemp,
+    setSemestersTemp,
+    fetcherWithQuery,
+  ]);
 
   const goIndex = useCallback(() => {
-    router.push({ pathname: "/" });
-  }, [router]);
+    push({ pathname: "/" });
+  }, [push]);
 
   return (
     <>
@@ -85,11 +120,17 @@ const Result = (props) => {
             page={page}
             hits={hits}
             noHit={noHit}
+            favorites={favorites}
+            unfavorites={unfavorites}
+            faculties={faculties}
+            semesters={semesters}
           />
         </Grid>
         <Grid item xs={3} sx={{ backgroundColor: "#3f0000" }}>
           <SideMenu
             setOpenModal={setOpenModal}
+            favTemp={favTemp}
+            unfavTemp={unfavTemp}
             favLecTemp={favLecTemp}
             unfavLecTemp={unfavLecTemp}
             removeFavTemp={removeFavTemp}
