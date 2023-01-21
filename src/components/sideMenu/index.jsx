@@ -1,8 +1,9 @@
 import { Button, Card, Chip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
-import { useCallback } from "react";
+import { memo, useCallback, useEffect } from "react";
 import { FacultyForm, SemesterForm } from "src/components/otherOptions";
+import { RecommendButton } from "src/components/recommendButton";
 
 export const SideMenu = (props) => {
   const {
@@ -15,34 +16,14 @@ export const SideMenu = (props) => {
     unfavLecTemp,
     removeFavTemp,
     removeUnfavTemp,
-    fetcherUpdate,
     facultiesTemp,
     setFacultiesTemp,
     semestersTemp,
     setSemestersTemp,
   } = props;
 
-  const router = useRouter();
   const { isReady } = useRouter();
 
-  const handleAddLecture = useCallback(
-    () => setOpenModal(true),
-    [setOpenModal]
-  );
-
-  const handleClick = useCallback(() => {
-    router.push({
-      pathname: "/result",
-      query: {
-        l: favTemp,
-        dl: unfavTemp,
-        f: facultiesTemp,
-        s: semestersTemp,
-        p: 1,
-      },
-    });
-    // fetcherUpdate(1);
-  }, [router, favTemp, unfavTemp, facultiesTemp, semestersTemp]);
   useEffect(() => {
     if (!isReady) {
       return;
@@ -57,55 +38,90 @@ export const SideMenu = (props) => {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleAddLecture}>
-        追加
-      </Button>
-      <Box>
-        <Typography variant="subtitle1">高評価した講義</Typography>
-        {favLecTemp.length > 0
-          ? favLecTemp.map((lecture) => {
-              return (
-                <Chip
-                  key={lecture.id}
-                  label={lecture.title}
-                  onDelete={() => removeFavTemp(lecture.id)}
-                />
-              );
-            })
-          : null}
-        <Typography variant="subtitle1">低評価した講義</Typography>
-        {unfavLecTemp.length > 0
-          ? unfavLecTemp.map((lecture) => {
-              return (
-                <Chip
-                  key={lecture.id}
-                  label={lecture.title}
-                  onDelete={() => removeUnfavTemp(lecture.id)}
-                />
-              );
-            })
-          : null}
-      </Box>
-      <Box>
-        <Typography variant="subtitle1">学部</Typography>
-        <FacultyForm
-          faculties={facultiesTemp}
-          setFaculties={setFacultiesTemp}
-          width="100%"
-        />
-      </Box>
-      <Box>
-        <Typography variant="subtitle1">開講区分</Typography>
-        <SemesterForm
-          semesters={semestersTemp}
-          setSemesters={setSemestersTemp}
-          width="100%"
-        />
-      </Box>
-      <Button variant="contained" onClick={handleClick}>
-        この条件で検索
-      </Button>
-      {/* 学部を選択していない時などのエラー*/}
+      <SideTastes
+        title="高評価した講義"
+        setOpenModal={setOpenModal}
+        lectures={favLecTemp}
+        removeLecture={removeFavTemp}
+      />
+      <SideTastes
+        title="低評価した講義"
+        setOpenModal={setOpenModal}
+        lectures={unfavLecTemp}
+        removeLecture={removeUnfavTemp}
+      />
+      <SideFaculies
+        facultiesTemp={facultiesTemp}
+        setFacultiesTemp={setFacultiesTemp}
+      />
+      <SideSemesters
+        semestersTemp={semestersTemp}
+        setSemestersTemp={setSemestersTemp}
+      />
+      <RecommendButton
+        semesters={semestersTemp}
+        faculties={facultiesTemp}
+        favorites={favTemp}
+        unfavorites={unfavTemp}
+        label="この条件で探す"
+        applyTemp={1}
+      />
     </div>
+  );
+};
+
+const SideTastes = memo((props) => {
+  const { title, setOpenModal, lectures, removeLecture } = props;
+  const handleAdd = useCallback(() => setOpenModal(true), [setOpenModal]);
+  return (
+    <Box>
+      <Typography variant="subtitle1">{title}</Typography>
+      {lectures.length > 0
+        ? lectures.map((lecture) => {
+            return (
+              <Chip
+                key={lecture.id}
+                label={lecture.title}
+                onDelete={() => removeLecture(lecture.id)}
+              />
+            );
+          })
+        : null}
+      <Box>
+        <Button variant="outlined" onClick={handleAdd} size="small">
+          追加
+        </Button>
+      </Box>
+    </Box>
+  );
+});
+SideTastes.displayName = "SideTastes";
+
+const SideFaculies = memo((props) => {
+  const { facultiesTemp, setFacultiesTemp } = props;
+  return (
+    <Box>
+      <Typography variant="subtitle1">学部</Typography>
+      <FacultyForm
+        faculties={facultiesTemp}
+        setFaculties={setFacultiesTemp}
+        width="100%"
+      />
+    </Box>
+  );
+});
+SideFaculies.displayName = "SideFaculies";
+
+const SideSemesters = (props) => {
+  const { semestersTemp, setSemestersTemp } = props;
+  return (
+    <Box>
+      <Typography variant="subtitle1">開講区分</Typography>
+      <SemesterForm
+        semesters={semestersTemp}
+        setSemesters={setSemestersTemp}
+        width="100%"
+      />
+    </Box>
   );
 };

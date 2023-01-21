@@ -12,7 +12,7 @@ import { memo, useCallback } from "react";
 import { FACULTIES, SEMESTERS } from "src/utils/consts";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-export const FacultyForm = (props) => {
+export const FacultyForm = memo((props) => {
   const { faculties, setFaculties, width } = props;
   const handleChange = useCallback(
     (id) => {
@@ -49,7 +49,8 @@ export const FacultyForm = (props) => {
       </FormGroup>
     </Box>
   );
-};
+});
+FacultyForm.displayName = "FacultyForm";
 
 export const FacultyOptions = memo((props) => {
   const { faculties, setFaculties } = props;
@@ -98,7 +99,7 @@ export const FacultyOptions = memo((props) => {
 });
 FacultyOptions.displayName = "FacultyOptions";
 
-export const SemesterForm = (props) => {
+export const SemesterForm = memo((props) => {
   const { semesters, setSemesters, width } = props;
   const handleChange = useCallback(
     (id) => {
@@ -135,7 +136,8 @@ export const SemesterForm = (props) => {
       </FormGroup>
     </Box>
   );
-};
+});
+SemesterForm.displayName = "SemesterForm";
 
 export const SemesterOptions = memo((props) => {
   const { semesters, setSemesters } = props;

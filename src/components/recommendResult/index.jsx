@@ -37,7 +37,7 @@ export const RecommendResult = memo((props) => {
 
   return (
     <div>
-      {isLoading ? (
+      {isLoading || isWaiting ? (
         <Spinner />
       ) : lectures.length > 0 ? (
         <>
