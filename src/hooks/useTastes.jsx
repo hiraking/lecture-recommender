@@ -5,7 +5,6 @@ import { useCallback, useReducer, useState } from "react";
 export const useTastes = () => {
   const [hits, setHits] = useState(0);
   const [lectures, setLectures] = useState([]);
-  const [pageCache, setPageCache] = useState(1);
   const [faculties, setFaculties] = useState(
     [...Array(10)].map((_, i) => i + 1)
   );
@@ -186,7 +185,7 @@ export const useTastes = () => {
   const getRecommend = useCallback(
     (favorites, unfavorites, faculties, semesters, page) => {
       setIsLoading(true);
-      setPageCache(page);
+      setNoHit(false);
       axios
         .post(URL + "/recommend", {
           favorites: favorites,
@@ -201,7 +200,6 @@ export const useTastes = () => {
           setLectures(res.data.lectures);
           if (res.data.hits === 0) {
             setNoHit(true);
-            setTimeout(() => setNoHit(false), 3000);
           }
           setIsLoading(false);
         })
@@ -229,48 +227,6 @@ export const useTastes = () => {
         console.log(error);
       });
   }, []);
-
-  const fetcher = useCallback(
-    (page) => {
-      setSemestersTemp(semesters);
-      setFacultiesTemp(faculties);
-      favTempDispatch({ type: "replace", new: favorites });
-      unfavTempDispatch({ type: "replace", new: unfavorites });
-      favLecTempDispatch({ type: "replace", new: favLectures });
-      unfavLecTempDispatch({ type: "replace", new: unfavLectures });
-      getRecommend(favorites, unfavorites, faculties, semesters, page);
-    },
-    [
-      getRecommend,
-      favorites,
-      unfavorites,
-      faculties,
-      semesters,
-      favLectures,
-      unfavLectures,
-    ]
-  );
-
-  const fetcherUpdate = useCallback(
-    (page) => {
-      setSemesters(semestersTemp);
-      setFaculties(facultiesTemp);
-      favoritesDispatch({ type: "replace", new: favTemp });
-      unfavoritesDispatch({ type: "replace", new: unfavTemp });
-      favLecturesDispatch({ type: "replace", new: favLecTemp });
-      unfavLecturesDispatch({ type: "replace", new: unfavLecTemp });
-      getRecommend(favTemp, unfavTemp, facultiesTemp, semestersTemp, page);
-    },
-    [
-      getRecommend,
-      favTemp,
-      unfavTemp,
-      favLecTemp,
-      unfavLecTemp,
-      semestersTemp,
-      facultiesTemp,
-    ]
-  );
 
   const syncLectures = useCallback(
     (applyTemp) => {
@@ -321,7 +277,6 @@ export const useTastes = () => {
     setHits,
     lectures,
     setLectures,
-    pageCache,
     noHit,
     isLoading,
     faculties,

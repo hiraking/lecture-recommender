@@ -1,4 +1,4 @@
-import { Button, Card, Chip, Tooltip, Typography } from "@mui/material";
+import { Button, Chip, Tooltip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
 import { memo, useCallback, useEffect } from "react";
@@ -103,7 +103,7 @@ SideTastes.displayName = "SideTastes";
 const SideLectureChip = (props) => {
   const { id, title, lecturer, removeLecture } = props;
   return (
-    <Tooltip title={title + "　/　" + lecturer} placement="left" arrow>
+    <Tooltip title={title + " ｜ " + lecturer} placement="left" arrow>
       <Chip
         label={title}
         onDelete={() => removeLecture(id)}

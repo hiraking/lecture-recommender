@@ -1,6 +1,8 @@
 import { Button, Grid } from "@mui/material";
+import { Box } from "@mui/system";
 import { isArray, isEqual } from "lodash";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { createContext, useCallback, useEffect, useState } from "react";
 import { SearchModal } from "src/components/modal";
@@ -10,18 +12,15 @@ import { SideMenu } from "src/components/sideMenu";
 export const ThumbContextTemp = createContext();
 
 const Result = (props) => {
-  const { query, isReady, push } = useRouter();
-  // const page = Number(query.p);
+  const { query, isReady } = useRouter();
   const [page, setPage] = useState(1);
   const [isWaiting, setIsWaiting] = useState(false);
   const {
     isLoading,
     lectures,
     hits,
-    fetcher,
     fetchWithQuery,
     fetchWithID,
-    pageCache,
     noHit,
     favorites,
     unfavorites,
@@ -66,7 +65,6 @@ const Result = (props) => {
       return;
     }
     if (!isEqual(query, queryCache)) {
-      console.log(query, queryCache);
       setQueryCache(query);
       setPage(Number(query.p));
       fetchWithQuery(
@@ -90,63 +88,63 @@ const Result = (props) => {
     fetchWithQuery,
   ]);
 
-  const goIndex = useCallback(() => {
-    push({ pathname: "/" });
-  }, [push]);
-
   return (
     <>
       <Head>
         <title>Result</title>
       </Head>
-      <Button variant="contained" onClick={goIndex}>
-        戻る
-      </Button>
       <ThumbContextTemp.Provider value={tastesForThumbTemp}>
         <SearchModal openModal={openModal} setOpenModal={setOpenModal} temp />
       </ThumbContextTemp.Provider>
-      <Grid
-        container
-        spacing={2}
+      <Box
         sx={{
           width: "60%",
           minWidth: "800px",
           margin: "100px auto",
-          minHeightt: "1000px",
-          backgroundColor: "#113122",
+          minHeight: "1000px",
+          backgroundColor: "#791101",
+          overflowX: "hidden",
         }}
       >
-        <Grid item xs={9} sx={{ backgroundColor: "darkcyan" }}>
-          <RecommendResult
-            isLoading={isLoading}
-            isWaiting={isWaiting}
-            lectures={lectures}
-            page={page}
-            hits={hits}
-            noHit={noHit}
-            favorites={favorites}
-            unfavorites={unfavorites}
-            faculties={faculties}
-            semesters={semesters}
-          />
+        <Box>
+          <h1>おすすめ検索結果</h1>
+        </Box>
+        <Grid container spacing={2}>
+          <Grid item xs={9}>
+            <RecommendResult
+              isLoading={isLoading}
+              isWaiting={isWaiting}
+              lectures={lectures}
+              page={page}
+              hits={hits}
+              noHit={noHit}
+              favorites={favorites}
+              unfavorites={unfavorites}
+              faculties={faculties}
+              semesters={semesters}
+            />
+            <Link href="/" passHref>
+              <Button variant="contained">トップに戻る</Button>
+            </Link>
+          </Grid>
+          <Grid item xs={3}>
+            <SideMenu
+              setOpenModal={setOpenModal}
+              fetchWithID={fetchWithID}
+              favTemp={favTemp}
+              unfavTemp={unfavTemp}
+              favLecTemp={favLecTemp}
+              unfavLecTemp={unfavLecTemp}
+              removeFavTemp={removeFavTemp}
+              removeUnfavTemp={removeUnfavTemp}
+              facultiesTemp={facultiesTemp}
+              setFacultiesTemp={setFacultiesTemp}
+              semestersTemp={semestersTemp}
+              setSemestersTemp={setSemestersTemp}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={3} sx={{ backgroundColor: "ghostwhite" }}>
-          <SideMenu
-            setOpenModal={setOpenModal}
-            fetchWithID={fetchWithID}
-            favTemp={favTemp}
-            unfavTemp={unfavTemp}
-            favLecTemp={favLecTemp}
-            unfavLecTemp={unfavLecTemp}
-            removeFavTemp={removeFavTemp}
-            removeUnfavTemp={removeUnfavTemp}
-            facultiesTemp={facultiesTemp}
-            setFacultiesTemp={setFacultiesTemp}
-            semestersTemp={semestersTemp}
-            setSemestersTemp={setSemestersTemp}
-          />
-        </Grid>
-      </Grid>
+      </Box>
     </>
   );
 };
