@@ -15,6 +15,7 @@ export const RecommendButton = (props) => {
   const [nolecture, setNolecture] = useState(false);
   const [nofaculty, setNofaculty] = useState(false);
   const [nosemester, setNosemester] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const router = useRouter();
 
@@ -36,7 +37,7 @@ export const RecommendButton = (props) => {
       setNosemester(false);
       setNofaculty(false);
       setNolecture(false);
-    }, 3000);
+    }, 3500);
     return flag;
   }, [faculties, semesters, favorites, unfavorites]);
 
@@ -64,13 +65,22 @@ export const RecommendButton = (props) => {
     semesters,
   ]);
 
+  useEffect(() => {
+    if (nofaculty || nolecture || nosemester) {
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 3000);
+    }
+  }, [nofaculty, nolecture, nosemester]);
+
   return (
     <Box sx={{ height: "auto", backgroundColor: "lightgreen" }}>
       <Button onClick={executeRecommend} variant="contained" size="large">
         おすすめを探す
       </Button>
 
-      <Collapse in={nolecture || nofaculty || nosemester}>
+      <Collapse in={showAlert}>
         <Alert
           severity="error"
           variant="outlined"
