@@ -272,8 +272,21 @@ export const useTastes = () => {
     ]
   );
 
-  const fetcherWithQuery = useCallback(
-    (favorites, unfavorites, faculties, semesters, page) => {
+  const syncLectures = useCallback(
+    (applyTemp) => {
+      if (applyTemp) {
+        favLecturesDispatch({ type: "replace", new: favLecTemp });
+        unfavLecturesDispatch({ type: "replace", new: unfavLecTemp });
+      } else {
+        favLecTempDispatch({ type: "replace", new: favLectures });
+        unfavLecTempDispatch({ type: "replace", new: unfavLectures });
+      }
+    },
+    [favLecTemp, unfavLecTemp, favLectures, unfavLectures]
+  );
+
+  const fetchWithQuery = useCallback(
+    (favorites, unfavorites, faculties, semesters, page, applyTemp) => {
       favoritesDispatch({ type: "replace", new: favorites });
       unfavoritesDispatch({ type: "replace", new: unfavorites });
       setSemesters(semesters);
@@ -282,9 +295,10 @@ export const useTastes = () => {
       unfavTempDispatch({ type: "replace", new: unfavorites });
       setSemestersTemp(semesters);
       setFacultiesTemp(faculties);
+      syncLectures(applyTemp);
       getRecommend(favorites, unfavorites, faculties, semesters, page);
     },
-    [getRecommend]
+    [getRecommend, syncLectures]
   );
 
   const tmpHooks = {
@@ -321,9 +335,7 @@ export const useTastes = () => {
     toggleFavorites,
     toggleUnfavorites,
     resetTastes,
-    fetcher,
-    fetcherUpdate,
-    fetcherWithQuery,
+    fetchWithQuery,
     fetchWithID,
     favLectures,
     unfavLectures,

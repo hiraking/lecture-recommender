@@ -9,7 +9,6 @@ export const ThumbContext = createContext();
 
 export const Main = (props) => {
   const {
-    fetcher,
     semesters,
     setSemesters,
     faculties,
@@ -61,7 +60,7 @@ export const Main = (props) => {
         faculties={faculties}
         favorites={favorites}
         unfavorites={unfavorites}
-        fetcher={fetcher}
+        label="おすすめを探す"
       />
       <Card>
         <CardContent className={openModal ? "disabled_input" : ""}>

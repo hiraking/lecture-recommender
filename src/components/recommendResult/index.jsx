@@ -8,6 +8,7 @@ export const RecommendResult = memo((props) => {
   const router = useRouter();
   const {
     isLoading,
+    isWaiting,
     lectures,
     page,
     hits,
@@ -27,6 +28,7 @@ export const RecommendResult = memo((props) => {
           f: faculties,
           s: semesters,
           p: page,
+          at: 0,
         },
       });
     },

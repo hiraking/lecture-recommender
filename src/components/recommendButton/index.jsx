@@ -1,7 +1,7 @@
 import { Alert, Button, Collapse } from "@mui/material";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const messages = [
   "講義を登録してください",
@@ -10,14 +10,15 @@ const messages = [
 ];
 
 export const RecommendButton = (props) => {
-  const { semesters, faculties, favorites, unfavorites, fetcher } = props;
+  const { semesters, faculties, favorites, unfavorites, label, applyTemp } =
+    props;
 
   const [nolecture, setNolecture] = useState(false);
   const [nofaculty, setNofaculty] = useState(false);
   const [nosemester, setNosemester] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-  const router = useRouter();
+  const { push } = useRouter();
 
   const validateOption = useCallback(() => {
     let flag = true;
@@ -43,7 +44,7 @@ export const RecommendButton = (props) => {
 
   const executeRecommend = useCallback(() => {
     if (validateOption()) {
-      router.push({
+      push({
         pathname: "/result",
         query: {
           l: favorites,
@@ -51,18 +52,18 @@ export const RecommendButton = (props) => {
           f: faculties,
           s: semesters,
           p: 1,
+          at: applyTemp,
         },
       });
-      fetcher(1);
     }
   }, [
     validateOption,
-    router,
-    fetcher,
+    push,
     favorites,
     unfavorites,
     faculties,
     semesters,
+    applyTemp,
   ]);
 
   useEffect(() => {
@@ -75,9 +76,9 @@ export const RecommendButton = (props) => {
   }, [nofaculty, nolecture, nosemester]);
 
   return (
-    <Box sx={{ height: "auto", backgroundColor: "lightgreen" }}>
+    <Box>
       <Button onClick={executeRecommend} variant="contained" size="large">
-        おすすめを探す
+        {label}
       </Button>
 
       <Collapse in={showAlert}>

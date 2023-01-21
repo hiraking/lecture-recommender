@@ -13,13 +13,14 @@ const Result = (props) => {
   const { query, isReady, push } = useRouter();
   // const page = Number(query.p);
   const [page, setPage] = useState(1);
+  const [isWaiting, setIsWaiting] = useState(false);
   const {
     isLoading,
     lectures,
     hits,
     fetcher,
-    fetcherUpdate,
-    fetcherWithQuery,
+    fetchWithQuery,
+    fetchWithID,
     pageCache,
     noHit,
     favorites,
@@ -27,8 +28,6 @@ const Result = (props) => {
     faculties,
     semesters,
   } = props.tastes;
-
-  console.log(query);
 
   const {
     favTemp,
@@ -56,26 +55,30 @@ const Result = (props) => {
   const [queryCache, setQueryCache] = useState(null);
 
   const preprocess = useCallback((x) => {
-    if (!x) return null;
+    if (!x) return [];
     if (isArray(x)) return x.map((i) => Number(i));
     return [Number(x)];
   }, []);
 
   useEffect(() => {
     if (!isReady) {
+      setIsWaiting(true);
       return;
     }
     if (!isEqual(query, queryCache)) {
+      console.log(query, queryCache);
       setQueryCache(query);
       setPage(Number(query.p));
-      fetcherWithQuery(
+      fetchWithQuery(
         preprocess(query.l),
         preprocess(query.dl),
         preprocess(query.f),
         preprocess(query.s),
-        query.p
+        query.p,
+        query.at
       );
     }
+    setIsWaiting(false);
   }, [
     isReady,
     preprocess,
@@ -84,7 +87,7 @@ const Result = (props) => {
     setQueryCache,
     setFacultiesTemp,
     setSemestersTemp,
-    fetcherWithQuery,
+    fetchWithQuery,
   ]);
 
   const goIndex = useCallback(() => {
@@ -116,6 +119,7 @@ const Result = (props) => {
         <Grid item xs={9} sx={{ backgroundColor: "darkcyan" }}>
           <RecommendResult
             isLoading={isLoading}
+            isWaiting={isWaiting}
             lectures={lectures}
             page={page}
             hits={hits}
@@ -129,13 +133,14 @@ const Result = (props) => {
         <Grid item xs={3} sx={{ backgroundColor: "#3f0000" }}>
           <SideMenu
             setOpenModal={setOpenModal}
+            isWaiting={isWaiting}
+            fetchWithID={fetchWithID}
             favTemp={favTemp}
             unfavTemp={unfavTemp}
             favLecTemp={favLecTemp}
             unfavLecTemp={unfavLecTemp}
             removeFavTemp={removeFavTemp}
             removeUnfavTemp={removeUnfavTemp}
-            fetcherUpdate={fetcherUpdate}
             facultiesTemp={facultiesTemp}
             setFacultiesTemp={setFacultiesTemp}
             semestersTemp={semestersTemp}
