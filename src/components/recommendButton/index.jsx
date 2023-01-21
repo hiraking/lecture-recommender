@@ -6,12 +6,19 @@ import { useCallback, useEffect, useState } from "react";
 const messages = [
   "講義を登録してください",
   "学部を選択してください",
-  "開講区分を選択してください",
+  "学期を選択してください",
 ];
 
 export const RecommendButton = (props) => {
-  const { semesters, faculties, favorites, unfavorites, label, applyTemp } =
-    props;
+  const {
+    semesters,
+    faculties,
+    favorites,
+    unfavorites,
+    label,
+    applyTemp,
+    isIndex,
+  } = props;
 
   const [nolecture, setNolecture] = useState(false);
   const [nofaculty, setNofaculty] = useState(false);
@@ -21,6 +28,9 @@ export const RecommendButton = (props) => {
   const { push } = useRouter();
 
   const validateOption = useCallback(() => {
+    setNolecture(false);
+    setNofaculty(false);
+    setNosemester(false);
     let flag = true;
     if (!semesters.length) {
       setNosemester(true);
@@ -34,16 +44,12 @@ export const RecommendButton = (props) => {
       setNolecture(true);
       flag = false;
     }
-    setTimeout(() => {
-      setNosemester(false);
-      setNofaculty(false);
-      setNolecture(false);
-    }, 3500);
     return flag;
   }, [faculties, semesters, favorites, unfavorites]);
 
   const executeRecommend = useCallback(() => {
     if (validateOption()) {
+      setShowAlert(false);
       push({
         pathname: "/result",
         query: {
@@ -69,11 +75,17 @@ export const RecommendButton = (props) => {
   useEffect(() => {
     if (nofaculty || nolecture || nosemester) {
       setShowAlert(true);
-      setTimeout(() => {
-        setShowAlert(false);
-      }, 3000);
     }
   }, [nofaculty, nolecture, nosemester]);
+
+  const handleClose = useCallback(() => {
+    setShowAlert(false);
+    setTimeout(() => {
+      setNolecture(false);
+      setNofaculty(false);
+      setNosemester(false);
+    }, 500);
+  }, []);
 
   return (
     <Box>
@@ -82,16 +94,33 @@ export const RecommendButton = (props) => {
       </Button>
 
       <Collapse in={showAlert}>
-        <Alert
-          severity="error"
-          variant="outlined"
-          sx={{ width: "max-content", textAlign: "left", margin: "0 auto" }}
-        >
-          {nolecture ? <p>・{messages[0]}</p> : null}
-          {nofaculty ? <p>・{messages[1]}</p> : null}
-          {nosemester ? <p>・{messages[2]}</p> : null}
-        </Alert>
+        {isIndex ? (
+          <IndexAlert handleClose={handleClose}>
+            {nolecture ? <p>・{messages[0]}</p> : null}
+            {nofaculty ? <p>・{messages[1]}</p> : null}
+            {nosemester ? <p>・{messages[2]}</p> : null}
+          </IndexAlert>
+        ) : (
+          <div style={{ color: "darkred", fontSize: "14px" }}>
+            {nolecture ? <p>・{messages[0]}</p> : null}
+            {nofaculty ? <p>・{messages[1]}</p> : null}
+            {nosemester ? <p>・{messages[2]}</p> : null}
+          </div>
+        )}
       </Collapse>
     </Box>
+  );
+};
+
+const IndexAlert = (props) => {
+  return (
+    <Alert
+      severity="error"
+      variant="outlined"
+      onClose={props.handleClose}
+      sx={{ width: "280px", margin: "0 auto" }}
+    >
+      {props.children}
+    </Alert>
   );
 };

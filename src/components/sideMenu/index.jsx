@@ -116,7 +116,7 @@ const SideSemesters = (props) => {
   const { semestersTemp, setSemestersTemp } = props;
   return (
     <Box>
-      <Typography variant="subtitle1">開講区分</Typography>
+      <Typography variant="subtitle1">学期</Typography>
       <SemesterForm
         semesters={semestersTemp}
         setSemesters={setSemestersTemp}

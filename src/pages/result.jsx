@@ -130,7 +130,7 @@ const Result = (props) => {
             semesters={semesters}
           />
         </Grid>
-        <Grid item xs={3} sx={{ backgroundColor: "#3f0000" }}>
+        <Grid item xs={3} sx={{ backgroundColor: "ghostwhite" }}>
           <SideMenu
             setOpenModal={setOpenModal}
             isWaiting={isWaiting}

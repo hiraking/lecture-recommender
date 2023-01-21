@@ -61,6 +61,7 @@ export const Main = (props) => {
         favorites={favorites}
         unfavorites={unfavorites}
         label="おすすめを探す"
+        isIndex
       />
       <Card>
         <CardContent className={openModal ? "disabled_input" : ""}>

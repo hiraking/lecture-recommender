@@ -158,7 +158,7 @@ export const SemesterOptions = memo((props) => {
     <div>
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          開講区分
+          学期
         </AccordionSummary>
         <AccordionDetails>
           <div>
