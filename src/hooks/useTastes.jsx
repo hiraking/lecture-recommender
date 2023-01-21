@@ -212,6 +212,24 @@ export const useTastes = () => {
     []
   );
 
+  const fetchWithID = useCallback((favorites, unfavorites) => {
+    axios
+      .post(URL + "/get", {
+        favorites: favorites,
+        unfavorites: unfavorites,
+      })
+      .then((res) => {
+        console.log(res.data);
+        favLecturesDispatch({ type: "replace", new: res.data.favorites });
+        unfavLecturesDispatch({ type: "replace", new: res.data.unfavorites });
+        favLecTempDispatch({ type: "replace", new: res.data.favorites });
+        unfavLecTempDispatch({ type: "replace", new: res.data.unfavorites });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   const fetcher = useCallback(
     (page) => {
       setSemestersTemp(semesters);
@@ -306,6 +324,7 @@ export const useTastes = () => {
     fetcher,
     fetcherUpdate,
     fetcherWithQuery,
+    fetchWithID,
     favLectures,
     unfavLectures,
     tmpHooks,

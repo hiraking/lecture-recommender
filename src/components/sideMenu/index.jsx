@@ -7,6 +7,8 @@ import { FacultyForm, SemesterForm } from "src/components/otherOptions";
 export const SideMenu = (props) => {
   const {
     setOpenModal,
+    isWaiting,
+    fetchWithID,
     favTemp,
     unfavTemp,
     favLecTemp,
@@ -21,6 +23,7 @@ export const SideMenu = (props) => {
   } = props;
 
   const router = useRouter();
+  const { isReady } = useRouter();
 
   const handleAddLecture = useCallback(
     () => setOpenModal(true),
@@ -40,6 +43,17 @@ export const SideMenu = (props) => {
     });
     // fetcherUpdate(1);
   }, [router, favTemp, unfavTemp, facultiesTemp, semestersTemp]);
+  useEffect(() => {
+    if (!isReady) {
+      return;
+    }
+    if (
+      favTemp.length !== favLecTemp.length ||
+      unfavTemp.length !== unfavLecTemp.length
+    ) {
+      fetchWithID(favTemp, unfavTemp);
+    }
+  });
 
   return (
     <div>
