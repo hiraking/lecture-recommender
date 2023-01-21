@@ -1,4 +1,4 @@
-import { Button, Card, Chip, Typography } from "@mui/material";
+import { Button, Card, Chip, Tooltip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
 import { memo, useCallback, useEffect } from "react";
@@ -8,7 +8,6 @@ import { RecommendButton } from "src/components/recommendButton";
 export const SideMenu = (props) => {
   const {
     setOpenModal,
-    isWaiting,
     fetchWithID,
     favTemp,
     unfavTemp,
@@ -76,17 +75,21 @@ const SideTastes = memo((props) => {
   return (
     <Box>
       <Typography variant="subtitle1">{title}</Typography>
-      {lectures.length > 0
-        ? lectures.map((lecture) => {
+      {lectures.length > 0 ? (
+        <Box sx={{ width: "90%" }}>
+          {lectures.map((lecture) => {
             return (
-              <Chip
+              <SideLectureChip
                 key={lecture.id}
-                label={lecture.title}
-                onDelete={() => removeLecture(lecture.id)}
+                id={lecture.id}
+                title={lecture.title}
+                lecturer={lecture.lecturer}
+                removeLecture={removeLecture}
               />
             );
-          })
-        : null}
+          })}
+        </Box>
+      ) : null}
       <Box>
         <Button variant="outlined" onClick={handleAdd} size="small">
           追加
@@ -96,6 +99,19 @@ const SideTastes = memo((props) => {
   );
 });
 SideTastes.displayName = "SideTastes";
+
+const SideLectureChip = (props) => {
+  const { id, title, lecturer, removeLecture } = props;
+  return (
+    <Tooltip title={title + "　/　" + lecturer} placement="left" arrow>
+      <Chip
+        label={title}
+        onDelete={() => removeLecture(id)}
+        sx={{ width: "100%", justifyContent: "space-between" }}
+      />
+    </Tooltip>
+  );
+};
 
 const SideFaculies = memo((props) => {
   const { facultiesTemp, setFacultiesTemp } = props;

@@ -133,7 +133,6 @@ const Result = (props) => {
         <Grid item xs={3} sx={{ backgroundColor: "ghostwhite" }}>
           <SideMenu
             setOpenModal={setOpenModal}
-            isWaiting={isWaiting}
             fetchWithID={fetchWithID}
             favTemp={favTemp}
             unfavTemp={unfavTemp}
