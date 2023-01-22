@@ -1,16 +1,12 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-} from "@mui/material";
+import { Button, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import { Box } from "@mui/system";
 import { memo, useCallback } from "react";
 import { FACULTIES, SEMESTERS } from "src/utils/consts";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+const CheckboxColor = {
+  color: "#969696",
+  "&.Mui-checked": { color: "#6cd9e4" },
+};
 
 export const FacultyForm = memo((props) => {
   const { faculties, setFaculties, width } = props;
@@ -39,6 +35,7 @@ export const FacultyForm = memo((props) => {
                   value={item.id}
                   onChange={() => handleChange(item.id)}
                   checked={faculties.includes(item.id)}
+                  sx={CheckboxColor}
                 />
               }
               label={item.name}
@@ -69,31 +66,30 @@ export const FacultyOptions = memo((props) => {
 
   return (
     <div>
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          学部
-        </AccordionSummary>
-        <AccordionDetails>
-          <div>
-            <Button
-              variant="contained"
-              size="small"
-              sx={{ marginRight: "20px" }}
-              onClick={selectAll}
-            >
-              全て選択
-            </Button>
-            <Button variant="contained" size="small" onClick={unselectAll}>
-              全て解除
-            </Button>
-          </div>
-          <FacultyForm
-            faculties={faculties}
-            setFaculties={setFaculties}
-            width="25%"
-          />
-        </AccordionDetails>
-      </Accordion>
+      <div className="option-header">
+        <h2 className="card-subheader">学部</h2>
+        <Button
+          variant="contained"
+          size="small"
+          className="left-btn normal-btn"
+          onClick={selectAll}
+        >
+          全て選択
+        </Button>
+        <Button
+          variant="contained"
+          size="small"
+          onClick={unselectAll}
+          className="normal-btn"
+        >
+          全て解除
+        </Button>
+      </div>
+      <FacultyForm
+        faculties={faculties}
+        setFaculties={setFaculties}
+        width="25%"
+      />
     </div>
   );
 });
@@ -126,6 +122,7 @@ export const SemesterForm = memo((props) => {
                   value={item.id}
                   onChange={() => handleChange(item.id)}
                   checked={semesters.includes(item.id)}
+                  sx={CheckboxColor}
                 />
               }
               label={item.name}
@@ -155,32 +152,31 @@ export const SemesterOptions = memo((props) => {
   }, [setSemesters]);
 
   return (
-    <div>
-      <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          学期
-        </AccordionSummary>
-        <AccordionDetails>
-          <div>
-            <Button
-              variant="contained"
-              size="small"
-              sx={{ marginRight: "20px" }}
-              onClick={selectAll}
-            >
-              全て選択
-            </Button>
-            <Button variant="contained" size="small" onClick={unselectAll}>
-              全て解除
-            </Button>
-          </div>
-          <SemesterForm
-            semesters={semesters}
-            setSemesters={setSemesters}
-            width="25%"
-          />
-        </AccordionDetails>
-      </Accordion>
+    <div className="option">
+      <div className="option-header">
+        <h2 className="card-subheader">学期</h2>
+        <Button
+          variant="contained"
+          size="small"
+          className="left-btn normal-btn"
+          onClick={selectAll}
+        >
+          全て選択
+        </Button>
+        <Button
+          variant="contained"
+          size="small"
+          onClick={unselectAll}
+          className="normal-btn"
+        >
+          全て解除
+        </Button>
+      </div>
+      <SemesterForm
+        semesters={semesters}
+        setSemesters={setSemesters}
+        width="25%"
+      />
     </div>
   );
 });

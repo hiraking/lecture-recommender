@@ -1,11 +1,4 @@
-import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Card, CardContent, Divider, Stack } from "@mui/material";
 import { memo, useCallback } from "react";
 import { LectureChip } from "src/components/lectureChip";
 
@@ -25,24 +18,31 @@ export const LectureOptions = memo((props) => {
   }, [setOpenModal]);
 
   return (
-    <Card>
-      <CardHeader title={"面白かった・つまらなかった講義を選択"} />
+    <Card className="card">
       <CardContent>
-        <Button
-          onClick={handleOpen}
-          variant="contained"
-          sx={{ marginRight: "20px" }}
-        >
-          講義を追加する
-        </Button>
-        <Button onClick={resetTastes} variant="contained">
-          リセット
-        </Button>
-        <Typography variant="subtitle1" sx={{ textAlign: "left" }}>
+        <h1 className="card-header">面白かった・つまらなかった講義を選択</h1>
+        <Divider className="divider-20" />
+        <Box className="card-lecture-btns">
+          <Button
+            onClick={handleOpen}
+            variant="contained"
+            className="normal-btn left-btn"
+          >
+            講義を追加する
+          </Button>
+          <Button
+            onClick={resetTastes}
+            variant="contained"
+            className="normal-btn"
+          >
+            リセット
+          </Button>
+        </Box>
+        <h2 className="card-subheader">
           高く評価した講義（{favorites.length}個）
-        </Typography>
+        </h2>
         {favorites.length > 0 ? (
-          <Stack spacing={2}>
+          <Stack>
             {favLectures.map((lecture) => {
               return (
                 <LectureChip
@@ -56,11 +56,12 @@ export const LectureOptions = memo((props) => {
             })}
           </Stack>
         ) : null}
-        <Typography variant="subtitle1" sx={{ textAlign: "left" }}>
+        <Divider className="divider-20" />
+        <h2 className="card-subheader">
           低く評価した講義（{unfavorites.length}個）
-        </Typography>
+        </h2>
         {unfavorites.length > 0 ? (
-          <Stack spacing={2}>
+          <Stack>
             {unfavLectures.map((lecture) => {
               return (
                 <LectureChip

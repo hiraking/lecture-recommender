@@ -88,8 +88,19 @@ export const RecommendButton = (props) => {
   }, []);
 
   return (
-    <Box>
-      <Button onClick={executeRecommend} variant="contained" size="large">
+    <Box
+      className={
+        isIndex ? "index-recommend-btn-field" : "side-recommend-btn-field"
+      }
+    >
+      <Button
+        onClick={executeRecommend}
+        variant="contained"
+        size="large"
+        className={
+          isIndex ? "bright-btn index-bright-btn" : "bright-btn side-bright-btn"
+        }
+      >
         {label}
       </Button>
 
@@ -118,6 +129,7 @@ const IndexAlert = (props) => {
       severity="error"
       variant="outlined"
       onClose={props.handleClose}
+      className="alert index-alert"
       sx={{ width: "280px", margin: "0 auto" }}
     >
       {props.children}

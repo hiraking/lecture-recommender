@@ -5,12 +5,30 @@
     "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
-  --foreground-rgb: 0, 0, 0;
+  --foreground-rgb: 210, 210, 210;
+  --background-rgb: 10, 25, 30;
+  --header-fg-rgb: 240, 240, 240;
+  --subheader-fg-rgb: 225, 225, 225;
 
   --callout-rgb: 238, 240, 241;
   --callout-border-rgb: 172, 175, 176;
-  --card-rgb: 180, 185, 188;
+
+  --card-bg-rgb: 25, 35, 40;
   --card-border-rgb: 131, 134, 135;
+
+  --chip-bg-rgb: 45, 60, 70;
+  --chip-border-rgb: 110, 110, 110;
+  --chip-delete-btn-rgb: 180, 180, 180;
+
+  --divider-rgb: 80, 80, 80;
+
+  --normal-btn-bg-rgb: 60, 60, 60;
+  --normal-btn-bg-hover-rgb: 85, 85, 85;
+  --bright-btn-bg-rgb: 30, 134, 166;
+  --bright-btn-bg-hover-rgb: 25, 100, 125;
+
+  --error-fg-rgb: 255, 110, 110;
+  --error-border-rgb: 255, 100, 100;
 }
 
 * {
@@ -26,6 +44,8 @@ body {
 
 body {
   color: rgb(var(--foreground-rgb));
+  background-color: rgb(var(--background-rgb));
+  overflow-y: scroll;
 }
 
 a {
@@ -33,6 +53,168 @@ a {
   text-decoration: none;
 }
 
-.disabled_input input {
+.main {
+  min-width: 600px;
+  max-width: 800px;
+  width: 70%;
+  margin: 100px auto;
+}
+.normal-btn {
+  background-color: rgb(var(--normal-btn-bg-rgb));
+  color: rgb(var(--subheader-fg-rgb));
+}
+
+.normal-btn:hover {
+  background-color: rgb(var(--normal-btn-bg-hover-rgb));
+  color: rgb(var(--header-fg-rgb));
+}
+
+.disabled-input input {
   pointer-events: none;
+}
+
+.card-lecture-btns {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.card-header {
+  text-align: center;
+  font-size: 22px;
+  font-weight: normal;
+  color: rgb(var(--header-fg-rgb));
+}
+
+.card-subheader {
+  font-size: 18px;
+  font-weight: normal;
+  color: rgb(var(--subheader-fg-rgb));
+  line-height: 30px;
+  padding-left: 10px;
+  border-left: 3px solid rgb(var(--chip-border-rgb));
+}
+
+.card {
+  background-color: rgb(var(--card-bg-rgb));
+  color: rgb(var(--foreground-rgb));
+  padding: 5px 20px 20px 20px;
+  min-width: 620px;
+}
+
+.option-header {
+  padding: 10px 0;
+}
+
+.option-header h2 {
+  display: inline-block;
+  margin-right: 50px;
+}
+
+.option-header > button {
+  height: 30px;
+}
+
+.left-btn {
+  margin-right: 20px;
+}
+
+.lecture-chip {
+  display: flex;
+  background-color: rgb(var(--chip-bg-rgb));
+  border: 1px solid rgb(var(--chip-border-rgb));
+  width: 80%;
+  min-width: 480px;
+  margin: 5px auto;
+  padding-left: 20px;
+  padding-right: 5px;
+  border-radius: 20px;
+}
+
+.lecture-chip-container {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.lecture-chip-title {
+  border-right: 1px solid rgb(var(--chip-border-rgb));
+  padding: 0 10px;
+}
+
+.lecture-chip-title-text {
+  line-height: 40px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.lecture-chip-lecturer {
+  padding-left: 10px;
+  padding-right: 5px;
+}
+
+.lecture-chip-delete {
+  width: 50px;
+}
+
+.lecture-chip-delete > button:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+}
+
+.lecture-chip-delete-btn {
+  color: rgb(var(--chip-delete-btn-rgb));
+}
+
+.lecture-chip-delete-btn:hover {
+  color: rgb(var(--subheader-fg-rgb));
+}
+
+.divider-10 {
+  margin: 10px 0px;
+  border-color: rgb(var(--divider-rgb));
+}
+
+.divider-20 {
+  margin: 20px 0px;
+  border-color: rgb(var(--divider-rgb));
+}
+
+.index-recommend-btn-field {
+  text-align: center;
+  margin: 20px auto;
+}
+
+.alert {
+  color: rgb(var(--error-fg-rgb));
+  border-color: rgb(var(--error-border-rgb));
+}
+
+.index-alert {
+  margin-top: 20px;
+  width: 280px;
+}
+
+.MuiAlert-icon > svg {
+  color: rgb(var(--error-fg-rgb));
+}
+
+.MuiAlert-icon {
+  margin-right: 14px;
+}
+
+.bright-btn {
+  background-color: rgb(var(--bright-btn-bg-rgb));
+  color: rgb(var(--header-fg-rgb));
+}
+
+.bright-btn:hover {
+  background-color: rgb(var(--bright-btn-bg-hover-rgb));
+}
+
+.index-bright-btn {
+  width: 50%;
+  min-width: 350px;
+  padding: 10px 0;
+  margin: 20px 0;
+  border-radius: 6px;
 }

@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, Divider, Typography } from "@mui/material";
 import { createContext, useState } from "react";
 import { LectureOptions } from "src/components/lectureOptions";
 import { SearchModal } from "src/components/modal";
@@ -34,14 +34,7 @@ export const Main = (props) => {
   const [openModal, setOpenModal] = useState(false);
 
   return (
-    <div
-      style={{
-        height: "1000px",
-        textAlign: "center",
-        width: "60%",
-        margin: "100px auto",
-      }}
-    >
+    <div className="main">
       <ThumbContext.Provider value={tastesForThumb}>
         <SearchModal openModal={openModal} setOpenModal={setOpenModal} />
       </ThumbContext.Provider>
@@ -63,10 +56,12 @@ export const Main = (props) => {
         label="おすすめを探す"
         isIndex
       />
-      <Card>
-        <CardContent className={openModal ? "disabled_input" : ""}>
-          <Typography variant="subtitle1">オプション</Typography>
+      <Card className="card">
+        <CardContent className={openModal ? "disabled-input" : ""}>
+          <h1 className="card-header">オプション</h1>
+          <Divider className="divider-20" />
           <FacultyOptions faculties={faculties} setFaculties={setFaculties} />
+          <Divider className="divider-20" />
           <SemesterOptions semesters={semesters} setSemesters={setSemesters} />
         </CardContent>
       </Card>
