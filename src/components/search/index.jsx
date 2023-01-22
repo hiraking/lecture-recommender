@@ -91,37 +91,39 @@ export const Search = memo((props) => {
   }, []);
 
   return (
-    <div className="search-window">
-      <FormControl size="small">
-        <Select
-          value={faculty}
-          onChange={handleFaculty}
-          className="faculty-select normal-btn"
-        >
-          {FACULTIES.map((fac) => {
-            return (
-              <MenuItem key={fac.id} value={fac.id}>
-                {fac.name}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
-      <TextField
-        ref={inputRef}
-        className="search-input"
-        variant="outlined"
-        size="small"
-        value={query}
-        autoFocus
-        onChange={handleQueryChange}
-        placeholder="キーワード"
-        onKeyDown={handleKeyDown}
-        sx={{ borderRadius: "0px" }}
-      />
-      <Button className="normal-btn search-btn" onClick={handleClick}>
-        検索
-      </Button>
+    <>
+      <div className="search-window">
+        <FormControl size="small">
+          <Select
+            value={faculty}
+            onChange={handleFaculty}
+            className="faculty-select normal-btn"
+          >
+            {FACULTIES.map((fac) => {
+              return (
+                <MenuItem key={fac.id} value={fac.id}>
+                  {fac.name}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+        <TextField
+          ref={inputRef}
+          className="search-input"
+          variant="outlined"
+          size="small"
+          value={query}
+          autoFocus
+          onChange={handleQueryChange}
+          placeholder="キーワード"
+          onKeyDown={handleKeyDown}
+          sx={{ borderRadius: "0px" }}
+        />
+        <Button className="normal-btn search-btn" onClick={handleClick}>
+          検索
+        </Button>
+      </div>
       <Collapse in={noHit}>
         <Alert
           severity="warning"
@@ -132,7 +134,7 @@ export const Search = memo((props) => {
           講義が見つかりませんでした
         </Alert>
       </Collapse>
-    </div>
+    </>
   );
 });
 

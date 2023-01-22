@@ -8,7 +8,6 @@ import {
   Chip,
   IconButton,
   Tooltip,
-  Typography,
 } from "@mui/material";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
@@ -154,8 +153,8 @@ const ThumbIconsDetail = (props) => {
           onClick={handleClickLike}
           className={
             favorites.includes(id)
-              ? "thumb-icon thumb-up-icon thumb-up-selected"
-              : "thumb-icon thumb-up-icon thumb-icon-unselected"
+              ? "thumb-icon thumb-up-selected"
+              : "thumb-icon thumb-icon-unselected"
           }
         >
           <ThumbUpIcon />
@@ -278,7 +277,13 @@ SearchedLecture.displayName = "SearchedLecture";
 
 const RecommendHeader = (props) => {
   const { title, lecturer } = props;
-  return <CardHeader title={title} subheader={lecturer} />;
+  return (
+    <CardHeader
+      title={title}
+      subheader={lecturer}
+      className="lecture-card-header"
+    />
+  );
 };
 
 export const RecommendedLecture = memo((props) => {
@@ -288,7 +293,7 @@ export const RecommendedLecture = memo((props) => {
   const page = props.page;
 
   return (
-    <Card sx={{ minWidth: 300 }} variant="outlined">
+    <Card variant="outlined" className="lecture-card recommend-lecture-card">
       <RecommendHeader title={title} lecturer={lecturer} />
       <LectureCardContent
         offered_by={offered_by}

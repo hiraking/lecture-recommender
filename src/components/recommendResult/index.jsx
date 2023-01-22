@@ -67,7 +67,11 @@ RecommendResult.displayName = "RecommendResult";
 
 const NoHitAlert = () => {
   return (
-    <Alert severity="warning" variant="outlined">
+    <Alert
+      severity="warning"
+      variant="outlined"
+      className="nohit-alert recommend-nohit-alert"
+    >
       条件に合う講義は見つかりませんでした。
     </Alert>
   );

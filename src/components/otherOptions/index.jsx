@@ -5,11 +5,11 @@ import { FACULTIES, SEMESTERS } from "src/utils/consts";
 
 const CheckboxColor = {
   color: "#969696",
-  "&.Mui-checked": { color: "#6cd9e4" },
+  "&.Mui-checked": { color: "#77bbc2" },
 };
 
 export const FacultyForm = memo((props) => {
-  const { faculties, setFaculties, width } = props;
+  const { faculties, setFaculties, side } = props;
   const handleChange = useCallback(
     (id) => {
       setFaculties((prevArray) => {
@@ -36,10 +36,11 @@ export const FacultyForm = memo((props) => {
                   onChange={() => handleChange(item.id)}
                   checked={faculties.includes(item.id)}
                   sx={CheckboxColor}
+                  className="inner-checkbox"
                 />
               }
               label={item.name}
-              sx={{ width: width, margin: 0 }}
+              className={side ? "side-checkbox" : "index-checkbox"}
             />
           );
         })}
@@ -85,18 +86,14 @@ export const FacultyOptions = memo((props) => {
           全て解除
         </Button>
       </div>
-      <FacultyForm
-        faculties={faculties}
-        setFaculties={setFaculties}
-        width="25%"
-      />
+      <FacultyForm faculties={faculties} setFaculties={setFaculties} />
     </div>
   );
 });
 FacultyOptions.displayName = "FacultyOptions";
 
 export const SemesterForm = memo((props) => {
-  const { semesters, setSemesters, width } = props;
+  const { semesters, setSemesters, side } = props;
   const handleChange = useCallback(
     (id) => {
       setSemesters((prevArray) => {
@@ -126,7 +123,7 @@ export const SemesterForm = memo((props) => {
                 />
               }
               label={item.name}
-              sx={{ width: width, margin: 0 }}
+              className={side ? "side-checkbox" : "index-checkbox"}
             />
           );
         })}
@@ -172,11 +169,7 @@ export const SemesterOptions = memo((props) => {
           全て解除
         </Button>
       </div>
-      <SemesterForm
-        semesters={semesters}
-        setSemesters={setSemesters}
-        width="25%"
-      />
+      <SemesterForm semesters={semesters} setSemesters={setSemesters} />
     </div>
   );
 });

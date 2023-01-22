@@ -1,8 +1,6 @@
-import { Button, Grid } from "@mui/material";
-import { Box } from "@mui/system";
+import { Divider, Grid } from "@mui/material";
 import { isArray, isEqual } from "lodash";
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { createContext, useCallback, useEffect, useState } from "react";
 import { SearchModal } from "src/components/modal";
@@ -96,36 +94,25 @@ const Result = (props) => {
       <ThumbContextTemp.Provider value={tastesForThumbTemp}>
         <SearchModal openModal={openModal} setOpenModal={setOpenModal} temp />
       </ThumbContextTemp.Provider>
-      <Box
-        sx={{
-          width: "60%",
-          minWidth: "800px",
-          margin: "100px auto",
-          minHeight: "1000px",
-          backgroundColor: "#791101",
-          overflowX: "hidden",
-        }}
-      >
-        <Box>
-          <h1>おすすめ検索結果</h1>
-        </Box>
+      <div className="result-body">
         <Grid container spacing={2}>
           <Grid item xs={9}>
-            <RecommendResult
-              isLoading={isLoading}
-              isWaiting={isWaiting}
-              lectures={lectures}
-              page={page}
-              hits={hits}
-              noHit={noHit}
-              favorites={favorites}
-              unfavorites={unfavorites}
-              faculties={faculties}
-              semesters={semesters}
-            />
-            <Link href="/" passHref>
-              <Button variant="contained">トップに戻る</Button>
-            </Link>
+            <div className="result-main">
+              <h1 className="result-header">おすすめ検索結果</h1>
+              <Divider className="divider-10" />
+              <RecommendResult
+                isLoading={isLoading}
+                isWaiting={isWaiting}
+                lectures={lectures}
+                page={page}
+                hits={hits}
+                noHit={noHit}
+                favorites={favorites}
+                unfavorites={unfavorites}
+                faculties={faculties}
+                semesters={semesters}
+              />
+            </div>
           </Grid>
           <Grid item xs={3}>
             <SideMenu
@@ -144,7 +131,7 @@ const Result = (props) => {
             />
           </Grid>
         </Grid>
-      </Box>
+      </div>
     </>
   );
 };

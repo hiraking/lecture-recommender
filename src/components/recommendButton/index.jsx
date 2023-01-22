@@ -112,7 +112,7 @@ export const RecommendButton = (props) => {
             {nosemester ? <p>・{messages[2]}</p> : null}
           </IndexAlert>
         ) : (
-          <div style={{ color: "darkred", fontSize: "14px" }}>
+          <div className="side-alert">
             {nolecture ? <p>・{messages[0]}</p> : null}
             {nofaculty ? <p>・{messages[1]}</p> : null}
             {nosemester ? <p>・{messages[2]}</p> : null}

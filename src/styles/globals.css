@@ -6,7 +6,7 @@
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
   --foreground-rgb: 200, 200, 200;
-  --background-rgb: 10, 25, 30;
+  --background-rgb: 20, 30, 40;
   --header-fg-rgb: 240, 240, 240;
   --subheader-fg-rgb: 220, 220, 220;
   --pagination-selected-rgb: 180, 180, 180;
@@ -15,7 +15,7 @@
   --callout-rgb: 238, 240, 241;
   --callout-border-rgb: 172, 175, 176;
 
-  --card-bg-rgb: 25, 35, 40;
+  --card-bg-rgb: 30, 40, 70;
   --card-border-rgb: 131, 134, 135;
 
   --chip-bg-rgb: 45, 60, 70;
@@ -27,10 +27,10 @@
 
   --normal-btn-bg-rgb: 60, 60, 60;
   --normal-btn-bg-hover-rgb: 85, 85, 85;
-  --bright-btn-bg-rgb: 30, 134, 166;
-  --bright-btn-bg-hover-rgb: 25, 100, 125;
+  --bright-btn-bg-rgb: 40, 90, 130;
+  --bright-btn-bg-hover-rgb: 55, 105, 155;
 
-  --error-fg-rgb: 255, 110, 110;
+  --error-fg-rgb: 215, 100, 100;
   --error-border-rgb: 255, 100, 100;
   --alert-fg-rgb: 255, 208, 81;
   --alert-border-rgb: 255, 198, 44;
@@ -39,8 +39,8 @@
   --select-item-bg-hover-rgba: 255, 255, 255, 0.1;
   --select-item-bg-selected-rgba: 79, 136, 212, 0.27;
 
-  --accordion-summary-bg-rgb: 50, 70, 100;
-  --accordion-details-bg-rgb: 60, 90, 120;
+  --accordion-summary-bg-rgb: 40, 50, 80;
+  --accordion-details-bg-rgb: 50, 60, 85;
 
   --liked-icon-rgb: 255, 85, 125;
   --disliked-icon-rgb: 40, 230, 255;
@@ -74,14 +74,36 @@ a {
   width: 70%;
   margin: 100px auto;
 }
+
+.result-body {
+  width: 800px;
+  margin: 100px auto;
+  min-height: 500px;
+  overflow-x: hidden;
+}
+
+.result-main {
+  margin-right: 15px;
+  margin-left: 10px;
+}
+
+.result-header {
+  font-size: 28px;
+  color: rgb(var(--subheader-fg-rgb));
+  font-weight: normal;
+  text-align: center;
+}
+
 .normal-btn {
   background-color: rgb(var(--normal-btn-bg-rgb));
   color: rgb(var(--subheader-fg-rgb));
+  border: none;
 }
 
 .normal-btn:hover {
   background-color: rgb(var(--normal-btn-bg-hover-rgb));
   color: rgb(var(--header-fg-rgb));
+  border: none;
 }
 
 .disabled-input input {
@@ -110,12 +132,18 @@ a {
 }
 
 .card {
-  background-color: rgb(var(--card-bg-rgb));
+  /* background-color: rgb(var(--card-bg-rgb)); */
+  background-color: transparent;
+  box-shadow: none;
   color: rgb(var(--foreground-rgb));
 }
 
+h1.index-header {
+  font-size: 24px;
+}
+
 .index-card {
-  padding: 5px 20px 20px 20px;
+  padding: 5px 20px 0px 20px;
   min-width: 620px;
 }
 
@@ -138,7 +166,7 @@ a {
 
 .lecture-chip {
   display: flex;
-  background-color: rgb(var(--chip-bg-rgb));
+  background-color: rgb(var(--accordion-summary-bg-rgb));
   border: 1px solid rgb(var(--chip-border-rgb));
   width: 80%;
   min-width: 480px;
@@ -231,6 +259,7 @@ a {
 
 .bright-btn:hover {
   background-color: rgb(var(--bright-btn-bg-hover-rgb));
+  color: white;
 }
 
 .index-bright-btn {
@@ -239,6 +268,27 @@ a {
   padding: 10px 0;
   margin: 20px 0;
   border-radius: 6px;
+}
+
+.index-checkbox {
+  width: 25%;
+  margin: 0;
+}
+
+.side-checkbox {
+  width: 100%;
+  margin: 0;
+  height: 38px;
+}
+
+.side-checkbox svg {
+  width: 23px;
+  height: 23px;
+}
+
+.side-checkbox > span {
+  font-size: 15px;
+  line-height: 40px;
 }
 
 .modal {
@@ -251,8 +301,8 @@ a {
   max-width: 800px;
   height: 80%;
   padding: 30px;
-  background-color: rgb(var(--card-bg-rgb));
-  border: 2px solid rgb(var(--foreground-rgb));
+  background-color: rgb(var(--background-rgb));
+  border: 2px solid rgb(var(--chip-border-rgb));
   overflow-y: auto;
 }
 
@@ -276,7 +326,10 @@ a {
 }
 
 .search-window {
-  text-align: center;
+  width: max-content;
+  margin: 0 auto;
+  border: 2px solid rgb(var(--chip-border-rgb));
+  border-radius: 12px;
 }
 
 .faculty-select {
@@ -348,9 +401,9 @@ ul.MuiMenu-list > li:hover {
 }
 
 .lecture-card {
-  background-color: rgb(var(--chip-bg-rgb));
+  background-color: rgb(var(--card-bg-rgb));
   margin: 10px 0;
-  box-shadow: 2px 2px 10px;
+  box-shadow: 0px 0px 6px;
 }
 
 .lecture-card-header .MuiCardHeader-title {
@@ -384,6 +437,10 @@ ul.MuiMenu-list > li:hover {
   background-color: rgb(var(--accordion-summary-bg-rgb));
 }
 
+.lecture-accordion-summary svg {
+  color: rgb(var(--foreground-rgb));
+}
+
 .lecture-accordion-header {
   color: rgb(var(--subheader-fg-rgb));
 }
@@ -395,13 +452,11 @@ ul.MuiMenu-list > li:hover {
 .lecture-accordion-text {
   white-space: pre-line;
   color: rgb(var(--foreground-rgb));
+  font-size: 15px;
 }
 
 .thumb-icon {
   transform: scale(1.2);
-}
-
-.thumb-up-icon {
   margin-right: 5px;
 }
 
@@ -411,10 +466,12 @@ ul.MuiMenu-list > li:hover {
 
 .thumb-up-selected {
   color: rgb(var(--liked-icon-rgb));
+  background-color: rgba(var(--chip-delete-btn-hover-rgba));
 }
 
 .thumb-down-selected {
   color: rgb(var(--disliked-icon-rgb));
+  background-color: rgba(var(--chip-delete-btn-hover-rgba));
 }
 
 .pagination {
@@ -448,4 +505,82 @@ ul.MuiMenu-list > li:hover {
 
 .nohit-alert .MuiAlert-icon > svg {
   color: rgb(var(--alert-fg-rgb));
+}
+
+.side-menu {
+  padding-top: 73px;
+}
+
+.side-header {
+  color: rgb(var(--header-fg-rgb));
+  font-weight: normal;
+  font-size: 18px;
+  padding-left: 50px;
+}
+
+.side-subheader {
+  color: rgb(var(--subheader-fg-rgb));
+  padding-left: 10px;
+  border-left: 3px solid rgb(var(--chip-border-rgb));
+  font-weight: normal;
+}
+
+.side-lecture-chip {
+  width: 100%;
+  justify-content: space-between;
+  background-color: rgb(var(--accordion-summary-bg-rgb));
+  border: 1px solid rgb(var(--chip-border-rgb));
+  color: rgb(var(--foreground-rgb));
+  margin: 4px 0px;
+}
+
+.side-lecture-chip:first-child {
+  margin-top: 8px;
+}
+
+.side-lecture-chip:last-child {
+  margin-bottom: 0px;
+}
+
+.side-lecture-chip > svg.MuiChip-deleteIcon {
+  color: rgb(var(--pagination-rgb));
+}
+
+.side-lecture-chip > svg.MuiChip-deleteIcon:hover {
+  color: rgb(var(--foreground-rgb));
+  transform: scale(1.05);
+}
+
+.side-lecture-chip-wrapper {
+  width: 90%;
+  padding-left: 2px;
+}
+
+.side-open-modal {
+  padding-left: 15px;
+  padding-top: 10px;
+}
+
+.recommend-lecture-card {
+  margin: 20px 0px;
+}
+
+.recommend-nohit-alert {
+  margin-top: 20px;
+}
+
+.side-alert {
+  margin-top: 10px;
+  margin-left: -5px;
+  color: rgb(var(--error-fg-rgb));
+  font-size: 14px;
+}
+
+.go-top-btn {
+  color: rgb(var(--pagination-rgb));
+  padding: 0px;
+}
+
+.go-top-btn:hover {
+  color: rgb(var(--pagination-selected-rgb));
 }

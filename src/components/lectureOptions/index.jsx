@@ -20,7 +20,9 @@ export const LectureOptions = memo((props) => {
   return (
     <Card className="card index-card">
       <CardContent>
-        <h1 className="card-header">面白かった・つまらなかった講義を選択</h1>
+        <h1 className="card-header index-header">
+          面白かった・つまらなかった講義を登録
+        </h1>
         <Divider className="divider-20" />
         <Box className="card-lecture-btns">
           <Button
