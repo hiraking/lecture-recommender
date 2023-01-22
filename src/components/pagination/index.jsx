@@ -13,7 +13,7 @@ export const MyPagination = memo((props) => {
   );
 
   return (
-    <div>
+    <div className="pagination">
       <Pagination
         count={Math.ceil(hits / contentsPerPage)}
         page={page}

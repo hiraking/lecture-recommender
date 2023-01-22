@@ -88,9 +88,13 @@ export const Search = memo((props) => {
   );
 
   return (
-    <div>
-      <FormControl sx={{ minWidth: 120, margin: 0 }} size="small">
-        <Select value={faculty} onChange={handleFaculty} id="faculty-select">
+    <div className="search-window">
+      <FormControl size="small">
+        <Select
+          value={faculty}
+          onChange={handleFaculty}
+          className="faculty-select normal-btn"
+        >
           {FACULTIES.map((fac) => {
             return (
               <MenuItem key={fac.id} value={fac.id}>
@@ -102,7 +106,7 @@ export const Search = memo((props) => {
       </FormControl>
       <TextField
         ref={inputRef}
-        id="search-input"
+        className="search-input"
         variant="outlined"
         size="small"
         value={query}
@@ -110,8 +114,9 @@ export const Search = memo((props) => {
         onChange={handleQueryChange}
         placeholder="キーワード"
         onKeyDown={handleKeyDown}
+        sx={{ borderRadius: "0px" }}
       />
-      <Button variant="outlined" onClick={handleClick}>
+      <Button className="normal-btn search-btn" onClick={handleClick}>
         検索
       </Button>
       <Collapse in={noHit}>

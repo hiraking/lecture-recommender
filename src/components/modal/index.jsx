@@ -44,26 +44,11 @@ export const SearchModal = memo((props) => {
     setLectures([]);
   }, [setOpenModal, setQueryCache, setFaculty, setPage, setHits, setLectures]);
 
-  const modalStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "60%",
-    maxWidth: "800px",
-    background: "#f5dfbc",
-    border: "0",
-    boxShadow: 24,
-    color: "#17214d",
-    height: "80%",
-    overflowY: "auto",
-  };
-
   return (
     <Modal open={openModal} onClose={handleClose}>
       <Fade in={openModal}>
-        <Box sx={modalStyle}>
-          <Box sx={{ position: "relative", minHeight: "100%" }}>
+        <div className="modal">
+          <div className="modal-wrapper">
             <div ref={topRef} style={{ display: "none" }}></div>
 
             <Search
@@ -79,7 +64,7 @@ export const SearchModal = memo((props) => {
             {isLoading ? (
               <Spinner />
             ) : lectures.length > 0 ? (
-              <>
+              <div className="search-result">
                 {lectures.map((lecture) => {
                   return (
                     <SearchedLecture
@@ -95,16 +80,17 @@ export const SearchModal = memo((props) => {
                   hits={hits}
                   handlePageChange={fetcherPagination}
                 />
-              </>
+              </div>
             ) : null}
             <Button
+              variant="outlined"
               onClick={handleClose}
-              sx={{ position: "absolute", bottom: "10px", right: "40px" }}
+              className="modal-close-btn"
             >
               CLOSE
             </Button>
-          </Box>
-        </Box>
+          </div>
+        </div>
       </Fade>
     </Modal>
   );

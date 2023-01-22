@@ -24,11 +24,36 @@ import {
 import { ThumbContext } from "src/components/main";
 import { ThumbContextTemp } from "src/pages/result";
 
+const SingleAccordion = (props) => {
+  const { text, expanded, setExpanded, header } = props;
+  return (
+    <div>
+      {text ? (
+        <Accordion
+          disableGutters
+          expanded={expanded}
+          onChange={() => setExpanded((prev) => !prev)}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            className="lecture-accordion-summary"
+          >
+            <p className="lecture-accordion-header">{header}</p>
+          </AccordionSummary>
+          <AccordionDetails className="lecture-accordion-details">
+            <p className="lecture-accordion-text">{text}</p>
+          </AccordionDetails>
+        </Accordion>
+      ) : null}
+    </div>
+  );
+};
+
 const LectureAccordion = memo((props) => {
   const { goal, plan, page } = props;
   const [showGoal, setShowGoal] = useState(false);
   const [showPlan, setShowPlan] = useState(false);
-  const textStyles = { whiteSpace: "pre-line" };
 
   useEffect(() => {
     setShowGoal(false);
@@ -36,43 +61,20 @@ const LectureAccordion = memo((props) => {
   }, [page]);
 
   return (
-    <div>
-      {goal ? (
-        <Accordion
-          disableGutters
-          expanded={showGoal}
-          onChange={() => setShowGoal((prev) => !prev)}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography>授業の目標、概要</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography style={textStyles}>{goal}</Typography>
-          </AccordionDetails>
-        </Accordion>
-      ) : null}
-      {plan ? (
-        <Accordion
-          disableGutters
-          expanded={showPlan}
-          onChange={() => setShowPlan((prev) => !prev)}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2a-content"
-            id="panel2a-header"
-          >
-            <Typography>授業計画</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography style={textStyles}>{plan}</Typography>
-          </AccordionDetails>
-        </Accordion>
-      ) : null}
+    <div className="lecture-accordions">
+      <SingleAccordion
+        text={goal}
+        expanded={showGoal}
+        setExpanded={setShowGoal}
+        header="授業の目標、概要"
+      />
+      <div style={{ height: "10px" }}></div>
+      <SingleAccordion
+        text={plan}
+        expanded={showPlan}
+        setExpanded={setShowPlan}
+        header="授業計画"
+      />
     </div>
   );
 });
@@ -150,10 +152,11 @@ const ThumbIconsDetail = (props) => {
         <IconButton
           aria-label="add to favorites"
           onClick={handleClickLike}
-          sx={{
-            color: favorites.includes(id) ? "#d45088" : "#999",
-            transform: "scale(1.2)",
-          }}
+          className={
+            favorites.includes(id)
+              ? "thumb-icon thumb-up-icon thumb-up-selected"
+              : "thumb-icon thumb-up-icon thumb-icon-unselected"
+          }
         >
           <ThumbUpIcon />
         </IconButton>
@@ -164,10 +167,11 @@ const ThumbIconsDetail = (props) => {
         <IconButton
           aria-label="add to unfavorites"
           onClick={handleClikeDislike}
-          sx={{
-            color: unfavorites.includes(id) ? "#50afe1" : "#999",
-            transform: "scale(1.2)",
-          }}
+          className={
+            unfavorites.includes(id)
+              ? "thumb-icon thumb-down-selected"
+              : "thumb-icon thumb-icon-unselected"
+          }
         >
           <ThumbDownIcon />
         </IconButton>
@@ -214,6 +218,7 @@ const SearchHeader = (props) => {
   const { title, lecturer, id, lecture, temp } = props;
   return (
     <CardHeader
+      className="lecture-card-header"
       title={title}
       subheader={lecturer}
       action={
@@ -229,13 +234,27 @@ const SearchHeader = (props) => {
   );
 };
 
+const LectureCardContent = (props) => {
+  const { offered_by, semester, period, goal, plan, page } = props;
+  return (
+    <CardContent>
+      <div className="lecture-card-chips">
+        <Chip label={offered_by} />
+        <Chip label={semester} />
+        <Chip label={period} />
+      </div>
+      <LectureAccordion goal={goal} plan={plan} page={page} />
+    </CardContent>
+  );
+};
+
 export const SearchedLecture = memo((props) => {
   const { lecture, page, temp } = props;
   const { id, title, lecturer, offered_by, semester, period, goal, plan } =
     lecture;
 
   return (
-    <Card sx={{ minWidth: 300 }} variant="outlined">
+    <Card variant="outlined" className="lecture-card">
       <SearchHeader
         title={title}
         lecturer={lecturer}
@@ -243,12 +262,14 @@ export const SearchedLecture = memo((props) => {
         lecture={lecture}
         temp={temp}
       />
-      <CardContent>
-        <Chip label={offered_by} />
-        <Chip label={semester} />
-        <Chip label={period} />
-        <LectureAccordion goal={goal} plan={plan} page={page} />
-      </CardContent>
+      <LectureCardContent
+        offered_by={offered_by}
+        semester={semester}
+        period={period}
+        goal={goal}
+        plan={plan}
+        page={page}
+      />
     </Card>
   );
 });
@@ -269,12 +290,14 @@ export const RecommendedLecture = memo((props) => {
   return (
     <Card sx={{ minWidth: 300 }} variant="outlined">
       <RecommendHeader title={title} lecturer={lecturer} />
-      <CardContent>
-        <Chip label={offered_by} />
-        <Chip label={semester} />
-        <Chip label={period} />
-        <LectureAccordion goal={goal} plan={plan} page={page} />
-      </CardContent>
+      <LectureCardContent
+        offered_by={offered_by}
+        semester={semester}
+        period={period}
+        goal={goal}
+        plan={plan}
+        page={page}
+      />
     </Card>
   );
 });

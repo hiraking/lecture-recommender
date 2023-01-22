@@ -56,7 +56,7 @@ export const Main = (props) => {
         label="おすすめを探す"
         isIndex
       />
-      <Card className="card">
+      <Card className="card index-card">
         <CardContent className={openModal ? "disabled-input" : ""}>
           <h1 className="card-header">オプション</h1>
           <Divider className="divider-20" />

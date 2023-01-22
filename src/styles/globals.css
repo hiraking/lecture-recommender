@@ -5,10 +5,12 @@
     "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
-  --foreground-rgb: 210, 210, 210;
+  --foreground-rgb: 200, 200, 200;
   --background-rgb: 10, 25, 30;
   --header-fg-rgb: 240, 240, 240;
-  --subheader-fg-rgb: 225, 225, 225;
+  --subheader-fg-rgb: 220, 220, 220;
+  --pagination-selected-rgb: 180, 180, 180;
+  --pagination-rgb: 150, 150, 150;
 
   --callout-rgb: 238, 240, 241;
   --callout-border-rgb: 172, 175, 176;
@@ -19,6 +21,7 @@
   --chip-bg-rgb: 45, 60, 70;
   --chip-border-rgb: 110, 110, 110;
   --chip-delete-btn-rgb: 180, 180, 180;
+  --chip-delete-btn-hover-rgba: 255, 255, 255, 0.07;
 
   --divider-rgb: 80, 80, 80;
 
@@ -29,6 +32,16 @@
 
   --error-fg-rgb: 255, 110, 110;
   --error-border-rgb: 255, 100, 100;
+
+  --select-menu-bg-rgb: 50, 60, 70;
+  --select-item-bg-hover-rgba: 255, 255, 255, 0.1;
+  --select-item-bg-selected-rgba: 79, 136, 212, 0.27;
+
+  --accordion-summary-bg-rgb: 50, 70, 100;
+  --accordion-details-bg-rgb: 60, 90, 120;
+
+  --liked-icon-rgb: 255, 85, 125;
+  --disliked-icon-rgb: 40, 230, 255;
 }
 
 * {
@@ -97,6 +110,9 @@ a {
 .card {
   background-color: rgb(var(--card-bg-rgb));
   color: rgb(var(--foreground-rgb));
+}
+
+.index-card {
   padding: 5px 20px 20px 20px;
   min-width: 620px;
 }
@@ -162,7 +178,7 @@ a {
 }
 
 .lecture-chip-delete > button:hover {
-  background-color: rgba(255, 255, 255, 0.07);
+  background-color: rgba(var(--chip-delete-btn-hover-rgba));
 }
 
 .lecture-chip-delete-btn {
@@ -221,4 +237,202 @@ a {
   padding: 10px 0;
   margin: 20px 0;
   border-radius: 6px;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  min-width: 600px;
+  max-width: 800px;
+  height: 80%;
+  padding: 30px;
+  background-color: rgb(var(--card-bg-rgb));
+  border: 2px solid rgb(var(--foreground-rgb));
+  overflow-y: auto;
+}
+
+.modal-wrapper {
+  position: relative;
+  min-height: 100%;
+}
+
+.modal-close-btn {
+  position: absolute;
+  bottom: -2px;
+  right: 0px;
+  color: rgb(var(--pagination-selected-rgb));
+  border-color: rgb(var(--pagination-rgb));
+}
+
+.modal-close-btn:hover {
+  color: rgb(var(--subheader-fg-rgb));
+  border-color: rgb(var(--pagination-selected-rgb));
+  background-color: rgba(var(--chip-delete-btn-hover-rgba));
+}
+
+.search-window {
+  text-align: center;
+}
+
+.faculty-select {
+  margin: 0;
+  width: 120px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.faculty-select > svg {
+  color: rgb(var(--subheader-fg-rgb));
+}
+
+.css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border: none;
+}
+
+ul.MuiMenu-list {
+  background-color: rgb(var(--select-menu-bg-rgb));
+  color: rgb(var(--foreground-rgb));
+}
+
+ul.MuiMenu-list > li:hover {
+  background-color: rgba(var(--select-item-bg-hover-rgba));
+}
+
+.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root.Mui-selected {
+  background-color: rgba(var(--select-item-bg-selected-rgba));
+}
+
+.search-input {
+  background-color: rgb(var(--background-rgb));
+  width: 300px;
+}
+
+.search-input input {
+  color: rgb(var(--foreground-rgb));
+}
+
+.search-input input::placeholder {
+  color: rgb(var(--header-fg-rgb));
+}
+
+.css-9ddj71-MuiInputBase-root-MuiOulinedInput-root.Mui-focused {
+  border: none;
+}
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+  border-radius: 0px;
+}
+
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border: 2px solid #99dbdf;
+}
+
+.search-btn {
+  height: 40px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.search-result {
+  margin-top: 20px;
+}
+
+.lecture-card {
+  background-color: rgb(var(--chip-bg-rgb));
+  margin: 10px 0;
+  box-shadow: 2px 2px 10px;
+}
+
+.lecture-card-header .MuiCardHeader-title {
+  color: rgb(var(--header-fg-rgb));
+  font-size: 20px;
+}
+
+.lecture-card-header .MuiCardHeader-subheader {
+  color: rgb(var(--subheader-fg-rgb));
+  font-size: 15px;
+}
+
+.lecture-card-chips {
+  margin-top: -20px;
+  margin-bottom: 15px;
+}
+
+.lecture-card-chips span {
+  color: rgb(var(--foreground-rgb));
+}
+
+.lecture-card-chips > div {
+  background-color: rgba(100, 100, 100, 0.35);
+  margin-right: 5px;
+}
+
+.lecture-accordions {
+}
+
+.lecture-accordion-summary {
+  background-color: rgb(var(--accordion-summary-bg-rgb));
+}
+
+.lecture-accordion-header {
+  color: rgb(var(--subheader-fg-rgb));
+}
+
+.lecture-accordion-details {
+  background-color: rgb(var(--accordion-details-bg-rgb));
+}
+
+.lecture-accordion-text {
+  white-space: pre-line;
+  color: rgb(var(--foreground-rgb));
+}
+
+.thumb-icon {
+  transform: scale(1.2);
+}
+
+.thumb-up-icon {
+  margin-right: 5px;
+}
+
+.thumb-icon-unselected {
+  color: rgb(var(--foreground-rgb));
+}
+
+.thumb-up-selected {
+  color: rgb(var(--liked-icon-rgb));
+}
+
+.thumb-down-selected {
+  color: rgb(var(--disliked-icon-rgb));
+}
+
+.pagination {
+  padding-top: 10px;
+}
+
+.pagination ul {
+  justify-content: center;
+}
+
+.pagination li button {
+  color: rgb(var(--pagination-rgb));
+}
+
+.pagination li button:hover {
+  background-color: rgba(var(--chip-delete-btn-hover-rgba));
+  color: rgb(var(--pagination-selected-rgb));
+}
+
+.css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+  background-color: rgba(var(--chip-delete-btn-hover-rgba));
+  color: rgb(var(--pagination-selected-rgb));
 }
