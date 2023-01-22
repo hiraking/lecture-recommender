@@ -27,6 +27,7 @@ export const Search = memo((props) => {
 
   const fetcherButton = useCallback(() => {
     setIsLoading(true);
+    setNoHit(false);
     setPage(1);
     setQueryCache(query);
     axios
@@ -36,12 +37,10 @@ export const Search = memo((props) => {
         page: 1,
       })
       .then((res) => {
-        console.log(res.data);
         setHits(res.data.hits);
         setLectures(res.data.lectures);
         if (res.data.hits === 0) {
           setNoHit(true);
-          setTimeout(() => setNoHit(false), 3000);
         }
         setIsLoading(false);
       });
@@ -87,6 +86,10 @@ export const Search = memo((props) => {
     [fetcherButton, query]
   );
 
+  const handleClose = useCallback(() => {
+    setNoHit(false);
+  }, []);
+
   return (
     <div className="search-window">
       <FormControl size="small">
@@ -120,7 +123,12 @@ export const Search = memo((props) => {
         検索
       </Button>
       <Collapse in={noHit}>
-        <Alert severity="warning" variant="contained">
+        <Alert
+          severity="warning"
+          variant="outlined"
+          onClose={handleClose}
+          className="nohit-alert"
+        >
           講義が見つかりませんでした
         </Alert>
       </Collapse>
