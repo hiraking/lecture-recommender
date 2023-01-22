@@ -130,6 +130,10 @@ a {
   border-radius: 20px;
 }
 
+.lecture-chip:first-child {
+  margin-top: 15px;
+}
+
 .lecture-chip-container {
   padding: 0;
   margin: 0;

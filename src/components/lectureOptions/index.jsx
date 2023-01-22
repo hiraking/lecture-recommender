@@ -38,45 +38,47 @@ export const LectureOptions = memo((props) => {
             リセット
           </Button>
         </Box>
-        <h2 className="card-subheader">
-          高く評価した講義（{favorites.length}個）
-        </h2>
-        {favorites.length > 0 ? (
-          <Stack>
-            {favLectures.map((lecture) => {
-              return (
-                <LectureChip
-                  key={lecture.id}
-                  id={lecture.id}
-                  title={lecture.title}
-                  lecturer={lecture.lecturer}
-                  removeLecture={removeFavorites}
-                />
-              );
-            })}
-          </Stack>
-        ) : null}
+        <LectureStack
+          header="高く評価した講義"
+          idArray={favorites}
+          lectureArray={favLectures}
+          removeLecture={removeFavorites}
+        />
         <Divider className="divider-20" />
-        <h2 className="card-subheader">
-          低く評価した講義（{unfavorites.length}個）
-        </h2>
-        {unfavorites.length > 0 ? (
-          <Stack>
-            {unfavLectures.map((lecture) => {
-              return (
-                <LectureChip
-                  key={lecture.id}
-                  id={lecture.id}
-                  title={lecture.title}
-                  lecturer={lecture.lecturer}
-                  removeLecture={removeUnfavorites}
-                />
-              );
-            })}
-          </Stack>
-        ) : null}
+        <LectureStack
+          header="低く評価した講義"
+          idArray={unfavorites}
+          lectureArray={unfavLectures}
+          removeLecture={removeUnfavorites}
+        />
       </CardContent>
     </Card>
   );
 });
 LectureOptions.displayName = "LectureOptions";
+
+const LectureStack = (props) => {
+  const { header, idArray, lectureArray, removeLecture } = props;
+  return (
+    <>
+      <h2 className="card-subheader">
+        {header}（{idArray.length}個）
+      </h2>
+      {idArray.length > 0 ? (
+        <Stack>
+          {lectureArray.map((lecture) => {
+            return (
+              <LectureChip
+                key={lecture.id}
+                id={lecture.id}
+                title={lecture.title}
+                lecturer={lecture.lecturer}
+                removeLecture={removeLecture}
+              />
+            );
+          })}
+        </Stack>
+      ) : null}
+    </>
+  );
+};
