@@ -385,7 +385,8 @@ ul.MuiMenu-list > li:hover {
 
 .css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused
   .MuiOutlinedInput-notchedOutline {
-  border: 2px solid #99dbdf;
+  border: 2px solid rgb(var(--bright-btn-bg-hover-rgb));
+  margin-bottom: -1px;
 }
 
 .search-btn {
@@ -403,7 +404,7 @@ ul.MuiMenu-list > li:hover {
 .lecture-card {
   background-color: rgb(var(--card-bg-rgb));
   margin: 10px 0;
-  box-shadow: 0px 0px 6px;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
 }
 
 .lecture-card-header .MuiCardHeader-title {
@@ -491,7 +492,7 @@ ul.MuiMenu-list > li:hover {
   color: rgb(var(--pagination-selected-rgb));
 }
 
-.css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+.pagination .Mui-selected {
   background-color: rgba(var(--chip-delete-btn-hover-rgba));
   color: rgb(var(--pagination-selected-rgb));
 }
