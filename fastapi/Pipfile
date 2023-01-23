@@ -7,10 +7,8 @@ name = "pypi"
 numpy = "*"
 fastapi = "*"
 pydantic = "*"
-
-[dev-packages]
+gunicorn = "*"
 uvicorn = "*"
 
 [requires]
 python_version = "3.10"
-python_full_version = "3.10.6"
