@@ -25,7 +25,8 @@ export const SEMESTERS = [
 
 // export const URL = "http://127.0.0.1:8000";
 // export const URL = "https://1wj8c0.deta.dev";
-export const URL = "https://cryptic-cliffs-31420.herokuapp.com";
+// export const URL = "https://cryptic-cliffs-31420.herokuapp.com";
+export const URL = "https://lecture-recommender.azurewebsites.net";
 
 export const contentsPerPage = 10;
 
