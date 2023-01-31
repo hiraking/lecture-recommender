@@ -89,7 +89,7 @@ const Result = (props) => {
   return (
     <>
       <Head>
-        <title>Result</title>
+        <title>おすすめ検索結果</title>
       </Head>
       <ThumbContextTemp.Provider value={tastesForThumbTemp}>
         <SearchModal openModal={openModal} setOpenModal={setOpenModal} temp />

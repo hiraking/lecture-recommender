@@ -5,7 +5,7 @@ const Home = (props) => {
   return (
     <>
       <Head>
-        <title>Index</title>
+        <title>講義おすすめ検索</title>
       </Head>
       <Main tastes={props.tastes} />
     </>
