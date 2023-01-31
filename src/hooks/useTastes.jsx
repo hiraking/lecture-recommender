@@ -6,10 +6,12 @@ export const useTastes = () => {
   const [hits, setHits] = useState(0);
   const [lectures, setLectures] = useState([]);
   const [faculties, setFaculties] = useState(
-    [...Array(10)].map((_, i) => i + 1)
+    [...Array(10)].map((_, i) => String(i + 1))
   );
   const [facultiesTemp, setFacultiesTemp] = useState([]);
-  const [semesters, setSemesters] = useState([...Array(8)].map((_, i) => i));
+  const [semesters, setSemesters] = useState(
+    [...Array(8)].map((_, i) => String(i))
+  );
   const [semestersTemp, setSemestersTemp] = useState([]);
   const [noHit, setNoHit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

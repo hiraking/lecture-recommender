@@ -57,7 +57,7 @@ export const FacultyOptions = memo((props) => {
     setFaculties(
       Array(10)
         .fill()
-        .map((_, i) => i + 1)
+        .map((_, i) => String(i + 1))
     );
   }, [setFaculties]);
 
@@ -140,7 +140,7 @@ export const SemesterOptions = memo((props) => {
     setSemesters(
       Array(8)
         .fill()
-        .map((_, i) => i)
+        .map((_, i) => String(i))
     );
   }, [setSemesters]);
 

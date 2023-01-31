@@ -53,8 +53,8 @@ const Result = (props) => {
 
   const preprocess = useCallback((x) => {
     if (!x) return [];
-    if (isArray(x)) return x.map((i) => Number(i));
-    return [Number(x)];
+    if (isArray(x)) return x;
+    return [x];
   }, []);
 
   useEffect(() => {
