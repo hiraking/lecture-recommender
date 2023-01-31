@@ -452,7 +452,7 @@ ul.MuiMenu-list > li:hover {
 
 .lecture-accordion-text {
   white-space: pre-line;
-  color: rgb(var(--foreground-rgb));
+  color: rgb(var(--subheader-fg-rgb));
   font-size: 15px;
 }
 
